@@ -1,0 +1,25 @@
+{
+  "name": "penfold-discord-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YoshiFan13/penfold-discord-bot.git"
+  },
+  "author": "Kovacs Alex & YoshiFan13",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YoshiFan13/penfold-discord-bot/issues"
+  },
+  "homepage": "https://github.com/YoshiFan13/penfold-discord-bot#readme",
+  "dependencies": {
+    "discord.js": "github:discordjs/discord.js",
+    "klasa": "github:dirigeants/klasa",
+    "ms": "^2.1.1",
+    "node-fetch": "^2.3.0"
+  }
+}

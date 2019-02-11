@@ -1,0 +1,36 @@
+const { Command } = require('klasa');
+
+module.exports = class extends Command {
+
+    constructor(...args) {
+        super(...args, {
+            name: 'yourCommandName',
+            enabled: true,
+            runIn: ['text', 'dm'],
+            cooldown: 0,
+            deletable: false,
+            bucket: 1,
+            aliases: [],
+            guarded: false,
+            nsfw: false,
+            permissionLevel: 0,
+            requiredPermissions: [],
+            requiredSettings: [],
+            subcommands: false,
+            description: '',
+            quotedStringSupport: false,
+            usage: '',
+            usageDelim: undefined,
+            extendedHelp: 'No extended help available.'
+        });
+    }
+
+    async run(message, [...params]) {
+
+    }
+
+    async init() {
+
+    }
+
+};
