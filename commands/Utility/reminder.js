@@ -49,7 +49,7 @@ module.exports = class extends Command {
         const ts = new Timestamp('LLL');
         const display = new RichDisplay(new MessageEmbed().setColor('C68136').setAuthor(`Reminders for ${message.author.tag}`, message.author.displayAvatarURL({ size: 2048 })))
         reminders.forEach(r => {
-            display.addPage(e => e.setDescription(`**ID:** \`${r.id}\`\n**Text:** ${r.data.text}\n**Time:** ${ts.display(r.time)}\n**Recurring:** ${r.recurring ? 'Yes' : 'No'}**`))
+            display.addPage(e => e.setDescription(`**ID:** \`${r.id}\`\n**Text:** ${r.data.text}\n**Time:** ${ts.display(r.time)}\n**Recurring:** ${r.recurring ? 'Yes' : 'No'}`))
         })
         await display.run(await message.send('Just a moment...'), { filter: (reaction, user) => user === message.author })
     }
