@@ -45,20 +45,20 @@ module.exports = class extends Command {
 
     async list(message) {
         const reminders = this.client.settings.schedules.filter(t => t.data.user === message.author.id);
-        if (!reminders || reminders.length < 1) return message.send('no reminders message here');
+        if (!reminders || reminders.length < 1) return message.send('I have nothing to remind you about, chief!');
         const ts = new Timestamp('LLL');
         const display = new RichDisplay(new MessageEmbed().setColor('C68136').setAuthor(`Reminders for ${message.author.tag}`, message.author.displayAvatarURL({ size: 2048 })))
         reminders.forEach(r => {
-            display.addPage(e => e.setDescription(`ID: **${r.id}**\nText: \`${r.data.text}\`\nTime: **${ts.display(r.time)}**\nRecurring: **${r.recurring ? 'True' : 'False'}**`))
+            display.addPage(e => e.setDescription(`**ID:** \`${r.id}\`\n**Text:** ${r.data.text}\n**Time:** ${ts.display(r.time)}\n**Recurring:** ${r.recurring ? 'Yes' : 'No'}**`))
         })
-        await display.run(await message.send('Loading...'), { filter: (reaction, user) => user === message.author })
+        await display.run(await message.send('Just a moment...'), { filter: (reaction, user) => user === message.author })
     }
 
     async delete(message, id) {
         const reminder = this.client.schedule.get(id[0]);
-        if (!reminder) return message.send('no reminder with this id kek');
+        if (!reminder) return message.send('I don\'t have any reminders with that ID, chief!');
         await reminder.delete();
-        return message.send('done')
+        return message.send('Alright, chief, I\'ll forget about that one.')
     }
 
     async add(message, [id, duration, ...text]) {
@@ -70,7 +70,7 @@ module.exports = class extends Command {
             },
             catchUp: true
         });
-        return message.send(`Reminder with the ID \`${reminder.id}\` created! I'll DM you when the time comes!${message.guild ? " (I will also send you a reminder message here)" : ''}`)
+        return message.send(`Alright, chief! The reminder's ID is \`${reminder.id}\` - I'll DM you when it's due!${message.guild ? " (I will also message you right here)" : ''}`)
     }
 
     async init() {
