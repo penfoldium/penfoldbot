@@ -57,6 +57,7 @@ module.exports = class extends Command {
     async delete(message, id) {
         const reminder = this.client.schedule.get(id[0]);
         if (!reminder) return message.send('I don\'t have any reminders with that ID, chief!');
+        if (reminder.data.user !== message.author.id) return message.send("That's not nice! You can't just mess with someone else's reminders like that!");
         await reminder.delete();
         return message.send('Alright, chief, I\'ll forget about that one.')
     }
