@@ -1,31 +1,67 @@
-const { Command } = require('klasa');
+const { Command, RichDisplay, Timestamp } = require('klasa');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class extends Command {
 
     constructor(...args) {
         super(...args, {
-            name: 'remindme',
+            name: 'reminder',
             enabled: true,
             runIn: ['text', 'dm'],
             cooldown: 30,
             deletable: true,
             bucket: 1,
-            aliases: ['reminder'],
+            aliases: [],
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
             requiredPermissions: [],
             requiredSettings: [],
-            subcommands: false,
+            subcommands: true,
             description: 'Create a reminder',
             quotedStringSupport: false,
-            usage: '<duration:time> <text:string> [...]',
+            usage: '<add|list|delete> (id:id) (duration:duration) (text:text) [...]',
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
+
+
+        this.createCustomResolver('id', (arg, possible, message, [action]) => {
+            if (action === 'delete') return this.client.arguments.get('string').run(arg, possible, message);
+            return undefined;
+        });
+
+        this.createCustomResolver('duration', (arg, possible, message, [action]) => {
+            if (['list', 'delete'].includes(action)) return true;
+            return this.client.arguments.get('time').run(arg, possible, message);
+        });
+
+
+        this.createCustomResolver('text', (arg, possible, message, [action]) => {
+            if (['list', 'delete'].includes(action)) return true;
+            return this.client.arguments.get('string').run(arg, possible, message);
+        });
     }
 
-    async run(message, [duration, ...text]) {
+    async list(message) {
+        const reminders = this.client.settings.schedules.filter(t => t.data.user === message.author.id);
+        if (!reminders || reminders.length < 1) return message.send('no reminders message here');
+        const ts = new Timestamp('LLL');
+        const display = new RichDisplay(new MessageEmbed().setColor('C68136').setAuthor(`Reminders for ${message.author.tag}`, message.author.displayAvatarURL({ size: 2048 })))
+        reminders.forEach(r => {
+            display.addPage(e => e.setDescription(`ID: **${r.id}**\nText: \`${r.data.text}\`\nTime: **${ts.display(r.time)}**\nRecurring: **${r.recurring ? 'True' : 'False'}**`))
+        })
+        await display.run(await message.send('Loading...'), { filter: (reaction, user) => user === message.author })
+    }
+
+    async delete(message, id) {
+        const reminder = this.client.schedule.get(id[0]);
+        if (!reminder) return message.send('no reminder with this id kek');
+        await reminder.delete();
+        return message.send('done')
+    }
+
+    async add(message, [id, duration, ...text]) {
         const reminder = await this.client.schedule.create('reminder', duration, {
             data: {
                 user: message.author.id,
