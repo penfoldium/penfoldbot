@@ -9,10 +9,10 @@ module.exports = class extends Task {
     async run({user, channel, text}) {
         if (channel) {
             try {
-                this.client.channels.get(channel).send(`<@${user}> you asked me to remind you something: \`${text}\` (I've also DM'd you!)`)
+                this.client.channels.get(channel).send(`<@${user}> Chief, you wanted me to remind you about this! (I've also DM'd you!)\n:pencil: \`${text}\``)
             } catch (err) { null }
         }
-        return this.client.users.get(user).send(`You asked me to remind you something: \`${text}\``);
+        return this.client.users.get(user).send(`Chief, you wanted me to remind you about this!\n:pencil: \`${text}\``);
     }
 
     async init() {
