@@ -10,6 +10,9 @@ config.permissionLevels = new PermissionLevels()
     .add(9, ({ author, client }) => config.owners.includes(author.id), { break: true })
     .add(10, ({ author, client }) => config.owners.includes(author.id));
 
+Client.defaultClientSchema.add('fortniteitems', 'string');
+Client.defaultUserSchema.add('fortniteitems', 'string', { array: true, configurable: false });
+
 new Client({
     fetchAllMembers: false,
     disableEveryone: true,
