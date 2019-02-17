@@ -24,10 +24,10 @@ module.exports = class extends Command {
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
+        this.customizeResponse('args', "!feihc ,esrever ot tahw wonk t'nod I")
     }
 
     async run(message, [args]) {
-        this.customizeResponse('args', "!feihc ,esrever ot tahw wonk t'nod I")
         let reversed = args.split('').reverse().join('');
         const embed = new Discord.MessageEmbed()
         .setAuthor(`Reverse text`, this.client.user.displayAvatarURL({size: 2048}))

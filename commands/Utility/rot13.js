@@ -24,10 +24,10 @@ module.exports = class extends Command {
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
+        this.customizeResponse('args', "I can't help you if you won't tell me what to cipher, chief.")
     }
 
     async run(message, [...args]) {
-    this.customizeResponse('args', "I can't help you if you won't tell me what to cipher, chief.")
     let toCipher = args.join(' ');
     let ciphered = toCipher.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});
     const embed = new Discord.MessageEmbed()

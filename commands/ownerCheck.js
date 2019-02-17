@@ -17,9 +17,9 @@ module.exports = class extends Command {
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: '',
+            description: 'Tells you if you\'re an owner, but you most likely are one, anyway.',
             quotedStringSupport: false,
-            usage: 'Tells you if you\'re an owner, but you most likely are one, anyway.',
+            usage: '',
             usageDelim: undefined,
             extendedHelp: 'No extended help available.'
         });

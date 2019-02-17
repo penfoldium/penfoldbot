@@ -24,11 +24,10 @@ module.exports = class extends Command {
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
+        this.customizeResponse('args', "I can't help you if you won't tell me what to cipher, chief.")
     }
 
     async run(message, [...args]) {
-    this.customizeResponse('args', "I can't help you if you won't tell me what to cipher, chief.")
-
     function atbash(input) {
         return input.replace(/[a-z]/gi,
             c => String.fromCharCode(-c.charCodeAt() + (/[a-z]/.test(c) ? 219 : 155)));

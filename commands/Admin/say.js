@@ -23,10 +23,10 @@ module.exports = class extends Command {
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
+        this.customizeResponse('args', "What should I say, though?")
     }
 
     async run(message, [say]) {
-    this.customizeResponse('args', "What should I say, though?")
         await message.delete();
         return message.send(say);
     }
