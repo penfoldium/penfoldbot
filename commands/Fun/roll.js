@@ -4,29 +4,32 @@ module.exports = class extends Command {
 
     constructor(...args) {
         super(...args, {
-            name: 'ownerCheck',
+            name: 'roll',
             enabled: true,
             runIn: ['text', 'dm'],
-            cooldown: 0,
+            cooldown: 5,
             deletable: false,
             bucket: 1,
             aliases: [],
             guarded: false,
             nsfw: false,
-            permissionLevel: 10,
+            permissionLevel: 0,
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: '',
+            description: 'Roll just like in osu!Bancho',
             quotedStringSupport: false,
-            usage: 'Tells you if you\'re an owner, but you most likely are one, anyway.',
-            usageDelim: undefined,
+            usage: '[number:int] [args:string]',
+            usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
     }
 
-    async run(message, [...params]) {
-        message.send("You're an owner, chief! :white_check_mark:")
+    async run(message, [number, args]) {
+        let random;
+        if (number && !args) random = Math.floor(Math.random() * number + 1);
+        else random = Math.floor(Math.random() * 101);
+        message.send(`${message.channel.type === 'text' ? message.member.displayName : message.author.username} rolls ${random} point(s)`);
     }
 
     async init() {
