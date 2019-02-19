@@ -18,7 +18,7 @@ module.exports = class extends Task {
             if (!settings.length) return;
             const items = res.items.map(i => i.name);
             const common = items.filter(i => settings.includes(i.toLowerCase()));
-            if (common.length) u.send(`One or more items you wanted to be notified about are in the Fortnite Item Shop: \`${common.join(', ')}\``);
+            if (common.length) u.send(`Chief! These items are now available in the item shop. Remember - spend your V-Bucks wisely!\n\`${common.join(', ')}\``);
         });
     }
 
