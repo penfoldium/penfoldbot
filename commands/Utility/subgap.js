@@ -57,7 +57,7 @@ module.exports = class extends Command {
         const subscribers1 = subs1.items[0].statistics.subscriberCount,
         subscribers2 = subs2.items[0].statistics.subscriberCount;
 
-        const text = subscribers1 >= subscribers2 
+        const text = Number(subscribers1) >= Number(subscribers2) 
         ? `${Number(subscribers1 - subscribers2).toLocaleString()} subscribers (in favor of **${name1}**)`
         : `${Number(subscribers2 - subscribers1).toLocaleString()} subscribers (in favor of **${name2}**)`;
 
