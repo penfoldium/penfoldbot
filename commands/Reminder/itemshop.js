@@ -17,7 +17,7 @@ module.exports = class extends Command {
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: '',
+            description: 'Set reminders that go off when specified items become available in Fortnite\'s item shop! Spend your V-Bucks wisely!',
             quotedStringSupport: false,
             usage: '[list] [item:...string]',
             usageDelim: ' ',
@@ -29,15 +29,15 @@ module.exports = class extends Command {
 
         if (list) {
             const settings = await message.author.settings.get('fortniteitems');
-            message.send(settings.length < 1 ? "You don't have any items added!" : `Here are all the items you currently have in your Fortnite Shop Reminder: \`${settings.join(', ')}\``)
+            message.send(settings.length < 1 ? "You don\'t have any items on your list, chief!" : `Here are the items on your reminder list: \`${settings.join(', ')}\``)
             return;
         }
 
-        if (!item) return message.send('Please name an item you would like added / removed from your itemshop notification!');
+        if (!item) return message.send('Tell me the item you\'re interested in and I\'ll make sure to remind you about it when it\'s available!');
         const results = await message.author.settings.update('fortniteitems', item.toLowerCase());
-        if (results.errors.length) return message.send(`Error: ${results.errors[0]}`);
-        if (results.updated[0].data[1].includes(item.toLowerCase())) return message.send(`Successfully added **${item}** to the Fortnite Shop Reminder!`);
-        else return message.send(`Successfully removed **${item}** from the Fortnite Shop Reminder!`);
+        if (results.errors.length) return message.send(`Oh, crumbs! Something unexpected happened! ${results.errors[0]}`);
+        if (results.updated[0].data[1].includes(item.toLowerCase())) return message.send(`Successfully added **${item}** to your item shop reminder list!`);
+        else return message.send(`Successfully removed **${item}** from your item shop reminder list!`);
     }
 
     async init() {

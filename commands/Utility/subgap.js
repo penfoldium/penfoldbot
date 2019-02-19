@@ -1,5 +1,6 @@
 const { Command } = require('klasa');
 const fetch = require('node-fetch');
+const Discord = require('discord.js');
 
 module.exports = class extends Command {
 
@@ -18,15 +19,15 @@ module.exports = class extends Command {
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: 'Search for a channel on YouTube!',
+            description: 'Compares the subscriber counts of two YouTube channels and also shows the subscriber gap between them.',
             quotedStringSupport: false,
             usage: '<channel1:string> <channel2:string>',
             usageDelim: ' || ',
             extendedHelp: 'No extended help available.'
         });
 
-        this.customizeResponse('channel1', "You must provide a search term for the first channel!")
-        this.customizeResponse('channel2', "You must provide a search term for the second channel!")
+        this.customizeResponse('channel1', "Chief, you need to enter two channel names or IDs, separated by two vertical bars! Here\'s an example: `subgap PewDiePie || T-Series`")
+        this.customizeResponse('channel2', "You can\'t expect me to compare two channels if you only give me one, chief.")
     }
 
     async run(message, [channel1, channel2]) {
@@ -37,12 +38,12 @@ module.exports = class extends Command {
         let ch1 = await fetch(name(channel1, config.youtubeAPI))
         ch1 = await ch1.json();
 
-        if (ch1.pageInfo.totalResults < 1) return message.send(`No channel with the name of \`${channel1}\` found!`);
+        if (ch1.pageInfo.totalResults < 1) return message.send(`Oh, crumbs! I couldn't find any channel for \`${channel1}\`!`);
 
         let ch2 = await fetch(name(channel2, config.youtubeAPI))
         ch2 = await ch2.json();
 
-        if (ch2.pageInfo.totalResults < 1) return message.send(`No channel with the name of \`${channel2}\` found!`);
+        if (ch2.pageInfo.totalResults < 1) return message.send(`Oh, crumbs! I couldn't find any channel for \`${channel2}\`!`);
 
         let subs1 = await fetch(subs(ch1.items[0].id.channelId, config.youtubeAPI));
         subs1 = await subs1.json();
@@ -56,13 +57,19 @@ module.exports = class extends Command {
         const subscribers1 = subs1.items[0].statistics.subscriberCount,
         subscribers2 = subs2.items[0].statistics.subscriberCount;
 
-        const text = subscribers1 > subscribers2 
-        ? `**${name1}** is ${Number(subscribers1 - subscribers2).toLocaleString()} subscribers ahead of **${name2}**`
-        : `**${name2}** is ${Number(subscribers2 - subscribers1).toLocaleString()} subscribers ahead of **${name1}**`;
+        const text = subscribers1 >= subscribers2 
+        ? `${Number(subscribers1 - subscribers2).toLocaleString()} subscribers (in favor of **${name1}**)`
+        : `${Number(subscribers2 - subscribers1).toLocaleString()} subscribers (in favor of **${name2}**)`;
 
-        const total = ` ( ${name1}: ${Number(subscribers1).toLocaleString()}, ${name2}: ${Number(subscribers2).toLocaleString()} )`
-
-        return message.send(text + total);
+        const embed = new Discord.MessageEmbed()
+        .setAuthor(`YouTube Subscriber Comparison`, this.client.user.displayAvatarURL({size: 2048}))
+        .addField(name1, Number(subscribers1).toLocaleString(),true)
+        .addField(name2, Number(subscribers2).toLocaleString(),true)
+        .addField("Subscriber difference", text)
+        .setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
+        .setTimestamp();
+        return message.send(embed);
+    
 
     }
 
