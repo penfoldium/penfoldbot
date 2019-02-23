@@ -1,4 +1,5 @@
 const { Event } = require('klasa');
+const dbl = require('dblapi.js');
 
 module.exports = class extends Event {
 
@@ -12,6 +13,13 @@ module.exports = class extends Event {
     }
 
     async run() {
+
+        const { DBL } = require('../data/config.json');
+
+        if (DBL) {
+            new dbl(DBL, this.client)
+            console.log('Posting stats to DBL...')
+        }
 
         await this.client.user.setActivity(`Danger Mouse | ${this.client.options.prefix}help`, { type: "WATCHING" });
         await this.client.user.setStatus('dnd');
