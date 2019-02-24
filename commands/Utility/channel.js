@@ -68,7 +68,7 @@ module.exports = class extends Command {
         .addField("Full size banner",`[Click here](${fullbanner})`,false)
         .setImage(banner)
         .setThumbnail(profpic)
-        .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.avatarURL)
+        .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({size: 2048}))
         .setTimestamp(creation);
         return message.send(embed);
     
