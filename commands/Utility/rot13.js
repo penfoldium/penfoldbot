@@ -31,9 +31,9 @@ module.exports = class extends Command {
     let toCipher = args.join(' ');
     let ciphered = toCipher.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});
     const embed = new Discord.MessageEmbed()
-    .setAuthor(`ROT13 Cipher`, this.client.user.displayAvatarURL({size: 2048}))
+    .setAuthor(`ROT13 Cipher`, this.client.user.displayAvatarURL({format: 'png', size: 2048}))
     .setDescription(`**Original text**\n\`${toCipher}\`\n\n**Cipher text**\n\`${ciphered}\``)
-    .setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
+    .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({format: 'png', size: 2048}))
     .setTimestamp();
     message.send(embed)
     }

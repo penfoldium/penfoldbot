@@ -60,7 +60,7 @@ module.exports = class extends Command {
         const embed = new Discord.MessageEmbed()
         .setTitle(channelname)
         .setURL(`https://youtube.com/channel/${ch.items[0].id.channelId}`)
-        .setAuthor(`YouTube Channel`, this.client.user.displayAvatarURL({size: 2048}))
+        .setAuthor(`YouTube Channel`, this.client.user.displayAvatarURL({format: 'png', size: 2048}))
         .addField("Subscribers", Number(subscribers).toLocaleString(),true)
         .addField("Videos", Number(videos).toLocaleString(),true)
         .addField("Total views", Number(views).toLocaleString(),true)
@@ -68,7 +68,7 @@ module.exports = class extends Command {
         .addField("Full size banner",`[Click here](${fullbanner})`,false)
         .setImage(banner)
         .setThumbnail(profpic)
-        .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({size: 2048}))
+        .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({format: 'png', size: 2048}))
         .setTimestamp(creation);
         return message.send(embed);
     

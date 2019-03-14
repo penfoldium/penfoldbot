@@ -62,11 +62,11 @@ module.exports = class extends Command {
         : `${Number(subscribers2 - subscribers1).toLocaleString()} subscribers (in favor of **${name2}**)`;
 
         const embed = new Discord.MessageEmbed()
-        .setAuthor(`YouTube Subscriber Comparison`, this.client.user.displayAvatarURL({size: 2048}))
+        .setAuthor(`YouTube Subscriber Comparison`, this.client.user.displayAvatarURL({format: 'png', size: 2048}))
         .addField(name1, Number(subscribers1).toLocaleString(),true)
         .addField(name2, Number(subscribers2).toLocaleString(),true)
         .addField("Subscriber difference", text)
-        .setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
+        .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({format: 'png', size: 2048}))
         .setTimestamp();
         return message.send(embed);
     
