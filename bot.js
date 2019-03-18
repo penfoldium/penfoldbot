@@ -11,7 +11,10 @@ config.permissionLevels = new PermissionLevels()
     .add(10, ({ author, client }) => config.owners.includes(author.id));
 
 Client.defaultClientSchema.add('fortniteitems', 'string');
-Client.defaultUserSchema.add('fortniteitems', 'string', { array: true, configurable: false });
+Client.defaultUserSchema
+    .add('fortniteitems', 'string', { array: true, configurable: false })
+    .add('tweaksearch', 'boolean', { default: true });
+Client.defaultGuildSchema.add('tweaksearch', 'boolean', { default: true });
 
 new Client({
     fetchAllMembers: false,
