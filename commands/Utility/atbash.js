@@ -34,9 +34,9 @@ module.exports = class extends Command {
     }
 
     const embed = new Discord.MessageEmbed()
-    .setAuthor(`Atbash Cipher`, this.client.user.displayAvatarURL({size: 2048}))
+    .setAuthor(`Atbash Cipher`, this.client.user.displayAvatarURL({format: 'png', size: 2048}))
     .setDescription(`**Original text**\n\`${args.join(' ')}\`\n\n**Cipher text**\n\`${atbash(args.join(' '))}\``)
-    .setFooter(`Requested by ${message.author.tag}`, message.author.avatarURL)
+    .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({format: 'png', size: 2048}))
     .setTimestamp();
     message.send(embed)
     }
