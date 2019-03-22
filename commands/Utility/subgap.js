@@ -72,6 +72,7 @@ module.exports = class extends Command {
         .addField(name2, `${Number(subscribers2).toLocaleString()} [🔗](https://www.youtube.com/channel/${ch2.items[0].id.channelId})`,true)
         .addField("Subscriber difference", text)
         .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({format: 'png', size: 2048}))
+        .setColor('#2e7da4')
         .setTimestamp();
         return message.send(embed);
     

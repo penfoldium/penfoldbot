@@ -11,7 +11,7 @@ module.exports = class extends Command {
             cooldown: 30,
             deletable: true,
             bucket: 1,
-            aliases: [],
+            aliases: ['remind', 'remindme'],
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
@@ -47,7 +47,7 @@ module.exports = class extends Command {
         const reminders = this.client.settings.schedules.filter(t => t.data.user === message.author.id);
         if (!reminders || reminders.length < 1) return message.send('I have nothing to remind you about, chief!');
         const ts = new Timestamp('LLL');
-        const display = new RichDisplay(new MessageEmbed().setColor('C68136').setAuthor(`Reminders for ${message.author.tag}`, message.author.displayAvatarURL({ size: 2048 })))
+        const display = new RichDisplay(new MessageEmbed().setColor('#2e7da4').setAuthor(`Reminders for ${message.author.tag}`, message.author.displayAvatarURL({ size: 2048 })))
         reminders.forEach(r => {
             display.addPage(e => e.setDescription(`**ID:** \`${r.id}\`\n**Text:** ${r.data.text}\n**Time:** ${ts.display(r.time)}\n**Recurring:** ${r.recurring ? 'Yes' : 'No'}`))
         })

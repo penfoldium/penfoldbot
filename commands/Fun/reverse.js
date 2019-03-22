@@ -33,6 +33,7 @@ module.exports = class extends Command {
         .setAuthor(`Reverse text`, this.client.user.displayAvatarURL({format: 'png', size: 2048}))
         .setDescription(`**Original text**\n\`${args}\`\n\n**Reversed text**\n\`${reversed}\``)
         .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({format: 'png', size: 2048}))
+        .setColor('#2e7da4')
         .setTimestamp();
         message.send(embed)
     }

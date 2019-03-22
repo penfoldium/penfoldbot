@@ -57,12 +57,14 @@ module.exports = class extends Monitor {
     
                 const embed = new MessageEmbed()
                     .setTitle(`${display} (${name})`)
+                    .setDescription(`[Open in Cydia](http://yoshifan.me/cydia?package=${name})`)
                     .addField('Description', description)
                     .addField('Section', section, true)
                     .addField('Price', price ? `$${price.msrp}` : 'Free', true)
                     .setThumbnail(this.tweakImageURL(name))
                     .setURL(this.packageURL(name))
                     .setFooter(`Version: ${version}`)
+                    .setColor('#2e7da4')
                     .setTimestamp();
     
                 let msg = await message.channel.send(embed);
