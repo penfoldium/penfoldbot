@@ -1,4 +1,4 @@
-bwd
+src/bwd
 package-lock.json
 node_modules
-data/config.json
+src/data/config.json
