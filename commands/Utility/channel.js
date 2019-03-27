@@ -21,7 +21,7 @@ module.exports = class extends Command {
             subcommands: false,
             description: 'Searches for a YouTube channel',
             quotedStringSupport: false,
-            usage: '<channel:string> [...]',
+            usage: '<channel:...string>',
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
@@ -29,12 +29,12 @@ module.exports = class extends Command {
         this.customizeResponse('channel', "You need to enter a search term, chief!")
     }
 
-    async run(message, [...channel]) {
+    async run(message, [channel]) {
         const config = require('../../data/config.json');
         const name = (search, key) => `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${key}&type=channel`;
         const stats = (id, key) => `https://www.googleapis.com/youtube/v3/channels?part=statistics,brandingSettings&id=${id}&key=${key}`;
 
-        let toSearch = channel.join(' ');
+        let toSearch = channel;
         let ch = await fetch(name(toSearch, config.youtubeAPI));
         ch = await ch.json();
 
@@ -58,22 +58,20 @@ module.exports = class extends Command {
 
 
         const embed = new Discord.MessageEmbed()
-        .setTitle(channelname)
-        .setURL(`https://youtube.com/channel/${ch.items[0].id.channelId}`)
-        .setAuthor(`YouTube Channel`, this.client.user.displayAvatarURL({format: 'png', size: 2048}))
-        .addField("Subscribers", Number(subscribers).toLocaleString(),true)
-        .addField("Videos", Number(videos).toLocaleString(),true)
-        .addField("Total views", Number(views).toLocaleString(),true)
-        .addField("Description", description, false)
-        .addField("Full size banner",`[Click here](${fullbanner})`,false)
-        .setImage(banner)
-        .setThumbnail(profpic)
-        .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({format: 'png', size: 2048}))
-        .setColor('#2e7da4')
-        .setTimestamp(creation);
+            .setTitle(channelname)
+            .setURL(`https://youtube.com/channel/${ch.items[0].id.channelId}`)
+            .setAuthor(`YouTube Channel`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .addField("Subscribers", Number(subscribers).toLocaleString(), true)
+            .addField("Videos", Number(videos).toLocaleString(), true)
+            .addField("Total views", Number(views).toLocaleString(), true)
+            .addField("Description", description, false)
+            .addField("Full size banner", `[Click here](${fullbanner})`, false)
+            .setImage(banner)
+            .setThumbnail(profpic)
+            .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setColor('#2e7da4')
+            .setTimestamp(creation);
         return message.send(embed);
-    
-
     }
 
     async init() {
