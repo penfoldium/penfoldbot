@@ -25,7 +25,7 @@ module.exports = class extends Command {
         });
     }
 
-    async run(message, [...params]) {
+    async run(message) {
         message.send("You're an owner, chief! :white_check_mark:")
     }
 
