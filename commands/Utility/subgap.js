@@ -36,7 +36,7 @@ module.exports = class extends Command {
         const subs = (id, key) => `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${id}&key=${key}`;
 
         const identical = "Cor, chief, how are you going to compare a channel to itself?";
-        if(channel1.toLowerCase() === channel2.toLowerCase()) throw identical;
+        if (channel1.toLowerCase() === channel2.toLowerCase()) throw identical;
 
         let ch1 = await fetch(name(channel1, config.youtubeAPI))
         ch1 = await ch1.json();
@@ -48,7 +48,7 @@ module.exports = class extends Command {
 
         if (ch2.pageInfo.totalResults < 1) return message.send(`Oh, crumbs! I couldn't find any channel for \`${channel2}\`!`);
 
-        if(ch1.items[0].id.channelId === ch2.items[0].id.channelId) throw identical;
+        if (ch1.items[0].id.channelId === ch2.items[0].id.channelId) throw identical;
 
         let subs1 = await fetch(subs(ch1.items[0].id.channelId, config.youtubeAPI));
         subs1 = await subs1.json();
@@ -57,26 +57,24 @@ module.exports = class extends Command {
         subs2 = await subs2.json();
 
         const name1 = ch1.items[0].snippet.title,
-        name2 = ch2.items[0].snippet.title;
+            name2 = ch2.items[0].snippet.title;
 
         const subscribers1 = subs1.items[0].statistics.subscriberCount,
-        subscribers2 = subs2.items[0].statistics.subscriberCount;
+            subscribers2 = subs2.items[0].statistics.subscriberCount;
 
-        const text = Number(subscribers1) >= Number(subscribers2) 
-        ? `${Number(subscribers1 - subscribers2).toLocaleString()} subscribers (in favor of **${name1}**)`
-        : `${Number(subscribers2 - subscribers1).toLocaleString()} subscribers (in favor of **${name2}**)`;
+        const text = Number(subscribers1) >= Number(subscribers2)
+            ? `${Number(subscribers1 - subscribers2).toLocaleString()} subscribers (in favor of **${name1}**)`
+            : `${Number(subscribers2 - subscribers1).toLocaleString()} subscribers (in favor of **${name2}**)`;
 
         const embed = new Discord.MessageEmbed()
-        .setAuthor(`YouTube Subscriber Comparison`, this.client.user.displayAvatarURL({format: 'png', size: 2048}))
-        .addField(name1, `${Number(subscribers1).toLocaleString()} [🔗](https://www.youtube.com/channel/${ch1.items[0].id.channelId})`,true)
-        .addField(name2, `${Number(subscribers2).toLocaleString()} [🔗](https://www.youtube.com/channel/${ch2.items[0].id.channelId})`,true)
-        .addField("Subscriber difference", text)
-        .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({format: 'png', size: 2048}))
-        .setColor('#2e7da4')
-        .setTimestamp();
+            .setAuthor(`YouTube Subscriber Comparison`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .addField(name1, `${Number(subscribers1).toLocaleString()} [🔗](https://www.youtube.com/channel/${ch1.items[0].id.channelId})`, true)
+            .addField(name2, `${Number(subscribers2).toLocaleString()} [🔗](https://www.youtube.com/channel/${ch2.items[0].id.channelId})`, true)
+            .addField("Subscriber difference", text)
+            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setColor('#2e7da4')
+            .setTimestamp();
         return message.send(embed);
-    
-
     }
 
     async init() {
