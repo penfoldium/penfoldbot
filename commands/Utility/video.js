@@ -21,22 +21,22 @@ module.exports = class extends Command {
             subcommands: false,
             description: 'Search for a video on YouTube!',
             quotedStringSupport: false,
-            usage: '<term:string> [...]',
+            usage: '<term:...string>',
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
 
-        this.customizeResponse('name', "You must provide a search term!")
+        this.customizeResponse('term', "You must provide a search term!")
     }
 
-    async run(message, [...term]) {
+    async run(message, [term]) {
         const config = require('../../data/config.json');
 
 
         const url = (search, key) => `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${key}&type=video`;
         const stats = (id, key) => `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${key}`;
 
-        let res = await fetch(url(term.join(' '), config.youtubeAPI))
+        let res = await fetch(url(term, config.youtubeAPI))
         res = await res.json();
 
         let info = await fetch(stats(res.items[0].id.videoId, config.youtubeAPI))
