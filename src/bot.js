@@ -17,6 +17,7 @@ Client.defaultUserSchema
 Client.defaultGuildSchema.add('tweaksearch', 'boolean', { default: true });
 
 new Client({
+    config,
     fetchAllMembers: false,
     disableEveryone: true,
     prefix: config.prefix,

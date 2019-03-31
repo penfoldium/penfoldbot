@@ -30,20 +30,20 @@ module.exports = class extends Command {
     }
 
     async run(message, [channel]) {
-        const config = require('../../data/config.json');
+        const { youtubeAPI } = this.client.options.config;
         const name = (search, key) => `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${key}&type=channel`;
         const stats = (id, key) => `https://www.googleapis.com/youtube/v3/channels?part=statistics,brandingSettings&id=${id}&key=${key}`;
 
         let toSearch = channel;
-        let ch = await fetch(name(toSearch, config.youtubeAPI));
+        let ch = await fetch(name(toSearch, youtubeAPI));
         ch = await ch.json();
 
         if (ch.pageInfo.totalResults < 1) return message.send(`Oh, crumbs! I couldn't find any channel for \`${channel1}\`!`);
 
-        let stats1 = await fetch(stats(ch.items[0].id.channelId, config.youtubeAPI));
+        let stats1 = await fetch(stats(ch.items[0].id.channelId, youtubeAPI));
         stats1 = await stats1.json();
 
-        let art = await fetch(stats(ch.items[0].id.channelId, config.youtubeAPI));
+        let art = await fetch(stats(ch.items[0].id.channelId, youtubeAPI));
         art = await art.json();
 
         const channelname = ch.items[0].snippet.title;

@@ -13,8 +13,7 @@ module.exports = class extends Event {
     }
 
     async run() {
-
-        const { DBL } = require('../data/config.json');
+        const { DBL } = this.client.options.config;
 
         if (DBL) {
             new dbl(DBL, this.client)

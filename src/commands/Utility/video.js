@@ -30,16 +30,15 @@ module.exports = class extends Command {
     }
 
     async run(message, [term]) {
-        const config = require('../../data/config.json');
-
+        const { youtubeAPI } = this.client.options.config;
 
         const url = (search, key) => `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${key}&type=video`;
         const stats = (id, key) => `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${key}`;
 
-        let res = await fetch(url(term, config.youtubeAPI))
+        let res = await fetch(url(term, youtubeAPI))
         res = await res.json();
 
-        let info = await fetch(stats(res.items[0].id.videoId, config.youtubeAPI))
+        let info = await fetch(stats(res.items[0].id.videoId, youtubeAPI))
         info = await info.json();
 
         const views = info.items[0].statistics.viewCount;
