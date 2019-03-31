@@ -33,9 +33,9 @@ module.exports = class extends Command {
             return;
         }
 
-        if (!item) return message.send('Tell me the item you\'re interested in and I\'ll make sure to remind you about it when it\'s available!');
+        if (!item) throw 'Tell me the item you\'re interested in and I\'ll make sure to remind you about it when it\'s available!';
         const results = await message.author.settings.update('fortniteitems', item.toLowerCase());
-        if (results.errors.length) return message.send(`Oh, crumbs! Something unexpected happened! ${results.errors[0]}`);
+        if (results.errors.length) throw `Oh, crumbs! Something unexpected happened! ${results.errors[0]}`;
         if (results.updated[0].data[1].includes(item.toLowerCase())) return message.send(`Successfully added **${item}** to your item shop reminder list!`);
         else return message.send(`Successfully removed **${item}** from your item shop reminder list!`);
     }
