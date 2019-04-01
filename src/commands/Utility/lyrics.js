@@ -32,7 +32,7 @@ module.exports = class extends Command {
         const { geniusToken } = this.client.options.config;
         if (!geniusToken) throw 'Something went wrong! It looks like the owner(s) of the bot forgot to enter their Genius API key in the configuration file!';
         const msg = await message.send('Loading...');
-        const l = require('../util/lyrics');
+        const l = require('../../util/lyrics');
         new l(geniusToken).getLyrics(song).then(r => {
             const lyrics = r.lyrics.split('\n\n');
             const display = new RichDisplay(new MessageEmbed().setAuthor(`Requested by: ${message.author.tag}`, this.client.user.displayAvatarURL({ size: 2048 })).setTitle(r.title).setThumbnail(r.header).setURL(r.url));
