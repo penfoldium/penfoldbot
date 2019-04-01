@@ -1,6 +1,6 @@
 const { Command } = require('klasa');
 const fetch = require('node-fetch');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class extends Command {
 
@@ -16,7 +16,7 @@ module.exports = class extends Command {
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
-            requiredPermissions: [],
+            requiredPermissions: ["EMBED_LINKS"],
             requiredSettings: [],
             subcommands: false,
             description: 'Searches for a YouTube channel',
@@ -57,7 +57,7 @@ module.exports = class extends Command {
         const creation = ch.items[0].snippet.publishedAt;
 
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
             .setTitle(channelname)
             .setURL(`https://youtube.com/channel/${ch.items[0].id.channelId}`)
             .setAuthor(`YouTube Channel`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))

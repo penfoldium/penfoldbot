@@ -1,5 +1,5 @@
 const { Command } = require('klasa');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class extends Command {
 
@@ -15,7 +15,7 @@ module.exports = class extends Command {
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
-            requiredPermissions: [],
+            requiredPermissions: ["EMBED_LINKS"],
             requiredSettings: [],
             subcommands: false,
             description: 'Encode/decode with the ROT13 cipher',
@@ -30,7 +30,7 @@ module.exports = class extends Command {
     async run(message, [text]) {
         let toCipher = text;
         let ciphered = toCipher.replace(/[a-zA-Z]/g, function (c) { return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26); });
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
             .setAuthor(`ROT13 Cipher`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
             .setDescription(`**Original text**\n\`${toCipher}\`\n\n**Cipher text**\n\`${ciphered}\``)
             .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))

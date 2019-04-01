@@ -1,6 +1,6 @@
 const { Command } = require('klasa');
+const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
-const Discord = require('discord.js');
 
 module.exports = class extends Command {
 
@@ -16,7 +16,7 @@ module.exports = class extends Command {
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
-            requiredPermissions: [],
+            requiredPermissions: ["EMBED_LINKS"],
             requiredSettings: [],
             subcommands: false,
             description: 'Compares the subscriber counts of two YouTube channels and also shows the subscriber gap between them',
@@ -66,7 +66,7 @@ module.exports = class extends Command {
             ? `${Number(subscribers1 - subscribers2).toLocaleString()} subscribers (in favor of **${name1}**)`
             : `${Number(subscribers2 - subscribers1).toLocaleString()} subscribers (in favor of **${name2}**)`;
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
             .setAuthor(`YouTube Subscriber Comparison`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
             .addField(name1, `${Number(subscribers1).toLocaleString()} [🔗](https://www.youtube.com/channel/${ch1.items[0].id.channelId})`, true)
             .addField(name2, `${Number(subscribers2).toLocaleString()} [🔗](https://www.youtube.com/channel/${ch2.items[0].id.channelId})`, true)

@@ -16,7 +16,7 @@ module.exports = class extends Command {
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
-            requiredPermissions: [],
+            requiredPermissions: ["EMBED_LINKS"],
             requiredSettings: [],
             subcommands: false,
             description: 'Search an app in the US App Store.',
