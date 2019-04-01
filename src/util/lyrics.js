@@ -14,7 +14,7 @@ module.exports = class Lyrics {
     async getLyrics(song) {
         if (!song) return;
         const query = await this._search(song);
-        if (!query[0]) reject('Nothing found.');
+        if (!query[0]) throw 'Nothing found.';
         const q = query[0].result;
         const lyrics = await this._scrape(q.url);
         return { lyrics, title: q.full_title, url: q.url, header: q.header_image_url };
@@ -33,7 +33,7 @@ module.exports = class Lyrics {
 
     async _scrape(url) {
         let res = await fetch(url);
-        if (res.status !== 200) reject();
+        if (res.status !== 200) throw 'Something went wrong';
         res = await res.text();
         const $ = cheerio.load(res);
         return $('.lyrics').text().trim();
