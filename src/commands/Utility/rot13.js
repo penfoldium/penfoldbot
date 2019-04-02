@@ -34,7 +34,7 @@ module.exports = class extends Command {
             .setAuthor(`ROT13 Cipher`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
             .setDescription(`**Original text**\n\`${toCipher}\`\n\n**Cipher text**\n\`${ciphered}\``)
             .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
-            .setColor('#2e7da4')
+            .setColor(this.client.options.config.embedHex)
             .setTimestamp();
         return message.send(embed)
     }

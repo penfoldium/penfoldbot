@@ -69,7 +69,7 @@ module.exports = class extends Command {
             .setImage(banner)
             .setThumbnail(profpic)
             .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
-            .setColor('#2e7da4')
+            .setColor(this.client.options.config.embedHex)
             .setTimestamp(creation);
         return message.send(embed);
     }

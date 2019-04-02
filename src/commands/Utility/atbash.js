@@ -32,7 +32,7 @@ module.exports = class extends Command {
             .setAuthor(`Atbash Cipher`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
             .setDescription(`**Original text**\n\`${text}\`\n\n**Cipher text**\n\`${this.atbash(text)}\``)
             .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
-            .setColor('#2e7da4')
+            .setColor(this.client.options.config.embedHex)
             .setTimestamp();
         return message.send(embed)
     }

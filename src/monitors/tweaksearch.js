@@ -64,7 +64,7 @@ module.exports = class extends Monitor {
                     .setThumbnail(this.tweakImageURL(name))
                     .setURL(this.packageURL(name))
                     .setFooter(`Version: ${version}`)
-                    .setColor('#2e7da4')
+                    .setColor(this.client.options.config.embedHex)
                     .setTimestamp();
     
                 let msg = await message.channel.send(embed);
