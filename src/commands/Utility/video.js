@@ -51,7 +51,10 @@ module.exports = class extends Command {
     }
 
     async init() {
-
+        if (!this.client.options.config.youtubeAPI) {
+            this.client.emit('log', 'YouTube API key not provided in the configuration file, disabling the video command.');
+            this.disable();
+        }
     }
 
 };
