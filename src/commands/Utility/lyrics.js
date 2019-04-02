@@ -30,7 +30,6 @@ module.exports = class extends Command {
 
     async run(message, [song]) {
         const { geniusToken } = this.client.options.config;
-        if (!geniusToken) throw 'Something went wrong! It looks like the owner(s) of the bot forgot to enter their Genius API key in the configuration file!';
         const msg = await message.send('Loading...');
         const l = require('../../util/lyrics');
         new l(geniusToken).getLyrics(song).then(r => {
@@ -44,7 +43,10 @@ module.exports = class extends Command {
     }
 
     async init() {
-
+        if (!this.client.options.config.geniusToken) {
+            this.client.emit('log', 'Genius Access Token not provided in the configuration file, disabling the lyrics command.');
+            this.disable();
+        }
     }
 
 };
