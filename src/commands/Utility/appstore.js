@@ -68,7 +68,7 @@ module.exports = class extends Command {
             .setURL(`${url}`)
             .setDescription(`Developed by [${devby}](${devurl})`)
             .setFooter(`Requires iOS ${ios} or later | First released on`)
-            .setColor('#FFFFFF')
+            .setColor('#2e7da4')
             .setImage(`${screenshots[0]}`)
             .setThumbnail(`${icons[100]}`)
             .addField('Version', `${version}`, true)
