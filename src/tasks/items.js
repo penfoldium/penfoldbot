@@ -9,6 +9,7 @@ module.exports = class extends Task {
 
     async run() {
         let res = await fetch('https://fortnite-public-api.theapinetwork.com/prod09/store/get');
+        if (res.status !== 200) throw "The Fortnite items API is down or unreachable.";
         res = await res.json();
         if (this.client.settings.fortniteitems === res.date) return;
         await this.client.settings.update('fortniteitems', res.date);
