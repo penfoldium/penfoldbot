@@ -29,7 +29,10 @@ module.exports = class extends Event {
     }
 
     async init() {
-
+        if (!this.client.options.config.embedHex) {
+            this.client.emit('wtf', 'Embed color not provided in the configuration file, falling back to a default one.');
+            this.client.options.config.embedHex = '2e7da4';
+        }
     }
 
 };
