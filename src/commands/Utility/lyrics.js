@@ -44,7 +44,7 @@ module.exports = class extends Command {
 
     async init() {
         if (!this.client.options.config.geniusToken) {
-            this.client.emit('log', 'Genius Access Token not provided in the configuration file, disabling the lyrics command.');
+            this.client.emit('wtf', 'Genius Access Token not provided in the configuration file, disabling the lyrics command.');
             this.disable();
         }
     }

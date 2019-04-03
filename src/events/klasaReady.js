@@ -29,7 +29,7 @@ module.exports = class extends Event {
     }
 
     async init() {
-
+        
     }
 
 };
