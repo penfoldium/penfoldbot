@@ -24,6 +24,7 @@ module.exports = class extends Event {
         await this.client.user.setStatus('dnd');
 
         this.ensureTask('items', '*/5 * * * *');
+        this.ensureTask('spotifyToken', '*/59 * * * *');
     }
 
     async init() {

@@ -4,6 +4,10 @@
     "embedHex": "",
     "youtubeAPI": "",
     "geniusToken": "",
+    "spotify": {
+        "clientID": "",
+        "clientSecret": ""
+    },
     "DBL": "",
     "owners": []
 }
