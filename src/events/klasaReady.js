@@ -23,15 +23,20 @@ module.exports = class extends Event {
         await this.client.user.setActivity(`Danger Mouse | ${this.client.options.prefix}help`, { type: "WATCHING" });
         await this.client.user.setStatus('dnd');
 
-        const s = this.client.settings.schedules;
-        if (s.some(e => e.taskName === 'items')) return;
-        this.client.schedule.create("items", "*/5 * * * *");
+        this.ensureTask('items', '*/5 * * * *');
     }
 
     async init() {
         if (!this.client.options.config.embedHex) {
             this.client.emit('wtf', 'Embed color not provided in the configuration file, falling back to a default one.');
             this.client.options.config.embedHex = '2e7da4';
+        }
+    }
+
+    ensureTask(task, time) {
+        const schedules = this.client.settings.schedules;
+        if (!schedules.some(s => s.taskName === task)) {
+            this.client.schedule.create(task, time);
         }
     }
 
