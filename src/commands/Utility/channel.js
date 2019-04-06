@@ -64,13 +64,13 @@ module.exports = class extends Command {
             .addField("Subscribers", Number(subscribers).toLocaleString(), true)
             .addField("Videos", Number(videos).toLocaleString(), true)
             .addField("Total views", Number(views).toLocaleString(), true)
-            .setImage(banner)
             .setThumbnail(profpic)
             .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
             .setColor(this.client.options.config.embedHex)
             .setTimestamp(creation);
 
-        if (fullbanner) embed.addField("Full size banner", `[Click here](${fullbanner})`, false)
+        if (banner) embed.setImage(banner);
+        if (fullbanner) embed.addField("Full size banner", `[Click here](${fullbanner})`, false);
         if (description) embed.addField("Description", description, false);
 
         return message.send(embed);
