@@ -38,7 +38,7 @@ module.exports = class extends Command {
         let ch = await fetch(name(toSearch, youtubeAPI));
         ch = await ch.json();
 
-        if (ch.pageInfo.totalResults < 1) return message.send(`Oh, crumbs! I couldn't find any channel for \`${channel1}\`!`);
+        if (ch.pageInfo.totalResults < 1) throw `Oh, crumbs! I couldn't find any channel for \`${channel}\`!`;
 
         let stats1 = await fetch(stats(ch.items[0].id.channelId, youtubeAPI));
         stats1 = await stats1.json();
