@@ -41,6 +41,8 @@ module.exports = class extends Command {
         res = await res.json();
         const tracks = res.tracks.items;
 
+        if (!tracks.length) throw "No results found!"
+
         const final = [];
 
         tracks.forEach(track => {
