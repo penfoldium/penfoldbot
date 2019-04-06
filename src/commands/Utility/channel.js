@@ -53,7 +53,7 @@ module.exports = class extends Command {
         const banner = art.items[0].brandingSettings.image.bannerMobileHdImageUrl;
         const profpic = ch.items[0].snippet.thumbnails.medium.url;
         const description = ch.items[0].snippet.description;
-        const fullbanner = banner.replace("w1280-fcrop64=1,32b75a57cd48a5a8", "w2560-fcrop64=1,00000000ffffffff");
+        const fullbanner = banner ? banner.replace("w1280-fcrop64=1,32b75a57cd48a5a8", "w2560-fcrop64=1,00000000ffffffff") : null;
         const creation = ch.items[0].snippet.publishedAt;
 
 
@@ -65,12 +65,16 @@ module.exports = class extends Command {
             .addField("Videos", Number(videos).toLocaleString(), true)
             .addField("Total views", Number(views).toLocaleString(), true)
             .addField("Description", description, false)
-            .addField("Full size banner", `[Click here](${fullbanner})`, false)
             .setImage(banner)
             .setThumbnail(profpic)
             .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
             .setColor(this.client.options.config.embedHex)
             .setTimestamp(creation);
+
+        if (fullbanner) {
+            embed.addField("Full size banner", `[Click here](${fullbanner})`, false)
+        }
+        
         return message.send(embed);
     }
 
