@@ -8,7 +8,7 @@ module.exports = class extends Command {
             enabled: true,
             runIn: ['text', 'dm'],
             cooldown: 10,
-            deletable: false,
+            deletable: true,
             bucket: 1,
             aliases: [],
             guarded: false,

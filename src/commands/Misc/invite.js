@@ -4,20 +4,20 @@ module.exports = class extends Command {
 
     constructor(...args) {
         super(...args, {
-            name: 'ownerCheck',
+            name: 'invite',
             enabled: true,
             runIn: ['text', 'dm'],
-            cooldown: 0,
-            deletable: false,
+            cooldown: 120,
+            deletable: true,
             bucket: 1,
             aliases: [],
             guarded: false,
             nsfw: false,
-            permissionLevel: 10,
+            permissionLevel: 0,
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: 'Tells you if you\'re an owner, but you most likely are one, anyway.',
+            description: 'Want to invite the bot to your server? Use this command to generate an invite link!',
             quotedStringSupport: false,
             usage: '',
             usageDelim: undefined,
@@ -26,7 +26,8 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-        message.send("You're an owner, chief! :white_check_mark:")
+        const invite = await this.client.generateInvite('ADMINISTRATOR');
+        message.send(`You can invite me using the following link: <${invite}>`);
     }
 
     async init() {

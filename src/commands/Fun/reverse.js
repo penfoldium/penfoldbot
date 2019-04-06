@@ -9,7 +9,7 @@ module.exports = class extends Command {
             enabled: true,
             runIn: ['text', 'dm'],
             cooldown: 5,
-            deletable: false,
+            deletable: true,
             bucket: 1,
             aliases: ['rev'],
             guarded: false,

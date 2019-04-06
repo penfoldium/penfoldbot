@@ -10,7 +10,7 @@ module.exports = class extends Command {
             enabled: true,
             runIn: ['text', 'dm'],
             cooldown: 5,
-            deletable: false,
+            deletable: true,
             bucket: 1,
             aliases: [],
             guarded: false,
@@ -19,7 +19,7 @@ module.exports = class extends Command {
             requiredPermissions: ["EMBED_LINKS"],
             requiredSettings: [],
             subcommands: false,
-            description: 'Search an app in the US App Store.',
+            description: 'Search for an app in the US App Store',
             quotedStringSupport: false,
             usage: '<app:...string>',
             usageDelim: undefined,
@@ -70,7 +70,7 @@ module.exports = class extends Command {
             .setFooter(`Requires iOS ${ios} or later | First released on`)
             .setColor(this.client.options.config.embedHex)
             .setImage(`${screenshots[0]}`)
-            .setThumbnail(`${icons[100]}`)
+            .setThumbnail(`${icons[1024]}`)
             .addField('Version', `${version}`, true)
             .addField('Last update', `${update}`, true)
             .addField('Price', `${price}`, true)

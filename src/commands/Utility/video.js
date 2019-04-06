@@ -1,4 +1,5 @@
 const { Command } = require('klasa');
+const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 const Discord = require('discord.js');
 
@@ -10,7 +11,7 @@ module.exports = class extends Command {
             enabled: true,
             runIn: ['text', 'dm'],
             cooldown: 5,
-            deletable: true,
+            deletable: false,
             bucket: 1,
             aliases: ['youtube', 'yt'],
             guarded: false,
@@ -47,7 +48,18 @@ module.exports = class extends Command {
         const comments = info.items[0].statistics.commentCount;
         const uploadDate = new Date(info.items[0].snippet.publishedAt);
 
-        return message.send(`https://youtu.be/${res.items[0].id.videoId}\n\`Uploaded on ${uploadDate.toString()}\n${Number(views).toLocaleString()} views | ${Number(likes).toLocaleString()} likes | ${Number(dislikes).toLocaleString()} dislikes | ${Number(comments).toLocaleString()} comments\``);
+        await message.channel.send(`https://youtu.be/${res.items[0].id.videoId}`)
+        const embed = new MessageEmbed()
+            .setAuthor(`Additional info`)
+            .addField('Views', Number(views).toLocaleString(), true)
+            .addField('Likes', Number(likes).toLocaleString(), true)
+            .addField('Dislikes', Number(dislikes).toLocaleString(), true)
+            .addField('Comments', Number(comments).toLocaleString(), true)
+            .addField('Like ratio', (Number(likes) / (Number(likes) + Number(dislikes)) * 100).toFixed(2) + '%', true)
+            .setFooter(`Requested by ${message.author.tag} | Uploaded on`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setColor(this.client.options.config.embedHex)
+            .setTimestamp(uploadDate);
+        message.send(embed);
     }
 
     async init() {
