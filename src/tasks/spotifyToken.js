@@ -22,7 +22,6 @@ module.exports = class extends Task {
     }
 
     async getToken() {
-        this.client.emit('log', 'Making a POST request to the Spotify API to request a token!');
         const token = Buffer.from(`${this.client.options.config.spotify.clientID}:${this.client.options.config.spotify.clientSecret}`).toString('base64');
         let res = await fetch('https://accounts.spotify.com/api/token', {
             method: "POST",
