@@ -29,7 +29,7 @@ module.exports = class extends Command {
 
         if (shop) {
             if (!this.client._itemshop) throw "Something went wrong, try again later.";
-            const array = (this.client._date).split('-');
+            const array = (this.client.settings.fortniteitems).split('-');
             return message.send(`Here are all the currently available items for ${new Timestamp('LL').display(`${array[1]}-${array[0]}-${array[2]}`)}:\n\`${this.client._itemshop.map(item => item.name).join(', ')}\``);
         }
 
