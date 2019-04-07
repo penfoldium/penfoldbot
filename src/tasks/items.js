@@ -8,9 +8,19 @@ module.exports = class extends Task {
     }
 
     async run() {
+        this.check();
+    }
+
+    async init() {
+        this.check();
+    }
+
+    check() {
+        this.client.emit('log', 'Fetching the Fortnite API for any changes!');
         let res = await fetch('https://fortnite-public-api.theapinetwork.com/prod09/store/get');
         if (res.status !== 200) throw "The Fortnite items API is down or unreachable.";
         res = await res.json();
+        this.client._itemshop = res.items;
         if (this.client.settings.fortniteitems === res.date) return;
         await this.client.settings.update('fortniteitems', res.date);
         this.client.users.forEach(async (u) => {
@@ -22,9 +32,4 @@ module.exports = class extends Task {
             if (common.length) u.send(`Chief! These items are now available in the item shop. Remember - spend your V-Bucks wisely!\n\`${common.join(', ')}\``);
         });
     }
-
-    async init() {
-
-    }
-
 };
