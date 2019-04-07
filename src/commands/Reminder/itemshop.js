@@ -1,4 +1,4 @@
-const { Command } = require('klasa');
+const { Command, Timestamp } = require('klasa');
 
 module.exports = class extends Command {
 
@@ -29,7 +29,8 @@ module.exports = class extends Command {
 
         if (shop) {
             if (!this.client._itemshop) throw "Something went wrong, try again later.";
-            return message.send(`Here are all the currently available items: ${this.client._itemshop.map(item => item.name).join(', ')}`);
+            const array = (this.client._date).split('-');
+            return message.send(`Here are all the currently available items for ${new Timestamp('LL').display(`${array[1]}-${array[0]}-${array[2]}`)}:\n\`${this.client._itemshop.map(item => item.name).join(', ')}\``);
         }
 
         if (list) {
