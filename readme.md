@@ -28,4 +28,4 @@ These offer additional features, but the bot can run without them:
 #### And don't forget:
 > A robot could never be like Penfold.
 >
-> \- [Danger Mouse](# "(Danger Mouse 2015, Series 1, Episode 25, \"Megahurtz Attacks\", 04:29)")
+> \- [Danger Mouse](#and-dont-forget "(Danger Mouse 2015, Series 1, Episode 25, \"Megahurtz Attacks\", 04:29)")
