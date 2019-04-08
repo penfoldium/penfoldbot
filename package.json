@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YoshiFan13/penfold-discord-bot.git"
+    "url": "git+https://github.com/penfoldium/penfoldbot.git"
   },
   "author": "Penfoldium",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/YoshiFan13/penfold-discord-bot/issues"
+    "url": "https://github.com/penfoldium/penfoldbot/issues"
   },
-  "homepage": "https://github.com/YoshiFan13/penfold-discord-bot#readme",
+  "homepage": "https://github.com/penfoldium/penfoldbot#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "dblapi.js": "^2.3.0",

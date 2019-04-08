@@ -20,7 +20,7 @@ module.exports = class extends Command {
 ❯ I can help you with reminders and various utilities. To get started, send \`penfold, help\` to see what I can do! (I am mentionable as well, so you can use \`@Penfold help\`)
 ❯ *Prefixes are case insensitive, so you could also yell at me, but I don't like it when you do that* :cry:
 ❯ (To change the prefix, run \`<currentPrefix> prefix <newPrefix>\`; to reset it, run \`<currentPrefix> prefix reset\`)
-❯ If you want to see how my code works, you can access it [here](https://github.com/Penfoldium/penfoldbot)!
+❯ If you want to see how my code works, you can access it [here](https://github.com/penfoldium/penfoldbot)!
 ❯ My creators are \`YoshiFan13#4985\` and \`alex ☿ raplayer#0001\` - if you find any issues or have any ideas for new features, don't hesitate to contact them!
 ❯ Alternatively, you can submit an issue on the Git linked above.
 ❯ You can also find us on the Penfoldbot server - just send \`penfold, server\` for an invite!
