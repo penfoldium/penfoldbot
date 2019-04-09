@@ -31,7 +31,10 @@ module.exports = class extends Command {
     }
 
     async init() {
-
+        if (!this.client.options.config.serverInvite) {
+            this.client.emit('wtf', 'Server invite not provided in the configuration file, disabling the server command.');
+            this.disable();
+        }
     }
 
 };
