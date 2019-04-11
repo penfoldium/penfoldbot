@@ -19,7 +19,7 @@ module.exports = class extends Command {
             requiredPermissions: ["EMBED_LINKS"],
             requiredSettings: [],
             subcommands: false,
-            description: 'Searches for a YouTube channel',
+            description: 'Search for a YouTube channel',
             quotedStringSupport: false,
             usage: '<channel:...string>',
             usageDelim: ' ',

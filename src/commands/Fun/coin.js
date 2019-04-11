@@ -17,7 +17,7 @@ module.exports = class extends Command {
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: 'Flip a coin.',
+            description: 'Flip a coin',
             quotedStringSupport: false,
             usage: '',
             usageDelim: '',

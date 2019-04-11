@@ -34,7 +34,7 @@ module.exports = class extends Command {
     async run(message, [app]) {
         let res = await fetch(`https://itunes.apple.com/search?term=${app}&country=us&entity=software&limit=1`);
         res = await res.json();
-        if (res.resultCount === 0) return message.send("No results found.");
+        if (res.resultCount === 0) return message.send("I couldn't find anything, chief.");
         const icons = {
             60: res.results[0].artworkUrl60,
             100: res.results[0].artworkUrl100,

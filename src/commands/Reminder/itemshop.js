@@ -17,7 +17,7 @@ module.exports = class extends Command {
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: 'Set reminders that go off when specified items become available in Fortnite\'s item shop! Spend your V-Bucks wisely!',
+            description: 'Set reminders that go off when specified items become available in Fortnite\'s item shop. Spend your V-Bucks wisely!',
             quotedStringSupport: false,
             usage: '[list] [shop|daily] [item:...string]',
             usageDelim: ' ',
@@ -28,7 +28,7 @@ module.exports = class extends Command {
     async run(message, [list, shop, item]) {
 
         if (shop) {
-            if (!this.client._itemshop) throw "Something went wrong, try again later.";
+            if (!this.client._itemshop) throw "Oh, crumbs! Something went wrong, try again later.";
             const array = (this.client.settings.fortniteitems).split('-');
             return message.send(`Here are all the currently available items for ${new Timestamp('LL').display(`${array[1]}-${array[0]}-${array[2]}`)}:\n\`${this.client._itemshop.map(item => item.name).join(', ')}\``);
         }

@@ -17,7 +17,7 @@ module.exports = class extends Command {
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: 'Roll the dice.',
+            description: 'Roll the dice',
             quotedStringSupport: false,
             usage: '',
             usageDelim: '',

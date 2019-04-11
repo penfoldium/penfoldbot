@@ -20,14 +20,14 @@ module.exports = class extends Command {
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: 'Search for a video on YouTube!',
+            description: 'Search for a video on YouTube',
             quotedStringSupport: false,
             usage: '<term:...string>',
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
 
-        this.customizeResponse('term', "You must provide a search term!")
+        this.customizeResponse('term', "Chief, you must provide a search term!")
     }
 
     async run(message, [term]) {
@@ -39,6 +39,7 @@ module.exports = class extends Command {
         let res = await fetch(url(term, youtubeAPI))
         res = await res.json();
 
+        if (!res.items[0]) throw "Oh, crumbs! I couldn\'t find any videos for that search!"
         let info = await fetch(stats(res.items[0].id.videoId, youtubeAPI))
         info = await info.json();
 

@@ -39,7 +39,7 @@ module.exports = class extends Command {
                 display.addPage(e => e.setDescription(lyric))
             });
             display.run(msg, { filter: (reaction, user) => user === message.author });
-        }).catch(() => msg.edit('Something went wrong or no song with this name was found. Try again later.'));
+        }).catch(() => msg.edit('Oh, crumbs. Something went wrong or I couldn\'t find any song with this name. Try again later.'));
     }
 
     async init() {

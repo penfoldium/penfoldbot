@@ -41,7 +41,7 @@ module.exports = class extends Command {
         res = await res.json();
         const tracks = res.tracks.items;
 
-        if (!tracks.length) throw "No results found!"
+        if (!tracks.length) throw "Oh, crumbs! I couldn't find any tracks for that search!"
 
         const final = [];
 

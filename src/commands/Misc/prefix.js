@@ -7,7 +7,7 @@ module.exports = class extends Command {
 		super(...args, {
 			aliases: ['setPrefix'],
 			cooldown: 5,
-			description: 'Change the command prefix the bot uses in your server.',
+			description: 'Change the command prefix the bot uses on your server',
 			permissionLevel: 0,
 			runIn: ['text'],
 			usage: '[reset|prefix:str{1,15}]'

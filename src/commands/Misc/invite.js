@@ -17,7 +17,7 @@ module.exports = class extends Command {
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: 'Want to invite the bot to your server? Use this command to generate an invite link!',
+            description: 'Generate an invite link for the bot.',
             quotedStringSupport: false,
             usage: '',
             usageDelim: undefined,

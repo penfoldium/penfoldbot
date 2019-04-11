@@ -19,7 +19,7 @@ module.exports = class extends Command {
             requiredPermissions: ["EMBED_LINKS"],
             requiredSettings: [],
             subcommands: false,
-            description: 'Compares the subscriber counts of two YouTube channels and also shows the subscriber gap between them',
+            description: 'Compare the subscriber counts of two YouTube channels and also show the subscriber gap between them',
             quotedStringSupport: false,
             usage: '<channel1:string> <channel2:string>',
             usageDelim: ' || ',
