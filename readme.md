@@ -7,7 +7,7 @@
 ![Repository size](https://img.shields.io/github/repo-size/penfoldium/penfoldbot.svg)
 ![Last commit](https://img.shields.io/github/last-commit/penfoldium/penfoldbot.svg)
 ![Commit activity](https://img.shields.io/github/commit-activity/w/penfoldium/penfoldbot.svg)
-![Discord](https://img.shields.io/discord/564903050590945310.svg)
+[![Discord](https://img.shields.io/discord/564903050590945310.svg)](https://discord.gg/uaRkbEH)
 ![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)
 
 ### Self hosting
