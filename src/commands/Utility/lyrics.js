@@ -30,7 +30,6 @@ module.exports = class extends Command {
 
     async run(message, [song]) {
         const { geniusToken } = this.client.options.config;
-        const msg = await message.send('Loading...');
         const l = require('../../util/lyrics');
         new l(geniusToken).getLyrics(song).then(r => {
             const lyrics = r.lyrics.split('\n\n');
@@ -38,8 +37,8 @@ module.exports = class extends Command {
             lyrics.forEach(lyric => {
                 display.addPage(e => e.setDescription(lyric))
             });
-            display.run(msg, { filter: (reaction, user) => user === message.author });
-        }).catch(() => msg.edit('Oh, crumbs. Something went wrong or I couldn\'t find any song with this name. Try again later.'));
+            display.run(message, { filter: (reaction, user) => user === message.author });
+        }).catch(() => message.send('Oh, crumbs. Something went wrong or I couldn\'t find any song with this name. Try again later.'));
     }
 
     async init() {

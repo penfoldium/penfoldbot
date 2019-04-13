@@ -31,7 +31,6 @@ module.exports = class extends Command {
 
     async run(message, [song]) {
         if (!this.client._spotify) throw "Sorry chief, I can't access the Spotify API at the moment, please try again later!";
-        const msg = await message.send('Loading...');
 
         let res = await fetch(`https://api.spotify.com/v1/search?q=${song}&type=track`, {
             headers: {
@@ -56,7 +55,7 @@ module.exports = class extends Command {
             display.addPage(e => e.setAuthor('Spotify Search', 'http://yoshifan.me/cdn/herbot/icons/spotify.png').setTitle(`${index + 1}. ${track.displayName}`).setURL(track.url).setThumbnail(track.image).addField('Other results', `${final[index + 1] ? `${index + 2}. ${final[index + 1].displayName + '\n'}` : '-'}${final[index + 2] ? `${index + 3}. ${final[index + 2].displayName + '\n'}` : ''}${final[index + 3] ? `${index + 4}. ${final[index + 3].displayName}` : ''}`))
         })
 
-        return display.run(msg, { filter: (reaction, user) => user === message.author });
+        return display.run(message, { filter: (reaction, user) => user === message.author });
     }
 
     async init() {

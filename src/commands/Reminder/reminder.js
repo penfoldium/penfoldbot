@@ -51,7 +51,7 @@ module.exports = class extends Command {
         reminders.forEach(r => {
             display.addPage(e => e.setDescription(`**ID:** \`${r.id}\`\n**Text:** ${r.data.text}\n**Time:** ${ts.display(r.time)}\n**Recurring:** ${r.recurring ? 'Yes' : 'No'}`))
         })
-        await display.run(await message.send('Just a moment...'), { filter: (reaction, user) => user === message.author })
+        await display.run(message, { filter: (reaction, user) => user === message.author })
     }
 
     async delete(message, id) {
