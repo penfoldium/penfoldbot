@@ -17,7 +17,7 @@ module.exports = class extends Event {
 
         if (DBL) {
             new dbl(DBL, this.client)
-            console.log('Posting stats to DBL...')
+            this.client.emit('log', 'Posting stats to DBL...')
         }
 
         await this.client.user.setActivity(`Danger Mouse | ${this.client.options.prefix}help`, { type: "WATCHING" });
