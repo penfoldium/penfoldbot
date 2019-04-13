@@ -2,6 +2,14 @@
 
 # Penfold - the Discord bot :hamster::robot:
 
+![Dependencies](https://img.shields.io/david/penfoldium/penfoldbot.svg)
+![License](https://img.shields.io/github/license/penfoldium/penfoldbot.svg)
+![Repository size](https://img.shields.io/github/repo-size/penfoldium/penfoldbot.svg)
+![Last commit](https://img.shields.io/github/last-commit/penfoldium/penfoldbot.svg)
+![Commit activity](https://img.shields.io/github/commit-activity/w/penfoldium/penfoldbot.svg)
+![Discord](https://img.shields.io/discord/564903050590945310.svg)
+![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)
+
 ### Self hosting
 Here's what you need to self host Penfold:
 - A basic text editor to edit the [configuration](./src/data/config.example.json) file
