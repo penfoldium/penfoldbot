@@ -2,13 +2,13 @@
 
 # Penfold - the Discord bot :hamster::robot:
 
-![Dependencies](https://img.shields.io/david/penfoldium/penfoldbot.svg)
-![License](https://img.shields.io/github/license/penfoldium/penfoldbot.svg)
-![Repository size](https://img.shields.io/github/repo-size/penfoldium/penfoldbot.svg)
-![Last commit](https://img.shields.io/github/last-commit/penfoldium/penfoldbot.svg)
-![Commit activity](https://img.shields.io/github/commit-activity/w/penfoldium/penfoldbot.svg)
+[![Dependencies](https://img.shields.io/david/penfoldium/penfoldbot.svg)](https://github.com/penfoldium/penfoldbot/blob/master/package.json#L19)
+[![License](https://img.shields.io/github/license/penfoldium/penfoldbot.svg)](https://github.com/penfoldium/penfoldbot/blob/master/LICENSE)
+[![Repository size](https://img.shields.io/github/repo-size/penfoldium/penfoldbot.svg)]()
+[![Last commit](https://img.shields.io/github/last-commit/penfoldium/penfoldbot.svg)](https://github.com/penfoldium/penfoldbot/commits/master)
+[![Commit activity](https://img.shields.io/github/commit-activity/w/penfoldium/penfoldbot.svg)](https://github.com/penfoldium/penfoldbot/commits/master)
 [![Discord](https://img.shields.io/discord/564903050590945310.svg)](https://discord.gg/uaRkbEH)
-![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)]()
 
 ### Self hosting
 Here's what you need to self host Penfold:
