@@ -53,13 +53,16 @@ module.exports = class extends Command {
         const embed = new MessageEmbed()
             .setAuthor(`Additional info`)
             .addField('Views', Number(views).toLocaleString(), true)
-            .addField('Likes', Number(likes).toLocaleString(), true)
-            .addField('Dislikes', Number(dislikes).toLocaleString(), true)
-            .addField('Comments', Number(comments).toLocaleString(), true)
-            .addField('Like ratio', (Number(likes) / (Number(likes) + Number(dislikes)) * 100).toFixed(2) + '%', true)
             .setFooter(`Requested by ${message.author.tag} | Uploaded on`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
             .setColor(this.client.options.config.embedHex)
             .setTimestamp(uploadDate);
+
+            if(!isNaN(Number(likes))) embed.addField('Likes', Number(likes).toLocaleString(), true);
+            if(!isNaN(Number(dislikes))) embed.addField('Dislikes', Number(dislikes).toLocaleString(), true);
+            if(!isNaN(Number(comments))) embed.addField('Comments', Number(comments).toLocaleString(), true);
+            if(!isNaN(Number(likes))) embed.addField('Like ratio', (Number(likes) / (Number(likes) + Number(dislikes)) * 100).toFixed(2) + '%', true);
+            
+
         message.send(embed);
     }
 
