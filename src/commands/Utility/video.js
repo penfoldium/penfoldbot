@@ -63,7 +63,7 @@ module.exports = class extends Command {
             if(!isNaN(Number(likes))) embed.addField('Like ratio', (Number(likes) / (Number(likes) + Number(dislikes)) * 100).toFixed(2) + '%', true);
             
 
-        message.send(embed);
+        message.channel.send(embed);
     }
 
     async init() {
