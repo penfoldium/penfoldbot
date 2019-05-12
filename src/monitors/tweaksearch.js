@@ -44,7 +44,7 @@ module.exports = class extends Monitor {
             setTimeout(async () => {
                 let res = await fetch(this.tweaksearchURL(match));
                 res = await res.json();
-                if (!res.length) return;
+                if (res.length === 0) return;
                 const display = res.display;
                 const name = res.name;
                 const section = res.section;
