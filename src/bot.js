@@ -13,8 +13,11 @@ config.permissionLevels = new PermissionLevels()
 Client.defaultClientSchema.add('fortniteitems', 'string');
 Client.defaultUserSchema
     .add('fortniteitems', 'string', { array: true, configurable: false })
-    .add('tweaksearch', 'boolean', { default: true });
+    .add('tweaksearch', 'boolean', { default: true })
+    .add('tweaksearchlegacy', 'boolean', { default: true });
 Client.defaultGuildSchema.add('tweaksearch', 'boolean', { default: true });
+Client.defaultGuildSchema.add('tweaksearchlegacy', 'boolean', { default: true });
+
 
 new Client({
     config,

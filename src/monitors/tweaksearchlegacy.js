@@ -6,7 +6,7 @@ module.exports = class extends Monitor {
 
     constructor(...args) {
         super(...args, {
-            name: 'tweaksearch',
+            name: 'tweaksearchlegacy',
             enabled: true,
             ignoreBots: true,
             ignoreSelf: true,
@@ -17,17 +17,18 @@ module.exports = class extends Monitor {
             ignoreBlacklistedGuilds: true
         });
 
-        this.mainRegex = /\[\[[\w\s`~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\{\}\\\|\;\:\'\"\,\<\.\>\/\?]+\]\]/g;
-        this.secondRegex = /\[\[\s[\w`~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\{\}\\\|\;\:\'\"\,\<\.\>\/\?]+\s\]\]/g;
-        this.tweaksearchURL = (pkg) => `https://code.xninja.xyz/debian/?query=${pkg}`;
+        this.mainRegex = /\{\{[\w\s`~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\{\}\\\|\;\:\'\"\,\<\.\>\/\?]+\}\}/g;
+        this.secondRegex = /\{\{\s[\w`~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\{\}\\\|\;\:\'\"\,\<\.\>\/\?]+\s\}\}/g;
+        this.tweaksearchURL = (pkg) => `https://cydia.saurik.com/api/macciti?query=${pkg}`;
+        this.priceAPI = (name) => `http://cydia.saurik.com/api/ibbignerd?query=${name}`;
+        this.tweakImageURL = (img) => `http://cydia.saurik.com/icon@2x/${img}.png`;
+        this.packageURL = (pkg) => `http://cydia.saurik.com/package/${pkg}`;
     }
-
-    formatBytes(a, b) { if (0 == a) return "0 B"; var c = 1024, d = b || 2, e = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], f = Math.floor(Math.log(a) / Math.log(c)); return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f] }
 
     async run(message) {
         const isGuild = message.guild ? true : false;
 
-        if (!message.author.settings.tweaksearch || !(isGuild ? message.guild.settings.tweaksearch : true)) return;
+        if (!message.author.settings.tweaksearchlegacy || !(isGuild ? message.guild.settings.tweaksearchlegacy : true)) return;
 
         const matches = message.content.match(this.mainRegex);
         if (!matches) return;
@@ -35,7 +36,7 @@ module.exports = class extends Monitor {
 
         matches.forEach(match => {
             if (this.secondRegex.test(match)) return;
-            potential.push(match.replace('[[', '').replace(']]', ''));
+            potential.push(match.replace('{{', '').replace('}}', ''));
         });
 
         if (!potential.length) return;
@@ -44,33 +45,27 @@ module.exports = class extends Monitor {
             setTimeout(async () => {
                 let res = await fetch(this.tweaksearchURL(match));
                 res = await res.json();
-                if (!res.length) return;
-                const display = res.display;
-                const name = res.name;
-                const section = res.section;
-                const description = res.summary;
-                const depiction = res.depiction;
-                const homepage = res.homepage;
-                const version = res.version;
-                const icon = res.icon ? res.icon.includes('file:///') ? null : res.icon : null;
-                const repo = res.source;
-                const size = this.formatBytes(res.size);
-                const repoURL = `https://cydia.saurik.com/api/share#?source=${repo}`;
-                const repoPackageURL = `${repoURL}&package=${name}`;
-                const downloadURL = `${repo}${res.filename}`;
-                const relevancy = res.search_score.toFixed(2);
+                if (res.results < 1) return;
+                const display = res.results[0].display;
+                const name = res.results[0].name;
+                const section = res.results[0].section;
+                const description = res.results[0].summary;
+                const version = res.results[0].version;
+    
+                let price = await fetch(this.priceAPI(name));
+                price = await price.json();
     
                 const embed = new MessageEmbed()
                     .setTitle(`${display} (\`${name}\`)`)
-                    .setDescription(`[Open in Cydia](http://yoshifan.me/cydia?package=${name})\n[Add repo](${repoURL})\n[Add repo and go to package](${repoPackageURL})\n[Download .deb](${downloadURL})`)
+                    .setDescription(`[Open in Cydia](http://yoshifan.me/cydia?package=${name})`)
                     .addField('Description', description)
                     .addField('Section', section, true)
-                    .addField('Size', size, true)
-                    .setURL(depiction || homepage)
-                    .setFooter(`Version: ${version} | ${relevancy}% match`)
+                    .addField('Price', price ? `$${price.msrp}` : 'Free', true)
+                    .setThumbnail(this.tweakImageURL(name))
+                    .setURL(this.packageURL(name))
+                    .setFooter(`Version: ${version}`)
                     .setColor(this.client.options.config.embedHex)
                     .setTimestamp();
-                    if(icon) embed.setThumbnail(icon);
     
                 let msg = await message.channel.send(embed);
                 await msg.react('❌');
