@@ -43,24 +43,25 @@ module.exports = class extends Command {
         let info = await fetch(stats(res.items[0].id.videoId, youtubeAPI))
         info = await info.json();
 
-        const views = info.items[0].statistics.viewCount;
-        const likes = info.items[0].statistics.likeCount;
-        const dislikes = info.items[0].statistics.dislikeCount;
-        const comments = info.items[0].statistics.commentCount;
+        const views = Number(info.items[0].statistics.viewCount);
+        const likes = Number(info.items[0].statistics.likeCount);
+        const dislikes = Number(info.items[0].statistics.dislikeCount);
+        const comments = Number(info.items[0].statistics.commentCount);
         const uploadDate = new Date(info.items[0].snippet.publishedAt);
+        const likeRatio = (likes * 100) / (likes + dislikes);
 
         await message.channel.send(`https://youtu.be/${res.items[0].id.videoId}`)
         const embed = new MessageEmbed()
             .setAuthor(`Additional info`)
-            .addField('Views', Number(views).toLocaleString(), true)
+            .addField('Views', views.toLocaleString(), true)
             .setFooter(`Requested by ${message.author.tag} | Uploaded on`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
             .setColor(this.client.options.config.embedHex)
             .setTimestamp(uploadDate);
 
-            if(!isNaN(Number(likes))) embed.addField('Likes', Number(likes).toLocaleString(), true);
-            if(!isNaN(Number(dislikes))) embed.addField('Dislikes', Number(dislikes).toLocaleString(), true);
-            if(!isNaN(Number(comments))) embed.addField('Comments', Number(comments).toLocaleString(), true);
-            if(!isNaN(Number(likes))) embed.addField('Like ratio', (Number(likes) / (Number(likes) + Number(dislikes)) * 100).toFixed(2) + '%', true);
+            (!isNaN(likes)) ? embed.addField('Likes', likes.toLocaleString(), true) : embed.addField('Ratings', 'Disabled', true);
+            (!isNaN(dislikes)) ? embed.addField('Dislikes', dislikes.toLocaleString(), true) : null;
+            (!isNaN(comments)) ? embed.addField('Comments', comments.toLocaleString(), true) : embed.addField('Comments', 'Disabled', true);
+            (!isNaN(likes)) ? embed.addField('Like ratio', `${(dislikes) ? likeRatio.toFixed(2) + '%' : 'Infinity'}`, true) : null;
             
 
         message.channel.send(embed);
