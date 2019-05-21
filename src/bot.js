@@ -1,6 +1,8 @@
 const { Client, PermissionLevels } = require('klasa');
 const config = require('./data/config.json');
 
+require('./util/prototypes');
+
 config.permissionLevels = new PermissionLevels()
     .add(0, () => true)
     .add(4, ({ guild, member }) => guild && member.permissions.has('KICK_MEMBERS'), { fetch: true })
@@ -17,7 +19,6 @@ Client.defaultUserSchema
     .add('tweaksearchlegacy', 'boolean', { default: true });
 Client.defaultGuildSchema.add('tweaksearch', 'boolean', { default: true });
 Client.defaultGuildSchema.add('tweaksearchlegacy', 'boolean', { default: true });
-
 
 new Client({
     config,

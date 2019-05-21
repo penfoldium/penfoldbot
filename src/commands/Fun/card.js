@@ -28,9 +28,7 @@ module.exports = class extends Command {
     async run(message) {
         let cards = ["ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king"];
         let suits = ["hearts! :hearts:", "diamonds! :diamonds:", "clubs! :clubs:", "spades! :spades:"];
-        let randomCard = Math.floor((Math.random() * cards.length));
-        let randomSuit = Math.floor((Math.random() * suits.length));
-        message.send(`Alright, chief! It's the ${cards[randomCard]} of ${suits[randomSuit]}`);
+        return message.send(`Alright, chief! It's the ${cards.random()} of ${suits.random()}`);
     }
 
     async init() {

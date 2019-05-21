@@ -29,7 +29,7 @@ module.exports = class extends Command {
         let random;
         if (number && !args) random = Math.floor(Math.random() * number + 1);
         else random = Math.floor(Math.random() * 101);
-        message.send(`${message.channel.type === 'text' ? message.member.displayName : message.author.username} rolls ${random} point(s)`);
+        return message.send(`${message.channel.type === 'text' ? message.member.displayName : message.author.username} rolls ${random} point(s)`);
     }
 
     async init() {

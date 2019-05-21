@@ -27,9 +27,7 @@ module.exports = class extends Command {
 
     async run(message) {
         let sides = ["one", "two", "three", "four", "five", "six"];
-        let random1 = Math.floor((Math.random() * sides.length));
-        let random2 = Math.floor((Math.random() * sides.length));
-        message.send(`Alright, chief! It's ${sides[random1]} and ${sides[random2]}!`);
+        return message.send(`Alright, chief! It's ${sides.random()} and ${sides.random()}!`);
     }
 
     async init() {
