@@ -57,7 +57,7 @@ module.exports = class extends Monitor {
     
                 const embed = new MessageEmbed()
                     .setTitle(`${display} (\`${name}\`)`)
-                    .setDescription(`[Open in Cydia](http://yoshifan.me/cydia?package=${name})`)
+                    .setDescription(`[Open in Cydia](https://cdn.penfoldium.org/cydia?package=${name})`)
                     .addField('Description', description)
                     .addField('Section', section, true)
                     .addField('Price', price ? `$${price.msrp}` : 'Free', true)

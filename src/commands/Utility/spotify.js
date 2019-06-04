@@ -52,7 +52,7 @@ module.exports = class extends Command {
         const display = new RichDisplay(new MessageEmbed().setColor(this.client.options.config.embedHex));
 
         final.forEach((track, index) => {
-            display.addPage(e => e.setAuthor('Spotify Search', 'http://yoshifan.me/cdn/herbot/icons/spotify.png').setTitle(`${index + 1}. ${track.displayName}`).setURL(track.url).setThumbnail(track.image).addField('Other results', `${final[index + 1] ? `${index + 2}. ${final[index + 1].displayName + '\n'}` : '-'}${final[index + 2] ? `${index + 3}. ${final[index + 2].displayName + '\n'}` : ''}${final[index + 3] ? `${index + 4}. ${final[index + 3].displayName}` : ''}`))
+            display.addPage(e => e.setAuthor('Spotify Search', 'https://cdn.penfoldium.org/icons/spotify.png').setTitle(`${index + 1}. ${track.displayName}`).setURL(track.url).setThumbnail(track.image).addField('Other results', `${final[index + 1] ? `${index + 2}. ${final[index + 1].displayName + '\n'}` : '-'}${final[index + 2] ? `${index + 3}. ${final[index + 2].displayName + '\n'}` : ''}${final[index + 3] ? `${index + 4}. ${final[index + 3].displayName}` : ''}`))
         })
 
         return display.run(message, { filter: (reaction, user) => user === message.author });

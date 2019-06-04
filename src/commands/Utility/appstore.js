@@ -62,7 +62,7 @@ module.exports = class extends Command {
 
 
         const embed = new MessageEmbed()
-            .setAuthor("App Store Search", 'http://yoshifan.me/cdn/herbot/icons/appstore.png')
+            .setAuthor("App Store Search", 'https://cdn.penfoldium.org/icons/appstore.png')
             .setTimestamp(`${release}`)
             .setTitle(`${appname} \`(${bundle})\``)
             .setURL(`${url}`)
