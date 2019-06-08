@@ -32,7 +32,7 @@ module.exports = class extends Command {
         if (flip <= 96 && flip > 48) outcome = "It's tails.";
         if (flip === 97) outcome = "Cor, it landed on its edge!";
         if (flip === 98) outcome = "Oh, crumbs! It rolled under the bed...";
-        if (flip === 99) outcome = "It fell in a crack!";
+        if (flip === 99) outcome = "Oops... it fell in a crack!";
         if (flip === 100) outcome = "It fell in a crack! And it was half a quid, too!";
         message.send(`Alright, chief! ${outcome}`);
     }
