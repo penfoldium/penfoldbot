@@ -26,9 +26,9 @@ These offer additional features, but the bot can run without them:
 - Edit the `config.example.json` file in `/src/data/` and rename it to `config.json`
 - Install the required npm packages using `npm install`
 - Run the bot by doing one of the following:
-    1. `node bot` (in the src folder)
-    1. `node src/bot` (in the git folder)
-    1. `npm start` (in the git folder)
+    * `node bot` (in the src folder)
+    * `node src/bot` (in the git folder)
+    * `npm start` (in the git folder)
 
 *If you want to run the bot in a process manager, we recommend using **[pm2](https://pm2.keymetrics.io)**!*
 
