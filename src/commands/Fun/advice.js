@@ -1,23 +1,24 @@
 const { Command } = require('klasa');
+const fetch = require('node-fetch');
 
 module.exports = class extends Command {
 
     constructor(...args) {
         super(...args, {
-            name: 'coin',
+            name: 'advice',
             enabled: true,
             runIn: ['text', 'dm'],
             cooldown: 5,
             deletable: true,
             bucket: 1,
-            aliases: ['coinflip', 'flipacoin', 'flipcoin'],
+            aliases: ['adviceslip'],
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: 'Flip a coin',
+            description: 'Get an advice slip',
             quotedStringSupport: false,
             usage: '',
             usageDelim: '',
@@ -26,19 +27,14 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-        let flip = Math.floor(Math.random() * 101);
-        let outcome;
-        if (flip <= 48) outcome = "It's heads.";
-        if (flip <= 96 && flip > 48) outcome = "It's tails.";
-        if (flip === 97) outcome = "Cor, it landed on its edge!";
-        if (flip === 98) outcome = "Oh, crumbs! It rolled under the bed...";
-        if (flip === 99) outcome = "Oops... it fell in a crack!";
-        if (flip === 100) outcome = "It fell in a crack! And it was half a quid, too!";
-        message.send(`Alright, chief! ${outcome}`);
+        let advice = await fetch(`https://api.adviceslip.com/advice`);
+        advice = await advice.json();
+
+        return message.send(`Here's some advice... ${advice.slip.advice}`);
     }
 
     async init() {
 
     }
-
+    
 };

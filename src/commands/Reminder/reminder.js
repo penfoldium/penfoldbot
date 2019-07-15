@@ -15,7 +15,7 @@ module.exports = class extends Command {
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
-            requiredPermissions: [],
+            requiredPermissions: ["EMBED_LINKS"],
             requiredSettings: [],
             subcommands: true,
             description: 'Create a reminder',
