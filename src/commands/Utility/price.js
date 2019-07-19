@@ -21,7 +21,7 @@ module.exports = class extends Command {
             subcommands: false,
             description: 'Convert currency units (also supports cryptocurrency)',
             quotedStringSupport: false,
-            usage: '[amount:int{1}] <currency1:str{1,3}> <currency2:str{1,3}>',
+            usage: '[amount:float] <currency1:str{1,3}> <currency2:str{1,3}>',
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });

@@ -43,16 +43,19 @@ module.exports = class extends Command {
         let info = await fetch(stats(res.items[0].id.videoId, youtubeAPI))
         info = await info.json();
 
-        const views = Number(info.items[0].statistics.viewCount);
+        await message.channel.send(`https://youtu.be/${res.items[0].id.videoId}`)
+
+        if (!('noinfo' in message.flags)) {const views = Number(info.items[0].statistics.viewCount);
         const likes = Number(info.items[0].statistics.likeCount);
         const dislikes = Number(info.items[0].statistics.dislikeCount);
         const comments = Number(info.items[0].statistics.commentCount);
         const uploadDate = new Date(info.items[0].snippet.publishedAt);
         const likeRatio = (likes * 100) / (likes + dislikes);
 
-        await message.channel.send(`https://youtu.be/${res.items[0].id.videoId}`)
+        
         const embed = new MessageEmbed()
             .setAuthor(`Additional info`)
+            .setDescription(`(Tip: You can add \`--noinfo\` at the end of your message to omit this section)`)
             .addField('Views', views.toLocaleString(), true)
             .setFooter(`Requested by ${message.author.tag} | Uploaded on`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
             .setColor(this.client.options.config.embedHex)
@@ -65,6 +68,7 @@ module.exports = class extends Command {
             
 
         message.channel.send(embed);
+        }
     }
 
     async init() {
