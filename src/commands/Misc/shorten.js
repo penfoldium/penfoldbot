@@ -39,7 +39,7 @@ module.exports = class extends Command {
             }
         })
         res = await res.json();
-        if (res.error) throw `An error occured: ${error}`;
+        if (res.error) throw `An error occured: ${res.error}`;
         else message.send(`Successfully shortened your link! You can access it by visiting <${res.URL}>`)
     }
 
