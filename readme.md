@@ -21,6 +21,7 @@ These offer additional features, but the bot can run without them:
 - YouTube Data API v3 key (follow the steps presented [here](https://developers.google.com/youtube/v3/getting-started))
 - Genius API client (go [here](https://genius.com/api-clients))
 - Spotify API client (go [here](https://developer.spotify.com/dashboard))
+- Pokole (go [here](https://github.com/penfoldium/pokole))
 
 ### Setup guide
 - Edit the `config.example.json` file in `/src/data/` and rename it to `config.json`

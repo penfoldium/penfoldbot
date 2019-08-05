@@ -9,6 +9,11 @@
         "clientID": "",
         "clientSecret": ""
     },
+    "pokole": {
+        "username": "",
+        "password": "",
+        "api": ""
+    },
     "DBL": "",
     "owners": []
 }
