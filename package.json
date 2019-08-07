@@ -17,11 +17,13 @@
   },
   "homepage": "https://github.com/penfoldium/penfoldbot#readme",
   "dependencies": {
+    "bufferutil": "^4.0.1",
     "cheerio": "^1.0.0-rc.2",
     "dblapi.js": "^2.3.0",
     "discord.js": "github:discordjs/discord.js",
     "klasa": "github:dirigeants/klasa",
     "ms": "^2.1.1",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.3.0",
+    "zlib-sync": "^0.1.5"
   }
 }
