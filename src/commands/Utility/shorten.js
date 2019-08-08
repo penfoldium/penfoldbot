@@ -18,14 +18,14 @@ module.exports = class extends Command {
             requiredPermissions: [],
             requiredSettings: [],
             subcommands: false,
-            description: 'Shorten an URL using penfold.fun!',
+            description: 'Shorten a URL using penfold.fun. Supports custom shortlinks',
             quotedStringSupport: false,
             usage: '<url:url> [custom:string]',
             usageDelim: ' ',
             extendedHelp: 'No extended help available.'
         });
 
-        this.customizeResponse('url', 'Please provide a valid URL to shorten!')
+        this.customizeResponse('url', 'You need to provide a valid URL for me to shorten it, chief!')
     }
 
     async run(message, [url, custom]) {
@@ -39,13 +39,13 @@ module.exports = class extends Command {
             }
         })
         res = await res.json();
-        if (res.error) throw `An error occured: ${res.error}`;
-        else message.send(`Successfully shortened your link! You can access it by visiting <${res.URL}>`)
+        if (res.error) throw `Oh, crumbs! An error occured: ${res.error}`;
+        else message.send(`Done! Here's your link: <${res.URL}>`)
     }
 
     async init() {
         if (!this.client.options.config.pokole.username || !this.client.options.config.pokole.password || !this.client.options.config.pokole.api) {
-            this.client.emit('wtf', `Pokole username / password / API link not provided, disabling the shorten command.`);
+            this.client.emit('wtf', `Pokole username, password and/or API link not provided, disabling the shorten command.`);
             this.disable();
         }
     }
