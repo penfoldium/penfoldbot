@@ -14,7 +14,7 @@
 Here's what you need to self host Penfold:
 - A basic text editor to edit the [configuration](./src/data/config.example.json) file
 - A valid Discord bot token (get one from [here](https://discordapp.com/developers/applications))
-- [Node.js](https://nodejs.org/en) v10 or newer (with admin priviledges so it can use node-gyp build!)
+- [Node.js](https://nodejs.org/en) v10 or newer (with [node-gyp](https://github.com/nodejs/node-gyp) installed - it is needed for zlib-sync, which is used for better WebSocket performance)
 
 ### Optional stuff
 These offer additional features, but the bot can run without them:
