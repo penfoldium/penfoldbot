@@ -29,8 +29,8 @@ module.exports = class extends Command {
     async run(message) {
         let guildID = message.guild.id;
         let channelID = message.member.voice.channelID;
-        let channelName = message.guild.channels.get(channelID).name;
         if (!channelID) throw "You need to be in a voice channel to use that command, chief!";
+        let channelName = message.guild.channels.get(channelID).name;
         const embed = new MessageEmbed()
         .setAuthor(`Discord Screen Sharing`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
         .setDescription(`Click [here](https://discordapp.com/channels/${guildID}/${channelID}) to enable screen sharing in \`${channelName}\``)
