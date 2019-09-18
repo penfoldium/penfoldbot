@@ -34,7 +34,7 @@ module.exports = class extends Command {
         const name = (search, key) => `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${key}&type=channel`;
         const stats = (id, key) => `https://www.googleapis.com/youtube/v3/channels?part=statistics,brandingSettings&id=${id}&key=${key}`;
 
-        let toSearch = channel;
+        let toSearch = encodeURI(channel);
         let ch = await fetch(name(toSearch, youtubeAPI));
         ch = await ch.json();
 

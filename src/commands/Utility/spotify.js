@@ -32,7 +32,7 @@ module.exports = class extends Command {
     async run(message, [song]) {
         if (!this.client._spotify) throw "Sorry chief, I can't access the Spotify API at the moment, please try again later!";
 
-        let res = await fetch(`https://api.spotify.com/v1/search?q=${song}&type=track`, {
+        let res = await fetch(`https://api.spotify.com/v1/search?q=${encodeURI(song)}&type=track`, {
             headers: {
                 'Authorization': `Bearer ${this.client._spotify}`
             }

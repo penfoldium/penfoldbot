@@ -31,7 +31,7 @@ module.exports = class extends Command {
     async run(message, [song]) {
         const { geniusToken } = this.client.options.config;
         const l = require('../../util/lyrics');
-        new l(geniusToken).getLyrics(song).then(r => {
+        new l(geniusToken).getLyrics(encodeURI(song)).then(r => {
             const lyrics = r.lyrics.split('\n\n');
             const display = new RichDisplay(new MessageEmbed().setAuthor(`Requested by: ${message.author.tag}`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 })).setTitle(r.title).setThumbnail(r.header).setURL(r.url).setColor(this.client.options.config.embedHex));
             lyrics.forEach(lyric => {

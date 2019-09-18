@@ -36,7 +36,7 @@ module.exports = class extends Command {
         const url = (search, key) => `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${key}&type=video`;
         const stats = (id, key) => `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${key}`;
 
-        let res = await fetch(url(term, youtubeAPI))
+        let res = await fetch(url(encodeURI(term), youtubeAPI))
         res = await res.json();
 
         if (!res.items[0]) throw "Oh, crumbs! I couldn\'t find any videos for that search!"
