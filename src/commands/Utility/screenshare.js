@@ -33,7 +33,7 @@ module.exports = class extends Command {
         let channelName = message.guild.channels.get(channelID).name;
         const embed = new MessageEmbed()
         .setAuthor(`Discord Screen Sharing`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
-        .setDescription(`Click [here](https://discordapp.com/channels/${guildID}/${channelID}) to enable screen sharing in \`${channelName}\``)
+        .setDescription(`[Click here](https://discordapp.com/channels/${guildID}/${channelID}) to enable screen sharing in \`${channelName}\``)
         .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
         .setColor(this.client.options.config.embedHex)
         .setTimestamp();
