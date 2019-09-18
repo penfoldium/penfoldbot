@@ -28,7 +28,7 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-        let quote = await fetch(`http://api.forismatic.com/api/1.0/?method=getQuote&format=text&lang=en`);
+        let quote = await fetch(`https://api.forismatic.com/api/1.0/?method=getQuote&format=text&lang=en`);
         quote = await quote.text();
 
         const embed = new MessageEmbed()

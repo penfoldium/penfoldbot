@@ -16,7 +16,7 @@ module.exports = class extends Command {
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
-            requiredPermissions: [],
+            requiredPermissions: ["EMBED_LINKS"],
             requiredSettings: [],
             subcommands: false,
             description: "See the world distribution map of a given name",
@@ -30,12 +30,12 @@ module.exports = class extends Command {
 
     async run(message, name) {
         
-        const map = `http://www.locatemyname.com/density-map/${name}.jpg`
+        const map = `http://www.locatemyname.com/density-map/${encodeURI(name)}.jpg`
         let size = await fetch(map);
         size = await size.buffer();
         size = size.length;
 
-        if(!size) throw 'There is no known data for this name, chief!'
+        if(!size) throw 'There is no known data for this name, chief! (Or you have used unsupported characters)'
 
         const embed = new MessageEmbed()
             .setColor(this.client.options.config.embedHex)
