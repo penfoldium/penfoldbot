@@ -45,24 +45,25 @@ module.exports = class extends Monitor {
                 let res = await fetch(this.tweaksearchURL(match));
                 res = await res.json();
                 if (res.length === 0) return;
-                const display = res.display;
-                const name = res.name;
-                const section = res.section;
-                const description = res.summary;
-                const depiction = res.depiction;
-                const homepage = res.homepage;
-                const version = res.version;
-                const icon = res.icon ? res.icon.includes('file:///') ? null : res.icon : null;
-                const repo = res.source;
-                const size = this.formatBytes(res.size);
+                const name = res[0].name;
+                const pkg = res[0].package;
+                const section = res[0].section;
+                const description = res[0].description;
+                const depiction = res[0].depiction;
+                const homepage = res[0].homepage;
+                const version = res[0].version;
+                const icon = res[0].icon ? res[0].icon.includes('file:///') ? null : res[0].icon : null;
+                const repo = res[0].source.url;
+                const size = this.formatBytes(res[0].size);
                 const repoURL = `https://cydia.saurik.com/api/share#?source=${repo}`;
-                const repoPackageURL = `${repoURL}&package=${name}`;
-                const downloadURL = `${repo}${res.filename}`;
-                const relevancy = res.search_score.toFixed(2);
+                const repoName = res[0].source.name;
+                const repoPackageURL = `${repoURL}&package=${pkg}`;
+                const downloadURL = `${repo}/${res[0].filename}`;
+                const relevancy = res[0].search_score.toFixed(2);
     
                 const embed = new MessageEmbed()
-                    .setTitle(`${display} (\`${name}\`)`)
-                    .setDescription(`[Open in Cydia](https://cdn.penfoldium.org/cydia?package=${name})\n[Add repo](${repoURL})\n[Add repo and go to package](${repoPackageURL})\n[Download .deb](${downloadURL})`)
+                    .setTitle(`${name} (\`${pkg}\`)`)
+                    .setDescription(`[Open in Cydia](https://cdn.penfoldium.org/cydia?package=${pkg})\n[Add repo (${repoName})](${repoURL})\n[Add repo and go to package](${repoPackageURL})\n[Download .deb](${downloadURL})`)
                     .addField('Description', description)
                     .addField('Section', section, true)
                     .addField('Size', size, true)
