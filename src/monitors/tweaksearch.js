@@ -75,7 +75,7 @@ module.exports = class extends Monitor {
     
                 let msg = await message.channel.send(embed);
                 await msg.react('❌');
-                msg.awaitReactions((reaction, user) => (reaction.emoji.name === '❌' && (user.id === message.author.id || isGuild ? message.guild.members.get(user.id).permissions.has('ADMINISTRATOR') : false)) && user !== this.client.user, { time: 20000, max: 1 })
+                msg.awaitReactions((reaction, user) => (reaction.emoji.name === '❌' && (user.id === message.author.id || isGuild ? message.guild.members.fetch(user.id).permissions.has('ADMINISTRATOR') : false)) && user !== this.client.user, { time: 20000, max: 1 })
                     .then(async collected => {
                         if (collected.size) return await msg.delete();
                         else await msg.reactions.removeAll();
