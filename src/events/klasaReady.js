@@ -25,8 +25,8 @@ module.exports = class extends Event {
 
         this.ensureTask('items', '*/5 * * * *');
         this.ensureTask('cleanup', '*/60 * * * *');
-        this.ensureTask('spotifyToken', '59 * * * *');
-        this.ensureTask('pokoleToken', '59 * * * *');
+        this.ensureTask('spotifyToken', '*/59 * * * *');
+        this.ensureTask('pokoleToken', '*/59 * * * *');
     }
 
     async init() {
