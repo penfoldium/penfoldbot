@@ -24,7 +24,7 @@ module.exports = class extends Task {
         await this.client.settings.update('fortniteitems', res.date);
         this.client.users.forEach(async (u) => {
             if (u.bot) return;
-            const settings = await u.settings.fetch('fortniteitems');
+            const settings = await u.settings.get('fortniteitems');
             if (!settings.length) return;
             const items = res.items.map(i => i.name);
             const common = items.filter(i => settings.includes(i.toLowerCase()));
