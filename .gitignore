@@ -1,3 +1,4 @@
 src/bwd
 node_modules
 src/data/config.json
+package-lock.json
