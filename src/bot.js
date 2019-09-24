@@ -8,7 +8,9 @@ config.permissionLevels = new PermissionLevels()
     .add(4, ({ guild, member }) => guild && member.permissions.has('KICK_MEMBERS'), { fetch: true })
     .add(5, ({ guild, member }) => guild && member.permissions.has('BAN_MEMBERS'), { fetch: true })
     .add(6, ({ guild, member }) => guild && member.permissions.has('ADMINISTRATOR'), { fetch: true })
-    .add(7, ({ guild, member }) => guild && member === guild.owner, { fetch: true });
+    .add(7, ({ guild, member }) => guild && member === guild.owner, { fetch: true })
+    .add(9, ({ author, client }) => client.owners.has(author), { break: true })
+    .add(10, ({ author, client }) => client.owners.has(author));
 
 Client.defaultClientSchema.add('fortniteitems', 'string');
 Client.defaultUserSchema
