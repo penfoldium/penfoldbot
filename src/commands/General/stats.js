@@ -1,7 +1,6 @@
 const { Command, version: klasaVersion, Duration } = require('klasa');
 const { version: discordVersion, MessageEmbed } = require('discord.js');
 const os = require('os');
-const ms = require('ms');
 
 module.exports = class extends Command {
 
@@ -31,8 +30,8 @@ module.exports = class extends Command {
             .setColor(this.client.options.config.embedHex)
             .setAuthor('System Information', this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
             .addField("Connected to:", `**${(guilds || this.client.guilds.size).toLocaleString()}** guilds | **${(channels || this.client.channels.size).toLocaleString()}** channels | **${(users || this.client.users.size).toLocaleString()}** users`)
-            .addField("OS Information:", `**${os.type()} ${os.release()} ${os.arch()}**\n**System uptime:** ${ms(os.uptime() * 1000, { long: true })}\n**CPU:** ${os.cpus()[0].model}\n**RAM:** ${this.bToGB(os.freemem)}GB free of ${this.bToGB(os.totalmem)}GB`)
-            .addField("Bot Information:", `**Bot uptime:** ${ms(this.client.uptime, { long: true })}\n**RAM usage:** ${(memory || (process.memoryUsage().heapUsed / 1024 / 1024)).toFixed(2)}MB\n**Node.js version:** ${process.version}\n**Discord.js version:** ${discordVersion}\n**Klasa framework version:** ${klasaVersion}`)
+            .addField("OS Information:", `**${os.type()} ${os.release()} ${os.arch()}**\n**System uptime:** ${Duration.toNow(Date.now() - (os.uptime() * 1000))}\n**CPU:** ${os.cpus()[0].model}\n**RAM:** ${this.bToGB(os.freemem)}GB free of ${this.bToGB(os.totalmem)}GB`)
+            .addField("Bot Information:", `**Bot uptime:** ${Duration.toNow(Date.now() - this.client.uptime)}\n**RAM usage:** ${(memory || (process.memoryUsage().heapUsed / 1024 / 1024)).toFixed(2)}MB\n**Node.js version:** ${process.version}\n**Discord.js version:** ${discordVersion}\n**Klasa framework version:** ${klasaVersion}`)
             .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
             .setTimestamp();
         return message.send(embed)
