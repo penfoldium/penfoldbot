@@ -37,7 +37,7 @@ module.exports = class extends Event {
     }
 
     ensureTask(task, time) {
-        const schedules = this.client.settings.schedules;
+        const schedules = this.client.settings.get('schedules');
         if (!schedules || !schedules.some(s => s.taskName === task)) {
             this.client.schedule.create(task, time);
         }

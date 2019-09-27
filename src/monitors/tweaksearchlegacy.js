@@ -28,7 +28,7 @@ module.exports = class extends Monitor {
     async run(message) {
         const isGuild = message.guild ? true : false;
 
-        if (!message.author.settings.tweaksearchlegacy || !(isGuild ? message.guild.settings.tweaksearchlegacy : true)) return;
+        if (!message.author.settings.get('tweaksearchlegacy') || !(isGuild ? message.guild.settings.get('tweaksearchlegacy') : true)) return;
 
         const matches = message.content.match(this.mainRegex);
         if (!matches) return;

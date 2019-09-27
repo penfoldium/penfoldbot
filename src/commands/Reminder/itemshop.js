@@ -29,12 +29,12 @@ module.exports = class extends Command {
 
         if (shop) {
             if (!this.client._itemshop) throw "Oh, crumbs! Something went wrong, try again later.";
-            const array = (this.client.settings.fortniteitems).split('-');
+            const array = (this.client.settings.get('fortniteitems')).split('-');
             return message.send(`Here are all the currently available items for ${new Timestamp('LL').display(`${array[1]}-${array[0]}-${array[2]}`)}:\n\`${this.client._itemshop.map(item => item.name).sort().join(', ')}\``);
         }
 
         if (list) {
-            const settings = await message.author.settings.get('fortniteitems');
+            const settings = message.author.settings.get('fortniteitems');
             return message.send(settings.length < 1 ? "You don\'t have any items on your list, chief!" : `Here are the items on your reminder list: \`${settings.join(', ')}\``);
         }
 

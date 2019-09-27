@@ -44,7 +44,7 @@ module.exports = class extends Command {
     }
 
     async list(message) {
-        const reminders = this.client.settings.schedules.filter(t => t.data.user === message.author.id);
+        const reminders = this.client.settings.get('schedules').filter(t => t.data.user === message.author.id);
         if (!reminders || reminders.length < 1) return message.send('I have nothing to remind you about, chief!');
         const ts = new Timestamp('LLL');
         const display = new RichDisplay(new MessageEmbed().setColor(this.client.options.config.embedHex).setAuthor(`Reminders for ${message.author.tag}`, message.author.displayAvatarURL({ size: 2048 })))
