@@ -25,12 +25,13 @@ module.exports = class extends Command {
             usageDelim: ' ',
             extendedHelp: 'To add a space to a name (example: "Danger Mouse") you can use underscores instead ("Danger_Mouse") and they will be replaced with spaces in the prompt.'
         });
-        this.customizeResponse('personB', "You need to enter two names in order for me to give you a prompt of your OTP!\n(Hint: If you want to use a space for a name, use an underscore instead and I'll replace it with a space in the prompt.)");
-        this.customizeResponse('personA', "You need to enter two names in order for me to give you a prompt of your OTP!\n(Hint: If a person has a space in their name, use an underscore instead and I'll replace it with a space in the prompt.)");
+        this.errorMessage = "You need to enter two names in order for me to give you a prompt of your OTP!\n(Hint: If you want to use a space for a name, use an underscore instead and I'll replace it with a space in the prompt.)"
+        this.customizeResponse('personB', this.errorMessage);
+        this.customizeResponse('personA', this.errorMessage);
     }
 
     async run(message, [personA, personB]) {
-
+        if(message.args.length > 2) throw this.errorMessage;
         personA = personA.replace(/_/g, " ").replace(/\n/g,""); // The first replace is for underscores to spaces.
         personB = personB.replace(/_/g, " ").replace(/\n/g,""); // The second replace removes newlines. (Prevents abuse)
         if (!personA.replace(/\s/g, '').length) personA = "Person A"; // This line and the next one make a fallback for
