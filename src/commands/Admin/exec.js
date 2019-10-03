@@ -17,7 +17,7 @@ module.exports = class extends Command {
     async run(msg, [input]) {
         await msg.sendMessage('Executing your command...');
 
-        const result = await exec(input, { timeout: 'timeout' in msg.flags ? Number(msg.flags.timeout) : 60000 })
+        const result = await exec(input, { timeout: 'timeout' in msg.flagArgs ? Number(msg.flagArgs.timeout) : 60000 })
             .catch(error => ({ stdout: null, stderr: error }));
         const output = result.stdout ? `**\`OUTPUT\`**${codeBlock('prolog', result.stdout)}` : '';
         const outerr = result.stderr ? `**\`ERROR\`**${codeBlock('prolog', result.stderr)}` : '';

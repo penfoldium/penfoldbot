@@ -45,7 +45,7 @@ module.exports = class extends Command {
 
         await message.channel.send(`https://youtu.be/${res.items[0].id.videoId}`)
 
-        if (!('noinfo' in message.flags)) {const views = Number(info.items[0].statistics.viewCount);
+        if (!('noinfo' in message.flagArgs)) {const views = Number(info.items[0].statistics.viewCount);
         const likes = Number(info.items[0].statistics.likeCount);
         const dislikes = Number(info.items[0].statistics.dislikeCount);
         const comments = Number(info.items[0].statistics.commentCount);
