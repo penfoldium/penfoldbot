@@ -60,7 +60,7 @@ module.exports = class extends Monitor {
                 const repoPackageURL = `${repoURL}&package=${pkg}`;
                 const downloadURL = `${repo}/${res[0].filename}`;
                 const relevancy = res[0].search_score.toFixed(2);
-    
+
                 const embed = new MessageEmbed()
                     .setTitle(`${name} (\`${pkg}\`)`)
                     .setDescription(`[Open in Cydia](https://cdn.penfoldium.org/cydia?package=${pkg})\n[Add repo (${repoName})](${repoURL})\n[Add repo and go to package](${repoPackageURL})\n[Download .deb](${downloadURL})`)
@@ -71,11 +71,11 @@ module.exports = class extends Monitor {
                     .setFooter(`Version: ${version} | ${relevancy}% match`)
                     .setColor(this.client.options.config.embedHex)
                     .setTimestamp();
-                    if(icon) embed.setThumbnail(icon);
-    
+                if (icon) embed.setThumbnail(icon);
+
                 let msg = await message.channel.send(embed);
                 await msg.react('❌');
-                msg.awaitReactions((reaction, user) => (reaction.emoji.name === '❌' && (user.id === message.author.id || isGuild ? message.guild.members.fetch(user.id).permissions.has('ADMINISTRATOR') : false)) && user !== this.client.user, { time: 20000, max: 1 })
+                msg.awaitReactions((reaction, user) => (reaction.emoji.name === '❌' && (user.id === message.author.id || isGuild ? message.guild.members.fetch(user.id).then(u => u.permissions.has('ADMINISTRATOR')) : false)) && user !== this.client.user, { time: 20000, max: 1 })
                     .then(async collected => {
                         if (collected.size) return await msg.delete();
                         else await msg.reactions.removeAll();

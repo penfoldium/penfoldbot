@@ -51,10 +51,10 @@ module.exports = class extends Monitor {
                 const section = res.results[0].section;
                 const description = res.results[0].summary;
                 const version = res.results[0].version;
-    
+
                 let price = await fetch(this.priceAPI(name));
                 price = await price.json();
-    
+
                 const embed = new MessageEmbed()
                     .setTitle(`${display} (\`${name}\`)`)
                     .setDescription(`[Open in Cydia](https://cdn.penfoldium.org/cydia?package=${name})`)
@@ -66,10 +66,10 @@ module.exports = class extends Monitor {
                     .setFooter(`Version: ${version}`)
                     .setColor(this.client.options.config.embedHex)
                     .setTimestamp();
-    
+
                 let msg = await message.channel.send(embed);
                 await msg.react('❌');
-                msg.awaitReactions((reaction, user) => (reaction.emoji.name === '❌' && (user.id === message.author.id || isGuild ? message.guild.members.fetch(user.id).permissions.has('ADMINISTRATOR') : false)) && user !== this.client.user, { time: 20000, max: 1 })
+                msg.awaitReactions((reaction, user) => (reaction.emoji.name === '❌' && (user.id === message.author.id || isGuild ? message.guild.members.fetch(user.id).then(u => u.permissions.has('ADMINISTRATOR')) : false)) && user !== this.client.user, { time: 20000, max: 1 })
                     .then(async collected => {
                         if (collected.size) return await msg.delete();
                         else await msg.reactions.removeAll();
