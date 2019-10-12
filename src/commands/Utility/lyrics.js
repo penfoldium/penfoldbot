@@ -1,5 +1,6 @@
 const { Command, RichDisplay } = require('klasa');
 const { MessageEmbed } = require('discord.js');
+const Lyrics = require('@penfoldium/lyrics-search');
 
 module.exports = class extends Command {
 
@@ -30,13 +31,14 @@ module.exports = class extends Command {
 
     async run(message, [song]) {
         const { geniusToken } = this.client.options.config;
-        const l = require('../../util/lyrics');
-        new l(geniusToken).getLyrics(encodeURI(song)).then(r => {
+
+        new Lyrics(geniusToken).search(encodeURI(song)).then(r => {
             const lyrics = r.lyrics.split('\n\n');
-            const display = new RichDisplay(new MessageEmbed().setAuthor(`Requested by: ${message.author.tag}`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 })).setTitle(r.title).setThumbnail(r.header).setURL(r.url).setColor(this.client.options.config.embedHex));
+            const display = new RichDisplay(new MessageEmbed().setAuthor(`Requested by: ${message.author.tag}`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 })).setTitle(`${r.primary_artist.name} - ${r.title}`).setThumbnail(r.header).setURL(r.url).setColor(this.client.options.config.embedHex));
             lyrics.forEach(lyric => {
                 display.addPage(e => e.setDescription(lyric))
             });
+
             display.run(message, { filter: (reaction, user) => user === message.author });
         }).catch(() => message.send('Oh, crumbs. Something went wrong or I couldn\'t find any song with this name. Try again later.'));
     }
