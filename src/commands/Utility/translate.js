@@ -63,7 +63,7 @@ You can also use the --alt flag in your command to switch to the alternate trans
         if (translatedText.length >= 1024 || pronunciation && pronunciation.length >= 1024) {
             const buf = `Input language: ${inputLanguage}\n\nTranslated text: ${translatedText}\n\n${pronunciation ? `Pronunciation: ${pronunciation}` : ''}`;
 
-            return message.send('Translation or pronunciation too long for Discord, have a text file instead.', { files: [{ name: `translation-${date.Now()}.txt`, attachment: Buffer.from(buf) }] });
+            return message.send('Translation or pronunciation too long for Discord, have a text file instead.', { files: [{ name: `translation-${Date.Now()}.txt`, attachment: Buffer.from(buf) }] });
         }
 
         // Create the embed
