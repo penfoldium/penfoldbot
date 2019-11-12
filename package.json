@@ -18,6 +18,7 @@
   "homepage": "https://github.com/penfoldium/penfoldbot#readme",
   "dependencies": {
     "@penfoldium/lyrics-search": "^1.0.0",
+    "@vitalets/google-translate-api": "^3.0.0",
     "dblapi.js": "^2.3.0",
     "discord.js": "github:discordjs/discord.js",
     "klasa": "github:dirigeants/klasa#settings",
