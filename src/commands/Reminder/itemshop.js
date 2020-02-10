@@ -29,8 +29,8 @@ module.exports = class extends Command {
 
         if (shop) {
             if (!this.client._itemshop) throw "Oh, crumbs! Something went wrong, try again later.";
-            const array = (this.client.settings.get('fortniteitems')).split('-');
-            return message.send(`Here are all the currently available items for ${new Timestamp('LL').display(`${array[1]}-${array[0]}-${array[2]}`)}:\n\`${this.client._itemshop.map(item => item.name).sort().join(', ')}\``);
+            /* We multiply this by a thousand because the API returns time in UNIX Timestamp format */
+            return message.send(`Here are all the currently available items for ${new Timestamp('LL').display(this.client.settings.get('fortniteitems') * 1000)}:\n\`${this.client._itemshop.map(i => i.item.name).sort().join(', ')}\``);
         }
 
         if (list) {
