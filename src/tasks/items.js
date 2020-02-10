@@ -20,7 +20,7 @@ module.exports = class extends Task {
         if (res.status !== 200) throw "The Fortnite items API is down or unreachable.";
         res = await res.json();
         this.client._itemshop = res.data;
-        if (this.client.settings.get('fortniteitems') === res.lastUpdate) return;
+        if (this.client.settings.get('fortniteitems') == res.lastUpdate) return;
         await this.client.settings.update('fortniteitems', res.lastUpdate);
         this.client.users.forEach(async (u) => {
             if (u.bot) return;
