@@ -31,11 +31,12 @@ module.exports = class extends Command {
         const img = await fetch(`https://nekos.life/api/v2/img/hug`)
             .then(response => response.json())
 
-        if(!user) throw "You need to mention someone to use this command, chief!"
-        const description = (user.user === this.client.user) 
-        ? `Oh, you're hugging me, ${message.author}... :heart:` // @bot
-        : (user === message.member ? `${user}, I see you're lonely, chief... let me give you a hug :heart:` // @self
-                                   : `${user}, here's a hug from ${message.author}! :heart:`) // @user
+        if (!user) throw "You need to mention someone to use this command, chief!"
+
+        const description = (user.user.id === this.client.user.id)
+            ? `Oh, you're hugging me, ${message.author}... :heart:` // @bot
+            : (user === message.member ? `${user}, I see you're lonely, chief... let me give you a hug :heart:` // @self
+                : `${user}, here's a hug from ${message.author}! :heart:`) // @user
 
 
         const embed = new MessageEmbed()

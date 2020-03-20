@@ -31,11 +31,12 @@ module.exports = class extends Command {
         const img = await fetch(`https://nekos.life/api/v2/img/tickle`)
             .then(response => response.json())
 
-        if(!user) throw "You need to mention someone to use this command, chief!"
-        const description = (user.user === this.client.user) 
-        ? `Hey! Stop tickling me, ${message.author}!!` // @bot
-        : (user === message.member ? `${user}, it's tickle time!` // @self
-                                   : `${user}, ${message.author} is tickling you!`) // @user
+        if (!user) throw "You need to mention someone to use this command, chief!"
+
+        const description = (user.user.id === this.client.user.id)
+            ? `Hey! Stop tickling me, ${message.author}!!` // @bot
+            : (user === message.member ? `${user}, it's tickle time!` // @self
+                : `${user}, ${message.author} is tickling you!`) // @user
 
         const embed = new MessageEmbed()
             .setColor(this.client.options.config.embedHex)
