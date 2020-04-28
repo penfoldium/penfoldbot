@@ -30,9 +30,9 @@ module.exports = class extends Command {
     async run(message, [text]) {
         let reversed = text.split('').reverse().join('');
         const embed = new MessageEmbed()
-            .setAuthor(`Reverse text`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setAuthor(`Reverse text`, this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
             .setDescription(`**Original text**\n\`${text}\`\n\n**Reversed text**\n\`${reversed}\``)
-            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
             .setColor(this.client.options.config.embedHex)
             .setTimestamp();
         return message.send(embed)

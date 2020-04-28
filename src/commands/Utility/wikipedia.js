@@ -39,9 +39,9 @@ module.exports = class extends Command {
             .setURL(article.content_urls.desktop.page)
             .setTitle(article.title)
             .setDescription(article.extract)
-            .setAuthor(`Wikipedia Article`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setAuthor(`Wikipedia Article`, this.client.user.displayAvatarURL({ size: 1024, format: 'png'}))
             .setTimestamp()
-            .setFooter(`Requested by ${msg.author.tag}`, msg.author.displayAvatarURL({ format: 'png', size: 2048 }));
+            .setFooter(`Requested by ${msg.author.tag}`, msg.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }));
 
         return msg.sendEmbed(embed);
     }

@@ -71,7 +71,7 @@ You can also use the --alt flag in your command to switch to the alternate trans
             .setColor(this.client.options.config.embedHex)
             .setTitle('Google Translate')
             .addField(`Translation (Input language: ${inputLanguage})`, translatedText)
-            .setFooter(`Requested by: ${message.author.tag}`, message.author.displayAvatarURL({ size: 2048 }).replace('webp', 'png'))
+            .setFooter(`Requested by: ${message.author.tag}`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
             .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Google_Translate_logo.svg/480px-Google_Translate_logo.svg.png')
             .setTimestamp();
 

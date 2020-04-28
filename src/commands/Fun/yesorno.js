@@ -35,9 +35,9 @@ module.exports = class extends Command {
             .setColor(this.client.options.config.embedHex)
             .setTitle(`My answer is ${yn.answer}.`)
             .setImage(yn.image)
-            .setAuthor(`Yes or no?`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setAuthor(`Yes or no?`, this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
             .setTimestamp()
-            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ format: 'png', size: 2048 }));
+            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }));
 
         return message.send(embed);
     }

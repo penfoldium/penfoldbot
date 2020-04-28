@@ -57,7 +57,7 @@ module.exports = class extends Command {
             .setAuthor(`Additional info`)
             .setDescription(`(Tip: You can add \`--noinfo\` at the end of your message to omit this section)`)
             .addField('Views', views.toLocaleString(), true)
-            .setFooter(`Requested by ${message.author.tag} | Uploaded on`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setFooter(`Requested by ${message.author.tag} | Uploaded on`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
             .setColor(this.client.options.config.embedHex)
             .setTimestamp(uploadDate);
 

@@ -29,11 +29,11 @@ module.exports = class extends Command {
 
         const embed = new MessageEmbed()
             .setColor(this.client.options.config.embedHex)
-            .setAuthor('System Information', this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setAuthor('System Information', this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
             .addField("Connected to:", `**${(guilds || this.client.guilds.size).toLocaleString()}** servers | **${(channels || this.client.channels.size).toLocaleString()}** channels | **${(users || this.client.guilds.reduce((acc, cur) => acc + cur.memberCount, 0)).toLocaleString()}** users | **${(activeUsers || this.client.users.size).toLocaleString()}** active users`)
             .addField("(Active users are counted for the past 30 minutes)\n\nOS Information:", `**${os.type()} ${os.release()} ${os.arch()}**\n**System uptime:** ${Duration.toNow(Date.now() - (os.uptime() * 1000))}\n**CPU:** ${os.cpus()[0].model}\n**RAM:** ${this.bToGB(os.freemem)}GB free of ${this.bToGB(os.totalmem)}GB`)
             .addField("Bot Information:", `**Bot uptime:** ${Duration.toNow(Date.now() - this.client.uptime)}\n**RAM usage:** ${(memory || (process.memoryUsage().heapUsed / 1024 / 1024)).toFixed(2)}MB\n**Node.js version:** ${process.version}\n**Discord.js version:** ${discordVersion}\n**Klasa framework version:** ${klasaVersion}`)
-            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
             .setTimestamp();
         return message.send(embed)
     }

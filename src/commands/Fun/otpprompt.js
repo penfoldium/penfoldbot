@@ -40,9 +40,9 @@ module.exports = class extends Command {
         const embed = new MessageEmbed()
             .setColor(this.client.options.config.embedHex)
             .setDescription(prompts.random().replace(/{A}/g, personA).replace(/{B}/g, personB))
-            .setAuthor(`Random OTP prompt for ${personA} and ${personB}`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setAuthor(`Random OTP prompt for ${personA} and ${personB}`, this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
             .setTimestamp()
-            .setFooter(`Requested by ${message.author.tag} | Sourced from prompts.neocities.org`, message.author.displayAvatarURL({ format: 'png', size: 2048 }));
+            .setFooter(`Requested by ${message.author.tag} | Sourced from prompts.neocities.org`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }));
 
         return message.send(embed);
     }

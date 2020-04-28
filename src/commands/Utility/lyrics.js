@@ -34,7 +34,7 @@ module.exports = class extends Command {
 
         new Lyrics(geniusToken).search(encodeURI(song)).then(r => {
             const lyrics = r.lyrics.split('\n\n');
-            const display = new RichDisplay(new MessageEmbed().setAuthor(`Requested by: ${message.author.tag}`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 })).setTitle(`${r.primary_artist.name} - ${r.title}`).setThumbnail(r.header).setURL(r.url).setColor(this.client.options.config.embedHex));
+            const display = new RichDisplay(new MessageEmbed().setAuthor(`Requested by: ${message.author.tag}`, this.client.user.displayAvatarURL({ size: 1024, format: 'png' })).setTitle(`${r.primary_artist.name} - ${r.title}`).setThumbnail(r.header).setURL(r.url).setColor(this.client.options.config.embedHex));
             lyrics.forEach(lyric => {
                 display.addPage(e => e.setDescription(lyric))
             });

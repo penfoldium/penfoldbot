@@ -60,12 +60,12 @@ module.exports = class extends Command {
         const embed = new MessageEmbed()
             .setTitle(channelname)
             .setURL(`https://youtube.com/channel/${ch.items[0].id.channelId}`)
-            .setAuthor(`YouTube Channel`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setAuthor(`YouTube Channel`, this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
             .addField("Subscribers", Number(subscribers).toLocaleString(), true)
             .addField("Videos", Number(videos).toLocaleString(), true)
             .addField("Total views", Number(views).toLocaleString(), true)
             .setThumbnail(profpic)
-            .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setFooter(`Requested by ${message.author.tag} | Join date:`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
             .setColor(this.client.options.config.embedHex)
             .setTimestamp(creation);
 

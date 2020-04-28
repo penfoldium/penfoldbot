@@ -42,9 +42,9 @@ module.exports = class extends Command {
             .setColor(this.client.options.config.embedHex)
             .setDescription(description)
             .setImage(img.url)
-            .setAuthor(`Cuddle!`, this.client.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setAuthor(`Cuddle!`, this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
             .setTimestamp()
-            .setFooter(`Requested by ${message.author.tag} | Powered by nekos.life`, message.author.displayAvatarURL({ format: 'png', size: 2048 }));
+            .setFooter(`Requested by ${message.author.tag} | Powered by nekos.life`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }));
 
         return message.send(embed);
     }
