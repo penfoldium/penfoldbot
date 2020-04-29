@@ -11,7 +11,7 @@ module.exports = class extends Command {
             cooldown: 30,
             deletable: true,
             bucket: 1,
-            aliases: ['remind', 'remindme'],
+            aliases: ['remind', 'remindme', 'reminders'],
             guarded: false,
             nsfw: false,
             permissionLevel: 0,
