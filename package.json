@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/penfoldium/penfoldbot#readme",
   "dependencies": {
-    "@penfoldium/lyrics-search": "^2.0.1",
+    "@penfoldium/lyrics-search": "^2.0.2",
     "@vitalets/google-translate-api": "^3.0.0",
     "dblapi.js": "^2.4.0",
     "discord.js": "github:discordjs/discord.js#fe7df708e44e0280dfaf0f8e457b154781bb5140",
