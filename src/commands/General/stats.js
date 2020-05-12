@@ -36,6 +36,7 @@ module.exports = class extends Command {
             users: (users || this.client.guilds.reduce((acc, cur) => acc + cur.memberCount, 0)).toLocaleString(),
             activeUsers: (activeUsers || this.client.users.size).toLocaleString(),
 
+            botUptime: Duration.toNow(Date.now() - this.client.uptime),
             uptime: Duration.toNow(Date.now() - (os.uptime() * 1000)),
             cpuModel: os.cpus()[0].model,
 
@@ -61,7 +62,7 @@ module.exports = class extends Command {
                     .join('\n'))
 
             .addField("Bot Information:",
-                [`**Bot uptime:** ${info.uptime}`,
+                [`**Bot uptime:** ${info.botUptime}`,
                 `**RAM usage:** ${info.RAM.usage}MB`,
                 `**Commit:** [${hash.substr(0, 7)}](https://github.com/penfoldium/penfoldbot/commit/${hash})`,
                 `\n**Node.js version:** ${process.version}`,
