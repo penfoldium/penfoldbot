@@ -25,18 +25,51 @@ module.exports = class extends Command {
                 channels += result[3];
                 memory += result[4];
             }
-        }
+        };
+
+        const info = {
+            guilds: (guilds || this.client.guilds.size).toLocaleString(),
+            channels: (channels || this.client.channels.size).toLocaleString(),
+            users: (users || this.client.guilds.reduce((acc, cur) => acc + cur.memberCount, 0)).toLocaleString(),
+            activeUsers: (activeUsers || this.client.users.size).toLocaleString(),
+
+            uptime: Duration.toNow(Date.now() - (os.uptime() * 1000)),
+            cpuModel: os.cpus()[0].model,
+
+            RAM: {
+                usage: (memory || (process.memoryUsage().heapUsed / 1024 / 1024)).toFixed(2),
+                free: this.bToGB(os.freemem),
+                total: this.bToGB(os.totalmem)
+            }
+        };
 
         const embed = new MessageEmbed()
             .setColor(this.client.options.config.embedHex)
-            .setAuthor('System Information', this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
-            .addField("Connected to:", `**${(guilds || this.client.guilds.size).toLocaleString()}** servers | **${(channels || this.client.channels.size).toLocaleString()}** channels | **${(users || this.client.guilds.reduce((acc, cur) => acc + cur.memberCount, 0)).toLocaleString()}** users | **${(activeUsers || this.client.users.size).toLocaleString()}** active users`)
-            .addField("(Active users are counted for the past 30 minutes)\n\nOS Information:", `**${os.type()} ${os.release()} ${os.arch()}**\n**System uptime:** ${Duration.toNow(Date.now() - (os.uptime() * 1000))}\n**CPU:** ${os.cpus()[0].model}\n**RAM:** ${this.bToGB(os.freemem)}GB free of ${this.bToGB(os.totalmem)}GB`)
-            .addField("Bot Information:", `**Bot uptime:** ${Duration.toNow(Date.now() - this.client.uptime)}\n**RAM usage:** ${(memory || (process.memoryUsage().heapUsed / 1024 / 1024)).toFixed(2)}MB\n**Node.js version:** ${process.version}\n**Discord.js version:** ${discordVersion}\n**Klasa framework version:** ${klasaVersion}`)
-            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
+            .setAuthor('System Information', this.client.user.displayAvatarURL({ size: 128, format: 'png', dynamic: true }))
+
+            .addField("Connected to:",
+                `**${info.guilds}** servers | **${info.channels}** channels  | **${info.users}** users  | **${info.activeUsers}** active users`)
+
+            .addField("(Active users are counted for the past 30 minutes)\n\nOS Information:",
+                [`**${os.type()} ${os.release()} ${os.arch()}**`,
+                `**System uptime:** ${info.uptime}`,
+                `**CPU:** ${info.cpuModel.trim()}`,
+                `**RAM:** ${info.RAM.free}GB free of ${info.RAM.total}GB`]
+                    .join('\n'))
+
+            .addField("Bot Information:",
+                [`**Bot uptime:** ${info.uptime}`,
+                `**RAM usage:** ${info.RAM.usage}MB`,
+                `\n**Node.js version:** ${process.version}`,
+                `**Discord.js version:** ${discordVersion}`,
+                `**Klasa framework version:** ${klasaVersion}`]
+                    .join('\n'))
+
+            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ size: 128, format: 'png', dynamic: true }))
             .setTimestamp();
         return message.send(embed)
     }
+
 
     bToGB(bytes) {
         const byte = 0.00000095367432 / 1000;
