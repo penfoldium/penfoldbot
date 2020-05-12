@@ -1,5 +1,6 @@
 const { Command, version: klasaVersion, Duration } = require('klasa');
 const { version: discordVersion, MessageEmbed } = require('discord.js');
+const { execSync } = require('child_process');
 const os = require('os');
 
 module.exports = class extends Command {
@@ -26,6 +27,8 @@ module.exports = class extends Command {
                 memory += result[4];
             }
         };
+
+        const hash = execSync('git rev-parse HEAD').toString().trim();
 
         const info = {
             guilds: (guilds || this.client.guilds.size).toLocaleString(),
@@ -60,6 +63,7 @@ module.exports = class extends Command {
             .addField("Bot Information:",
                 [`**Bot uptime:** ${info.uptime}`,
                 `**RAM usage:** ${info.RAM.usage}MB`,
+                `**Commit:** [${hash.substr(0, 7)}](https://github.com/penfoldium/penfoldbot/commit/${hash})`,
                 `\n**Node.js version:** ${process.version}`,
                 `**Discord.js version:** ${discordVersion}`,
                 `**Klasa framework version:** ${klasaVersion}`]
