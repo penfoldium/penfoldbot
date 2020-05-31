@@ -13,13 +13,6 @@ module.exports = class extends Event {
     }
 
     async run() {
-        const { DBL } = this.client.options.config;
-
-        if (DBL) {
-            new dbl(DBL, this.client)
-            this.client.emit('log', 'Posting stats to DBL...')
-        }
-
         await this.client.user.setActivity(`Danger Mouse | ${this.client.options.prefix}help`, { type: "WATCHING" });
         await this.client.user.setStatus('dnd');
 
@@ -30,6 +23,14 @@ module.exports = class extends Event {
     }
 
     async init() {
+        const { DBL } = this.client.options.config;
+
+        if (DBL) {
+            const dblPoster = new dbl(DBL, this.client)
+            dblPoster.on('error', err => console.err(`Something went wrong while posting stats to top.gg: ${err}`))
+            this.client.emit('log', 'Posting stats to DBL...')
+        }
+
         if (!this.client.options.config.embedHex) {
             this.client.emit('wtf', 'Embed color not provided in the configuration file, falling back to a default one.');
             this.client.options.config.embedHex = '2e7da4';
