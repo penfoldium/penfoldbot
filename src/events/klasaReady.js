@@ -23,7 +23,7 @@ module.exports = class extends Event {
     }
 
     async init() {
-        const { DBL } = this.client.options.config;
+        const { DBL, embedHex } = this.client.options.config;
 
         if (DBL) {
             const dblPoster = new dbl(DBL, this.client)
@@ -31,7 +31,7 @@ module.exports = class extends Event {
             this.client.emit('log', 'Posting stats to DBL...')
         }
 
-        if (!this.client.options.config.embedHex) {
+        if (!embedHex) {
             this.client.emit('wtf', 'Embed color not provided in the configuration file, falling back to a default one.');
             this.client.options.config.embedHex = '2e7da4';
         }
