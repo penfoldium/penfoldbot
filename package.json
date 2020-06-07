@@ -26,6 +26,6 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.1",
-    "zlib-sync": "^0.1.5"
+    "zlib-sync": "^0.1.6"
   }
 }
