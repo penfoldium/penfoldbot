@@ -20,7 +20,7 @@
     "@penfoldium/lyrics-search": "^2.0.3",
     "@vitalets/google-translate-api": "^3.0.0",
     "dblapi.js": "^2.4.0",
-    "discord.js": "github:discordjs/discord.js#fe7df708e44e0280dfaf0f8e457b154781bb5140",
+    "discord.js": "^12.2.0",
     "klasa": "github:dirigeants/klasa#settings",
     "node-fetch": "^2.3.0"
   },
