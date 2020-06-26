@@ -1,19 +1,19 @@
 {
-    "token": "",
-    "prefix": "",
-    "serverInvite": "",
-    "embedHex": "",
-    "youtubeAPI": "",
-    "geniusToken": "",
-    "spotify": {
-        "clientID": "",
-        "clientSecret": ""
-    },
-    "pokole": {
-        "username": "",
-        "password": "",
-        "api": ""
-    },
-    "DBL": "",
-    "owners": []
+  "token": "",
+  "prefix": "",
+  "serverInvite": "",
+  "embedHex": "",
+  "youtubeAPI": "",
+  "geniusToken": "",
+  "spotify": {
+    "clientID": "",
+    "clientSecret": ""
+  },
+  "pokole": {
+    "username": "",
+    "password": "",
+    "api": ""
+  },
+  "DBL": "",
+  "owners": []
 }
