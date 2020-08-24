@@ -9,7 +9,6 @@
 [![Commit activity](https://img.shields.io/github/commit-activity/w/penfoldium/penfoldbot.svg)](https://github.com/penfoldium/penfoldbot/commits/master)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/penfoldium/penfoldbot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/penfoldium/penfoldbot/context:javascript)
 [![Discord](https://img.shields.io/discord/564903050590945310.svg)](https://discord.gg/uaRkbEH)
-[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)]()
 
 ### Self hosting
 Here's what you need to self host Penfold:
