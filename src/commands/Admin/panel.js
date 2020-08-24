@@ -85,7 +85,7 @@ Created: ${new Timestamp('LL').display(g.createdAt)}`
                 const [response] = await this.askText.createPrompt(message, { target: message.author }).run('Do you want to edit the current presence text?');
                 if (response) {
                     const [text] = await this.askPresenceText.createPrompt(message, { target: message.author }).run('Please write the presence text you want to use!');
-                    this.client.user.setPresence({ activity: { name: text }, status })
+                    this.client.user.setPresence({ activity: { name: text }, status });
                     return message.send(':white_check_mark: Done!');
                 } else {
                     this.client.user.setStatus(status);
@@ -106,7 +106,7 @@ Created: ${new Timestamp('LL').display(g.createdAt)}`
             const [guild] = await this.askGuildID.createPrompt(message).run('What server would you like me to leave?');
             if (guild) {
                 await this.client.guilds.get(guild.id).leave();
-                return message.send(`:white_check_mark: Left \`${guild.name}\` successfully.`)
+                return message.send(`:white_check_mark: Left \`${guild.name}\` successfully.`);
             }
         }
     }

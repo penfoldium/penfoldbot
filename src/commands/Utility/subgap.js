@@ -38,11 +38,11 @@ module.exports = class extends Command {
         const identical = "Cor, how are you going to compare a channel to itself?";
         if (channel1.toLowerCase() === channel2.toLowerCase()) throw identical;
 
-        let ch1 = await fetch(name(encodeURI(channel1), youtubeAPI))
+        let ch1 = await fetch(name(encodeURI(channel1), youtubeAPI));
         ch1 = await ch1.json();
         if (ch1.pageInfo.totalResults < 1) return message.send(`Oh, crumbs! I couldn't find any channel for \`${channel1}\`!`);
 
-        let ch2 = await fetch(name(encodeURI(channel2), youtubeAPI))
+        let ch2 = await fetch(name(encodeURI(channel2), youtubeAPI));
         ch2 = await ch2.json();
         if (ch2.pageInfo.totalResults < 1) return message.send(`Oh, crumbs! I couldn't find any channel for \`${channel2}\`!`);
 
