@@ -10,8 +10,8 @@
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/penfoldium/penfoldbot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/penfoldium/penfoldbot/context:javascript)
 [![Discord](https://img.shields.io/discord/564903050590945310.svg)](https://discord.gg/uaRkbEH)
 
-### Self hosting
-Here's what you need to self host Penfold:
+### Self-hosting
+Here's what you need to self-host Penfold:
 - A basic text editor to edit the [configuration](./src/data/config.example.json) file
 - A valid Discord bot token (get one from [here](https://discordapp.com/developers/applications))
 - [Node.js](https://nodejs.org/en) v10 or newer 
