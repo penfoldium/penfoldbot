@@ -22,7 +22,7 @@ module.exports = class extends Task {
         this.client._itemshop = res.data;
         if (this.client.settings.get('fortniteitems') == res.lastUpdate) return;
         await this.client.settings.update('fortniteitems', res.lastUpdate);
-        this.client.users.forEach(async (u) => {
+        this.client.users.cache.forEach(async (u) => {
             if (u.bot) return;
             const settings = u.settings.get('fortniteitems');
             if (!settings.length) return;
