@@ -65,8 +65,8 @@ module.exports = class extends Command {
 
         const embed = new MessageEmbed()
             .setAuthor(`YouTube Subscriber Comparison`, this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
-            .addField(name1, `${Number(subscribers1).toLocaleString()} [🔗](https://www.youtube.com/channel/${ch1.items[0].id.channelId})`, true)
-            .addField(name2, `${Number(subscribers2).toLocaleString()} [🔗](https://www.youtube.com/channel/${ch2.items[0].id.channelId})`, true)
+            .addField(name1, `${Number(subscribers1).toLocaleString()} [\ud83d\udd17](https://www.youtube.com/channel/${ch1.items[0].id.channelId})`, true)
+            .addField(name2, `${Number(subscribers2).toLocaleString()} [\ud83d\udd17](https://www.youtube.com/channel/${ch2.items[0].id.channelId})`, true)
             .addField("Subscriber difference", text)
             .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
             .setColor(this.client.options.config.embedHex)

@@ -23,7 +23,7 @@ module.exports = class extends Command {
             quotedStringSupport: false,
             usage: '<term:...string>',
             usageDelim: ' ',
-            extendedHelp: 'No extended help available.'
+            extendedHelp: 'The `--noinfo` flag will omit the embed that shows additional video info and simply send the video link.'
         });
 
         this.customizeResponse('term', "Chief, you must provide a search term!")
