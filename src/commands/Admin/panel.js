@@ -105,7 +105,7 @@ Created: ${new Timestamp('LL').display(g.createdAt)}`
         else if (choice == 4) {
             const [guild] = await this.askGuildID.createPrompt(message).run('What server would you like me to leave?');
             if (guild) {
-                await this.client.guilds.get(guild.id).leave();
+                await this.client.guilds.cache.get(guild.id).leave();
                 return message.send(`:white_check_mark: Left \`${guild.name}\` successfully.`);
             }
         }

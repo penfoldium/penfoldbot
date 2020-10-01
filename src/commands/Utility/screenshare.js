@@ -30,14 +30,14 @@ module.exports = class extends Command {
         let guildID = message.guild.id;
         let channelID = message.member.voice.channelID;
         if (!channelID) throw "You need to be in a voice channel to use that command, chief!";
-        const channel = await message.guild.channels.get(channelID).fetch();
+        const channel = await message.guild.channels.fetch(channelID);
         let channelName = channel.name;
         const embed = new MessageEmbed()
-        .setAuthor(`Discord Screen Sharing`, this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
-        .setDescription(`[Click here](https://discordapp.com/channels/${guildID}/${channelID}) to enable screen sharing in \`${channelName}\``)
-        .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
-        .setColor(this.client.options.config.embedHex)
-        .setTimestamp();
+            .setAuthor(`Discord Screen Sharing`, this.client.user.displayAvatarURL({ size: 1024, format: 'png' }))
+            .setDescription(`[Click here](https://discordapp.com/channels/${guildID}/${channelID}) to enable screen sharing in \`${channelName}\``)
+            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
+            .setColor(this.client.options.config.embedHex)
+            .setTimestamp();
         return message.send(embed);
     }
 
