@@ -29,5 +29,5 @@ new Client({
     commandEditing: true,
     prefixCaseInsensitive: true,
     permissionLevels: config.permissionLevels,
-    readyMessage: (client) => `Successfully initialized as ${client.user.tag}. Ready to serve ${client.guilds.size} guilds with a total of ${client.users.size} users.`
+    readyMessage: (client) => `Successfully initialized as ${client.user.tag}. Ready to serve ${client.guilds.cache.size} guilds with a total of ${client.users.cache.size} users.`
 }).login(config.token);

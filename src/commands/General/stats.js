@@ -18,7 +18,7 @@ module.exports = class extends Command {
         let [activeUsers, users, guilds, channels, memory] = [0, 0, 0, 0];
 
         if (this.client.shard) {
-            const results = await this.client.shard.broadcastEval(`this.users.size, [this.guilds.reduce((acc, cur) => acc + cur.memberCount, 0), this.guilds.size, this.channels.size, (process.memoryUsage().heapUsed / 1024 / 1024)]`);
+            const results = await this.client.shard.broadcastEval(`[this.users.cache.size, this.guilds.cache.reduce((acc, cur) => acc + cur.memberCount, 0), this.guilds.cache.size, this.channels.cache.size, (process.memoryUsage().heapUsed / 1024 / 1024)]`);
             for (const result of results) {
                 activeUsers += result[0]
                 users += result[1];
@@ -31,10 +31,10 @@ module.exports = class extends Command {
         const hash = execSync('git rev-parse HEAD').toString().trim();
 
         const info = {
-            guilds: (guilds || this.client.guilds.size).toLocaleString(),
-            channels: (channels || this.client.channels.size).toLocaleString(),
-            users: (users || this.client.guilds.reduce((acc, cur) => acc + cur.memberCount, 0)).toLocaleString(),
-            activeUsers: (activeUsers || this.client.users.size).toLocaleString(),
+            guilds: (guilds || this.client.guilds.cache.size).toLocaleString(),
+            channels: (channels || this.client.channels.cache.size).toLocaleString(),
+            users: (users || this.client.guilds.cache.reduce((acc, cur) => acc + cur.memberCount, 0)).toLocaleString(),
+            activeUsers: (activeUsers || this.client.users.cache.size).toLocaleString(),
 
             botUptime: Duration.toNow(Date.now() - this.client.uptime),
             uptime: Duration.toNow(Date.now() - (os.uptime() * 1000)),
