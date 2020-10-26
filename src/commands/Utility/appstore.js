@@ -42,15 +42,13 @@ module.exports = class extends Command {
             1024: res.results[0].artworkUrl512.replace('512x512bb', '1024x1024bb'),
             png: res.results[0].artworkUrl512.replace('512x512bb.jpg', '1024x1024.png')
         },
-            // Keycaps (1-10) are in escaped Unicode, because :shortcodes: don't play well with Discord on Android and unescaped Unicode is probably not so good practice for coding.
+            // Keycaps (1-10) are in escaped Unicode, because :shortcodes: with links don't play well with Discord on Android and unescaped Unicode is probably not so good practice for coding.
             keycaps = ["\u0031\ufe0f\u20e3", "\u0032\ufe0f\u20e3", "\u0033\ufe0f\u20e3", "\u0034\ufe0f\u20e3", "\u0035\ufe0f\u20e3", "\u0036\ufe0f\u20e3", "\u0037\ufe0f\u20e3", "\u0038\ufe0f\u20e3", "\u0039\ufe0f\u20e3", "\ud83d\udd1f"],
             bundle = res.results[0].bundleId,
             price = res.results[0].formattedPrice,
             version = res.results[0].version,
             size = res.results[0].fileSizeBytes,
             appname = res.results[0].trackName,
-            screenshots = res.results[0].screenshotUrls,
-            ipadScreenshots = res.results[0].ipadScreenshotUrls,
             url = res.results[0].trackViewUrl,
             release = res.results[0].releaseDate,
             update = new Timestamp('LL').display(res.results[0].currentVersionReleaseDate),
@@ -66,6 +64,8 @@ module.exports = class extends Command {
             versionratingcount = res.results[0].userRatingCountForCurrentVersion || 0,
             age = res.results[0].trackContentRating;
 
+        let screenshots = res.results[0].screenshotUrls,
+            ipadScreenshots = res.results[0].ipadScreenshotUrls;
 
         const embed = new MessageEmbed()
             .setAuthor("App Store Search", 'https://cdn.penfoldium.org/icons/appstore.png')
@@ -76,7 +76,7 @@ module.exports = class extends Command {
             .setFooter(`Requires iOS ${ios} or later | First released on`)
             .setColor(this.client.options.config.embedHex)
             .setImage(`${screenshots[0]}`)
-            .setThumbnail(`${icons[1024]}`)
+            .setThumbnail(`${icons[512]}`)
             .addField('Version', `${version}`, true)
             .addField('Last update', `${update}`, true)
             .addField('Price', `${price}`, true)
@@ -87,6 +87,9 @@ module.exports = class extends Command {
             .addField(`${res.results[0].genres.length == '1' ? 'Category' : 'Categories'}`, res.results[0].genres.join(", "), true)
             .addField('Age rating', `${age}`, true)
             .addField('Icons', `[60x](${icons[60]}) [100x](${icons[100]}) [512x](${icons[512]}) [1024x](${icons[1024]}) [1024x PNG](${icons['png']})`, true);
+
+            screenshots = screenshots.map(x => x.replace(/.{13}$/g,"3000x0w.png"));
+            ipadScreenshots = ipadScreenshots.map(x => x.replace(/.{13}$/g,"3000x0w.png"));
 
         if (screenshots.length) {
             const screen1 = [], screen2 = [], screen3 = [];
