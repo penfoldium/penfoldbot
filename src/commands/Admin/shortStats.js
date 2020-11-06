@@ -1,6 +1,5 @@
 const { Command, RichDisplay } = require('klasa');
 const { MessageEmbed } = require('discord.js');
-const { inspect } = require('util');
 const fetch = require('node-fetch');
 
 module.exports = class extends Command {
