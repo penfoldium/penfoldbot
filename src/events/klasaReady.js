@@ -1,5 +1,5 @@
 const { Event } = require('klasa');
-const dbl = require('dblapi.js');
+const topGG_sdk = require('@top-gg/sdk');
 
 module.exports = class extends Event {
 
@@ -23,12 +23,25 @@ module.exports = class extends Event {
     }
 
     async init() {
-        const { DBL, embedHex } = this.client.options.config;
+        const { topGG, embedHex } = this.client.options.config;
 
-        if (DBL) {
-            const dblPoster = new dbl(DBL, this.client)
-            dblPoster.on('error', err => console.err(`Something went wrong while posting stats to top.gg: ${err}`))
-            this.client.emit('log', 'Posting stats to DBL...')
+        if (topGG) {
+            const topGGPoster = new topGG_sdk(topGG);
+            topGGPoster.on('error', err => console.err(`Something went wrong while posting stats to top.gg: ${err}`));
+
+            topGGPoster.postStats({
+                serverCount: client.guilds.cache.size,
+                shardId: client.shard ? client.shard.ids[0] : null,
+                shardCount: client.options.shardCount
+            });
+
+            setInterval(() => {
+                topGGPoster.postStats({
+                    serverCount: client.guilds.cache.size,
+                    shardId: client.shard ? client.shard.ids[0] : null,
+                    shardCount: client.options.shardCount
+                });
+            }, 1800000);
         }
 
         if (!embedHex) {

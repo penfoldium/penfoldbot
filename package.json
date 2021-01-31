@@ -18,11 +18,13 @@
   "homepage": "https://github.com/penfoldium/penfoldbot#readme",
   "dependencies": {
     "@penfoldium/lyrics-search": "^2.0.3",
+    "@top-gg/sdk": "^3.0.6",
     "@vitalets/google-translate-api": "^4.0.0",
-    "dblapi.js": "^2.4.1",
+    "bufferutil": "^4.0.1",
     "discord.js": "^12.5.1",
     "klasa": "^0.5.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "zlib-sync": "^0.1.7"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.1",
