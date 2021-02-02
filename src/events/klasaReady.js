@@ -30,16 +30,16 @@ module.exports = class extends Event {
             topGGPoster.on('error', err => console.err(`Something went wrong while posting stats to top.gg: ${err}`));
 
             topGGPoster.postStats({
-                serverCount: client.guilds.cache.size,
-                shardId: client.shard ? client.shard.ids[0] : null,
-                shardCount: client.options.shardCount
+                serverCount: this.client.guilds.cache.size,
+                shardId: this.client.shard ? client.shard.ids[0] : null,
+                shardCount: this.client.options.shardCount
             });
 
             setInterval(() => {
                 topGGPoster.postStats({
-                    serverCount: client.guilds.cache.size,
-                    shardId: client.shard ? client.shard.ids[0] : null,
-                    shardCount: client.options.shardCount
+                    serverCount: this.client.guilds.cache.size,
+                    shardId: this.client.shard ? client.shard.ids[0] : null,
+                    shardCount: this.client.options.shardCount
                 });
             }, 1800000);
         }
