@@ -1,5 +1,5 @@
 const { Event } = require('klasa');
-const topGG_sdk = require('@top-gg/sdk');
+const { Api: topGG_API } = require('@top-gg/sdk');
 
 module.exports = class extends Event {
 
@@ -26,7 +26,7 @@ module.exports = class extends Event {
         const { topGG, embedHex } = this.client.options.config;
 
         if (topGG) {
-            const topGGPoster = new topGG_sdk(topGG);
+            const topGGPoster = new topGG_API(topGG);
             topGGPoster.on('error', err => console.err(`Something went wrong while posting stats to top.gg: ${err}`));
 
             topGGPoster.postStats({
