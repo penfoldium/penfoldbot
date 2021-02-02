@@ -27,7 +27,7 @@ module.exports = class extends Event {
 
         if (topGG) {
             const topGGPoster = new topGG_API(topGG);
-            topGGPoster.on('error', err => console.err(`Something went wrong while posting stats to top.gg: ${err}`));
+            topGGPoster.on('error', err => console.error(`Something went wrong while posting stats to top.gg: ${err}`));
 
             topGGPoster.postStats({
                 serverCount: this.client.guilds.cache.size,
