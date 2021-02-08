@@ -18,9 +18,9 @@
   "homepage": "https://github.com/penfoldium/penfoldbot#readme",
   "dependencies": {
     "@penfoldium/lyrics-search": "^2.0.3",
-    "@top-gg/sdk": "^3.0.6",
+    "@top-gg/sdk": "^3.0.7",
     "@vitalets/google-translate-api": "^4.0.0",
-    "bufferutil": "^4.0.1",
+    "bufferutil": "^4.0.3",
     "discord.js": "^12.5.1",
     "klasa": "^0.5.0",
     "node-fetch": "^2.6.1",
