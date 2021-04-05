@@ -21,7 +21,7 @@
     "@top-gg/sdk": "^3.0.9",
     "@vitalets/google-translate-api": "^4.0.0",
     "bufferutil": "^4.0.3",
-    "discord.js": "^12.5.1",
+    "discord.js": "^12.5.3",
     "klasa": "^0.5.0",
     "node-fetch": "^2.6.1",
     "zlib-sync": "^0.1.7"
