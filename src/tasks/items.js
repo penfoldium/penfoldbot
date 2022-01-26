@@ -16,7 +16,7 @@ module.exports = class extends Task {
     }
 
     async check() {
-        let res = await fetch('https://fortnite-public-api.theapinetwork.com/store/get');
+        let res = await fetch('https://fortnite-api.theapinetwork.com/store/get');
         if (res.status !== 200) throw "The Fortnite items API is down or unreachable.";
         res = await res.json();
         this.client._itemshop = res.data;
