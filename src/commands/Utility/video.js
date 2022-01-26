@@ -47,7 +47,15 @@ module.exports = class extends Command {
         if (!('noinfo' in message.flagArgs)) {
             const views = Number(info.items[0].statistics.viewCount);
             const likes = Number(info.items[0].statistics.likeCount);
-            const dislikes = Number(info.items[0].statistics.dislikeCount);
+
+            let ryd;
+            let dislikes;
+            if (!isNaN(likes)) {
+                ryd = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${res.items[0].id.videoId}`)
+                ryd = await ryd.json();
+                dislikes = Number(ryd.dislikes);
+            }
+
             const comments = Number(info.items[0].statistics.commentCount);
             const uploadDate = new Date(info.items[0].snippet.publishedAt);
             const likeRatio = (likes * 100) / (likes + dislikes);
@@ -55,14 +63,14 @@ module.exports = class extends Command {
 
             const embed = new MessageEmbed()
                 .setAuthor(`Additional info`)
-                .setDescription(`(Tip: You can add \`--noinfo\` at the end of your message to omit this section)`)
+                .setDescription(`(Tip: You can add \`--noinfo\` at the end of your message to omit this section)${(!isNaN(likes)) ? "\n\nDislike count is approximate. Powered by https://returnyoutubedislike.com" : ""}`)
                 .addField('Views', views.toLocaleString(), true)
                 .setFooter(`Requested by ${message.author.tag} | Uploaded on`, message.author.displayAvatarURL({ size: 1024, format: 'png', dynamic: true }))
                 .setColor(this.client.options.config.embedHex)
                 .setTimestamp(uploadDate);
 
             (!isNaN(likes)) ? embed.addField('Likes', likes.toLocaleString(), true) : embed.addField('Ratings', 'Disabled', true);
-            (!isNaN(dislikes)) ? embed.addField('Dislikes', dislikes.toLocaleString(), true) : null;
+            (dislikes) ? embed.addField('Dislikes', dislikes.toLocaleString(), true) : null;
             (!isNaN(comments)) ? embed.addField('Comments', comments.toLocaleString(), true) : embed.addField('Comments', 'Disabled', true);
             (!isNaN(likes)) ? embed.addField('Like ratio', `${(dislikes) ? likeRatio.toFixed(2) + '%' : 'Infinity'}`, true) : null;
 
