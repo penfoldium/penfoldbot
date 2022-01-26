@@ -26,7 +26,7 @@ module.exports = class extends Command {
             extendedHelp: 'No extended help available.'
         });
 
-        this.customizeResponse('question', `You're supposed to ask it a question, chief!\n(End with a question mark!)`)
+        this.customizeResponse('question', `You're supposed to ask it a question, chief! (End with a question mark!)`)
     }
 
     async run(message) {
