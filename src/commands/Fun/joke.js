@@ -28,7 +28,7 @@ module.exports = class extends Command {
     }
 
     async run(message) {
-        let joke = await fetch(`https://official-joke-api.appspot.com/jokes/random`);
+        let joke = await fetch(`https://joke.deno.dev`);
         joke = await joke.json();
 
         const embed = new MessageEmbed()
