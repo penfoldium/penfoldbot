@@ -19,7 +19,7 @@ module.exports = class extends Monitor {
 
     this.mainRegex = /(?<!\[)\[\[[\w\s`~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\{\}\\\|\;\:\'\"\,\<\.\>\/\?]+\]\](?!\])/g;
     this.secondRegex = /\[\[\s[\w`~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\{\}\\\|\;\:\'\"\,\<\.\>\/\?]+\s\]\]/g;
-    this.tweaksearchURL = pkg => `https://code.xninja.xyz/debian/?query=${pkg}`; // API by @arx8x on GitHub <3
+    this.tweaksearchURL = pkg => `https://code.arx8x.net/debian/?query=${pkg}`; // API by @arx8x on GitHub <3
   }
 
   formatBytes(a, b) { if (0 == a) return "0 B"; var c = 1024, d = b || 2, e = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], f = Math.floor(Math.log(a) / Math.log(c)); return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f] }
