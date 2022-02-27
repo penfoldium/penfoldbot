@@ -26,7 +26,7 @@ module.exports = class extends Command {
             extendedHelp: 'No extended help available.'
         });
 
-        this.customizeResponse('channel1', "Chief, you need to enter two channel names or IDs, separated by two vertical bars! Here\'s an example: `subgap PewDiePie || T-Series`")
+        this.customizeResponse('channel1', "Chief, you need to enter two channel names or IDs, separated by two vertical bars! Here\'s an example: `subgap YoshiFan || RapLayer`")
         this.customizeResponse('channel2', "You can\'t expect me to compare two channels if you only give me one, chief.")
     }
 
