@@ -47,7 +47,7 @@ module.exports = class extends Command {
         const subscribers = stats1.items[0].statistics.subscriberCount;
         const views = stats1.items[0].statistics.viewCount;
         const videos = stats1.items[0].statistics.videoCount;
-        const banner = stats1.items[0].brandingSettings.image.bannerExternalUrl;
+        const banner = stats1.items[0].brandingSettings.image ? stats1.items[0].brandingSettings.image.bannerExternalUrl : null;
         const profpic = ch.items[0].snippet.thumbnails.medium.url;
         const description = ch.items[0].snippet.description;
         const fullbanner = banner ? banner + "=s0" : null;
