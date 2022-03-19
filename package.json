@@ -2,9 +2,9 @@
   "name": "penfold-discord-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "src/bot.js",
+  "main": "src/bot.cjs",
   "scripts": {
-    "start": "node src/bot"
+    "start": "node src/bot.cjs"
   },
   "repository": {
     "type": "git",
