@@ -59,7 +59,7 @@ module.exports = class extends Monitor {
         const repoName = res[0].source.name;
         const repoPackageURL = `${repoURL}&package=${pkg}`;
         const downloadURL = `${repo}/${res[0].filename}`;
-        const relevancy = res[0].search_score.toFixed(2);
+        const relevancy = parseFloat(res[0].search_score.toFixed(2));
 
         const embed = new MessageEmbed()
           .setTitle(`${name} (\`${pkg}\`)`)
