@@ -39,6 +39,7 @@ module.exports = class extends Command {
             60: res.results[0].artworkUrl60,
             100: res.results[0].artworkUrl100,
             512: res.results[0].artworkUrl512,
+            // 1024 is now unused because something changed in the API, URLs are longer and the field goes a *little* over 1024 characters. Wonderful.
             1024: res.results[0].artworkUrl512.replace('512x512bb', '1024x1024bb'),
             png: res.results[0].artworkUrl512.replace('512x512bb.jpg', '1024x1024.png')
         },
@@ -86,7 +87,7 @@ module.exports = class extends Command {
             // The API no longer returns "All Versions" ratings despite them actually showing up on older iOS versions (Tested on iPhone 4, iOS 7.1.2)
             .addField(`${res.results[0].genres.length == '1' ? 'Category' : 'Categories'}`, res.results[0].genres.join(", "), true)
             .addField('Age rating', `${age}`, true)
-            .addField('Icons', `[60x](${icons[60]}) [100x](${icons[100]}) [512x](${icons[512]}) [1024x](${icons[1024]}) [1024x PNG](${icons['png']})`, true);
+            .addField('Icons', `[60x](${icons[60]}) [100x](${icons[100]}) [512x](${icons[512]}) [1024x PNG](${icons['png']})`, true);
 
             screenshots = screenshots.map(x => x.replace(/.{13}$/g,"3000x0w.png"));
             ipadScreenshots = ipadScreenshots.map(x => x.replace(/.{13}$/g,"3000x0w.png"));
