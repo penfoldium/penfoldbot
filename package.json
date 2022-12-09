@@ -1,0 +1,27 @@
+{
+  "name": "penfoldbot",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Your faithful personal assistant on Discord!",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/bot.js",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/penfoldium/penfoldbot.git"
+  },
+  "author": "Penfoldium",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/penfoldium/penfoldbot/issues"
+  },
+  "homepage": "https://github.com/penfoldium/penfoldbot#readme",
+  "devDependencies": {
+    "eslint": "^8.29.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "2.8.1"
+  }
+}
