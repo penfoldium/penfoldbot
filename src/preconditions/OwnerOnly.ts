@@ -10,8 +10,8 @@ export class OwnerOnlyPrecondition extends Precondition {
 
     await interaction.client.application.fetch();
 
-    // If the application owner is a user, then create an array that contains the tag of said user
-    // Otherwise, create an array containing the tag of all the owners
+    // If the application owner is a user, then create an array that contains the id of said user
+    // Otherwise, create an array containing the ids of all the owners
     const owners =
       interaction.client.application.owner instanceof User
         ? [interaction.client.application.owner.tag]
