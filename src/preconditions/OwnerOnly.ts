@@ -14,7 +14,7 @@ export class OwnerOnlyPrecondition extends Precondition {
     // Otherwise, create an array containing the ids of all the owners
     const owners =
       interaction.client.application.owner instanceof User
-        ? [interaction.client.application.owner.tag]
+        ? [interaction.client.application.owner.id]
         : Array.from(
             interaction.client.application.owner?.members.values() ?? []
           ).map((member) => member.user.id);
