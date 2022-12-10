@@ -1,24 +1,15 @@
-const { Command } = require("@sapphire/framework");
-const { Stopwatch } = require("@sapphire/stopwatch");
-const { inspect } = require("util");
+import { ApplyOptions } from "@sapphire/decorators";
+import { Command } from "@sapphire/framework";
+import { Stopwatch } from "@sapphire/stopwatch";
+import { inspect } from "util";
 
-class EvalCommand extends Command {
-  /**
-   * @param {Command.Context} context
-   */
-  constructor(context) {
-    super(context, {
-      name: "eval",
-      description: "Evaluate a JavaScript expression",
-      cooldownDelay: 0,
-      preconditions: ["ownerOnly"],
-    });
-  }
-
-  /**
-   * @param {Command.Registry} registry
-   */
-  registerApplicationCommands(registry) {
+@ApplyOptions<Command.Options>({
+  description: "Evaluate a JavaScript expression",
+  cooldownDelay: 0,
+  preconditions: ["OwnerOnly"],
+})
+export class EvalCommand extends Command {
+  public override registerApplicationCommands(registry: Command.Registry) {
     registry.registerChatInputCommand(
       (builder) =>
         builder //
@@ -53,25 +44,25 @@ class EvalCommand extends Command {
     );
   }
 
-  /**
-   * @param {Command.ChatInputInteraction} interaction
-   */
-  async chatInputRun(interaction) {
+  public override async chatInputRun(
+    interaction: Command.ChatInputInteraction
+  ) {
     await interaction.deferReply({ ephemeral: true });
     const stopwatch = new Stopwatch();
 
-    const toEval = interaction.options.getString("expression");
-    let evaled;
+    const toEval = interaction.options.getString("expression")!;
+    let evaled: string;
     try {
       if (interaction.options.getBoolean("async")) {
         evaled = await eval(`(async () => {${toEval}})()`);
       } else evaled = eval(toEval);
     } catch (err) {
       stopwatch.stop();
-      return interaction.editReply(
-        `Error: ${err}\nTook: ${stopwatch.toString()}`
-      );
+      return interaction.editReply({
+        content: `Error: ${err}\nTook: ${stopwatch.toString()}`,
+      });
     }
+
     stopwatch.stop();
 
     if (interaction.options.getBoolean("inspect")) {
@@ -80,23 +71,21 @@ class EvalCommand extends Command {
 
     evaled = String(evaled);
 
-    if (!evaled.length)
+    if (!evaled.length) {
       return interaction.editReply(
         `The eval didn't return any value!\nTook: ${stopwatch.toString()}`
       );
+    }
 
-    if (evaled.length >= 1940)
+    if (evaled.length >= 1940) {
       return interaction.editReply({
         content: `Output too long... attached the output in a file!\nTook: ${stopwatch.toString()}`,
         files: [{ name: "output.txt", attachment: Buffer.from(evaled) }],
       });
+    }
 
-    return interaction.editReply(
-      `\`\`\`js\n${evaled}\`\`\`\nTook: ${stopwatch.toString()}`
-    );
+    return interaction.editReply({
+      content: `\`\`\`js\n${evaled}\`\`\`\nTook: ${stopwatch.toString()}`,
+    });
   }
 }
-
-module.exports = {
-  EvalCommand,
-};

@@ -1,20 +1,11 @@
-const { Command } = require("@sapphire/framework");
+import { ApplyOptions } from "@sapphire/decorators";
+import { Command } from "@sapphire/framework";
 
-class ServerCommand extends Command {
-  /**
-   * @param {Command.Context} context
-   */
-  constructor(context) {
-    super(context, {
-      name: "server",
-      description: "Join the bot's official Discord server",
-    });
-  }
-
-  /**
-   * @param {Command.Registry} registry
-   */
-  registerApplicationCommands(registry) {
+@ApplyOptions<Command.Options>({
+  description: "Returns a link to the bot's official Discord server",
+})
+export class ServerCommand extends Command {
+  public override registerApplicationCommands(registry: Command.Registry) {
     registry.registerChatInputCommand(
       (builder) =>
         builder //
@@ -29,11 +20,11 @@ class ServerCommand extends Command {
     );
   }
 
-  /**
-   * @param {Command.ChatInputInteraction} interaction
-   */
-  async chatInputRun(interaction) {
+  public override async chatInputRun(
+    interaction: Command.ChatInputInteraction
+  ) {
     const { serverInvite } = interaction.client.options.config;
+
     return await interaction.reply({
       content: serverInvite
         ? `Here's an invite to my official Discord server! https://discord.gg/${serverInvite}`
@@ -43,7 +34,3 @@ class ServerCommand extends Command {
     });
   }
 }
-
-module.exports = {
-  ServerCommand,
-};
