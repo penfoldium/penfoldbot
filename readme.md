@@ -29,13 +29,10 @@ These offer additional features, but the bot can run without them:
 ### Setup guide
 
 - Edit the `config.example.json` file in `/src/data/` and rename it to `config.json`
-- Install the required npm packages using `npm install`
-- Run the bot by doing one of the following:
-  - `node bot` (in the src folder)
-  - `node src/bot` (in the git folder)
-  - `npm start` (in the git folder)
+- Install the required npm packages using `yarn` (if the command doesn't work, run `corepack enable` to enable yarn)
+- Run the bot by running `yarn start`
 
-_If you want to run the bot in a process manager, we recommend using **[pm2](https://pm2.keymetrics.io)**!_
+_If you want to run the bot in a process manager, we recommend using **[pm2](https://pm2.keymetrics.io)**! Build the bot using `yarn build` and run the `index.js` file located inside the `dist` folder._
 
 #### And don't forget:
 

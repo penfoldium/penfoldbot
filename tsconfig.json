@@ -1,0 +1,10 @@
+{
+    "extends": "@tsconfig/node18/tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "dist",
+        "lib": ["DOM", "ESNext"],
+        "resolveJsonModule": true,
+        "experimentalDecorators": true
+    }
+}

@@ -1,18 +1,13 @@
-const { Command } = require("@sapphire/framework");
-const { isMessageInstance } = require("@sapphire/discord.js-utilities");
+import { ApplyOptions } from "@sapphire/decorators";
+import { isMessageInstance } from "@sapphire/discord.js-utilities";
+import { Command } from "@sapphire/framework";
+import type { Message } from "discord.js";
 
-class PingCommand extends Command {
-  constructor(context) {
-    super(context, {
-      name: "ping",
-      description: "Ping bot to see if it is alive",
-    });
-  }
-
-  /**
-   * @param {Command.Registry} registry
-   */
-  registerApplicationCommands(registry) {
+@ApplyOptions<Command.Options>({
+  description: "Ping bot to see if it is alive",
+})
+export class PingCommand extends Command {
+  public override registerApplicationCommands(registry: Command.Registry) {
     registry.registerChatInputCommand(
       (builder) =>
         builder //
@@ -29,27 +24,24 @@ class PingCommand extends Command {
     );
   }
 
-  /**
-   * @param {Command.ChatInputInteraction} interaction
-   */
-  async chatInputRun(interaction) {
+  public override async chatInputRun(
+    interaction: Command.ChatInputInteraction
+  ) {
     const msg = await interaction.reply({
       content: "Ping?",
       ephemeral: true,
       fetchReply: true,
     });
 
-    if (!isMessageInstance(msg))
+    if (!isMessageInstance(msg)) {
       return interaction.editReply("Failed to retrieve ping :(");
+    }
 
-    const diff = msg.createdTimestamp - interaction.createdTimestamp;
+    const diff =
+      (msg as Message).createdTimestamp - interaction.createdTimestamp;
     const ping = Math.round(this.container.client.ws.ping);
     return interaction.editReply(
       `Pong, chief! [Roundtrip: ${diff}ms. | Heartbeat: ${ping}ms.]`
     );
   }
 }
-
-module.exports = {
-  PingCommand,
-};

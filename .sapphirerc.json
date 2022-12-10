@@ -1,5 +1,5 @@
 {
-  "projectLanguage": "js",
+  "projectLanguage": "ts",
   "locations": {
     "base": "src",
     "arguments": "arguments",

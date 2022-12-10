@@ -15,11 +15,29 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: npm
+          cache: yarn
       - name: Install Dependencies
-        run: npm ci
+        run: yarn --immutable
       - name: Run ESLint
-        run: npm run lint
+        run: yarn lint
+
+  Build:
+    name: Compile source code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3
+      - name: Use Node.js v18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+      - name: Copy config.example.json to config.json
+        run: cp src/data/config.example.json src/data/config.json
+      - name: Install Dependencies
+        run: yarn --immutable
+      - name: Run tsc
+        run: yarn build
 
   CodeQL:
     name: Codequality
