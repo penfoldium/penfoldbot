@@ -1,6 +1,7 @@
 import { ApplyOptions } from "@sapphire/decorators";
 import { isMessageInstance } from "@sapphire/discord.js-utilities";
 import { Command } from "@sapphire/framework";
+import type { Message } from "discord.js";
 
 @ApplyOptions<Command.Options>({
   description: "Ping bot to see if it is alive",
@@ -36,7 +37,8 @@ export class PingCommand extends Command {
       return interaction.editReply("Failed to retrieve ping :(");
     }
 
-    const diff = msg.createdTimestamp - interaction.createdTimestamp;
+    const diff =
+      (msg as Message).createdTimestamp - interaction.createdTimestamp;
     const ping = Math.round(this.container.client.ws.ping);
     return interaction.editReply(
       `Pong, chief! [Roundtrip: ${diff}ms. | Heartbeat: ${ping}ms.]`

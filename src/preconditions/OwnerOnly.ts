@@ -16,7 +16,7 @@ export class OwnerOnlyPrecondition extends Precondition {
       interaction.client.application.owner instanceof User
         ? [interaction.client.application.owner.tag]
         : Array.from(
-            interaction.client.application.owner!.members.values()
+            interaction.client.application.owner?.members.values() ?? []
           ).map((member) => member.user.tag);
 
     if (owners.includes(interaction.user.tag)) {

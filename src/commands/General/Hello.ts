@@ -26,18 +26,20 @@ export class HelloCommand extends Command {
   public override async chatInputRun(
     interaction: Command.ChatInputInteraction
   ) {
-    await interaction.client.application!.fetch();
+    await interaction.client.application?.fetch();
     const owners =
-      interaction.client.application!.owner instanceof User
-        ? interaction.client.application!.owner.tag
-        : Array.from(interaction.client.application!.owner!.members.values())
+      interaction.client.application?.owner instanceof User
+        ? interaction.client.application?.owner.tag
+        : Array.from(
+            interaction.client.application?.owner?.members.values() ?? []
+          )
             .map((member) => member.user.tag)
             .join("` & `");
 
     const embed = new MessageEmbed()
       .setAuthor({
         name: "About me",
-        iconURL: interaction.client.user!.displayAvatarURL({
+        iconURL: interaction.client.user?.displayAvatarURL({
           size: 1024,
           format: "png",
         }),

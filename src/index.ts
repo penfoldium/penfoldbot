@@ -1,6 +1,5 @@
 import { BucketScope, SapphireClient } from "@sapphire/framework";
 import "@sapphire/plugin-subcommands/register";
-import { ColorResolvable } from "discord.js";
 import * as configJson from "./data/config.json";
 
 // We use Object.assign to be able to re-assign properties

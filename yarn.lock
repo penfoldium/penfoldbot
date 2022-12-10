@@ -624,7 +624,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:^0.33.5":
+"discord-api-types@npm:0.33, discord-api-types@npm:^0.33.5":
   version: 0.33.5
   resolution: "discord-api-types@npm:0.33.5"
   checksum: 6dcaad640c5693a69c9a4f5e444e739dde11ba835164ae6fd3dd5a1ab7b4d7f96cd022ed653eeaff2c8051ead0d998a5d502a2915cfacdde596364b82d9e3b3f
@@ -1346,6 +1346,7 @@ __metadata:
   resolution: "penfoldbot@workspace:."
   dependencies:
     "@sapphire/decorators": ^5.0.0
+    "@sapphire/discord.js-utilities": ^5.1.2
     "@sapphire/framework": ^3.1.4
     "@sapphire/plugin-subcommands": ^3.2.3
     "@sapphire/time-utilities": ^1.7.8
@@ -1353,6 +1354,7 @@ __metadata:
     "@tsconfig/node18": ^1.0.1
     "@typescript-eslint/eslint-plugin": ^5.46.0
     "@typescript-eslint/parser": ^5.46.0
+    discord-api-types: 0.33
     discord.js: ^13.12.0
     eslint: ^8.29.0
     eslint-config-prettier: ^8.5.0

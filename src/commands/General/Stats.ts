@@ -62,7 +62,7 @@ export class UserCommand extends Command {
       .setColor(interaction.client.options.config.embedHex as ColorResolvable)
       .setAuthor({
         name: "System Information",
-        iconURL: interaction.client.user!.displayAvatarURL({
+        iconURL: interaction.client.user?.displayAvatarURL({
           size: 128,
           format: "png",
           dynamic: true,
@@ -100,7 +100,7 @@ export class UserCommand extends Command {
           name: "Bot Information:",
           value: [
             `**Bot uptime:** ${durationFormat.format(
-              interaction.client.uptime!
+              interaction.client.uptime ?? 0
             )}`,
             `**RAM usage:** ${(
               memory || process.memoryUsage().heapUsed / 1024 / 1024

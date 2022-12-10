@@ -50,7 +50,7 @@ export class EvalCommand extends Command {
     await interaction.deferReply({ ephemeral: true });
     const stopwatch = new Stopwatch();
 
-    const toEval = interaction.options.getString("expression")!;
+    const toEval = interaction.options.getString("expression") ?? "";
     let evaled: string;
     try {
       if (interaction.options.getBoolean("async")) {
