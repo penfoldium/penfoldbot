@@ -34,7 +34,7 @@ jobs:
           cache: yarn
       - name: Install Dependencies
         run: yarn --immutable
-      - name: Run ESLint
+      - name: Run tsc
         run: yarn build
 
   CodeQL:

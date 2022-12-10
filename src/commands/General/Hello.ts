@@ -3,7 +3,7 @@ import { Command } from "@sapphire/framework";
 import { ColorResolvable, MessageEmbed, User } from "discord.js";
 
 @ApplyOptions<Command.Options>({
-  description: 'Provides some information about this bot.",',
+  description: "Provides some information about this bot.",
 })
 export class HelloCommand extends Command {
   public override registerApplicationCommands(registry: Command.Registry) {
