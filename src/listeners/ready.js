@@ -13,7 +13,7 @@ class ReadyListener extends Listener {
 
     if (!embedHex) {
       this.container.client.emit(
-        "wtf",
+        "warn",
         "Embed color not provided in the configuration file, falling back to a default one."
       );
       this.container.client.options.config.embedHex = "2e7da4";
