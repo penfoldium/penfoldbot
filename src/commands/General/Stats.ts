@@ -10,8 +10,7 @@ import {
 import os from "os";
 
 @ApplyOptions<Command.Options>({
-  // TODO(Seb): add proper description
-  description: "Information about the bot and server it's running on",
+  description: "Get system information about the bot and the server it's hosted on",
 })
 export class UserCommand extends Command {
   public override registerApplicationCommands(registry: Command.Registry) {

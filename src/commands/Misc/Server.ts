@@ -28,8 +28,7 @@ export class ServerCommand extends Command {
     return await interaction.reply({
       content: serverInvite
         ? `Here's an invite to my official Discord server! https://discord.gg/${serverInvite}`
-        : // TODO(Seb): Modify this line?
-          "Unfortunately, I don't have a support server configured. Perhaps contact the owners about this?",
+        : "Sorry, but I don't have a support server configured. You should contact the bot owner(s) about this.",
       ephemeral: true,
     });
   }
