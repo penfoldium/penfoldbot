@@ -671,6 +671,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-prettier@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "eslint-config-prettier@npm:8.5.0"
+  peerDependencies:
+    eslint: ">=7.0.0"
+  bin:
+    eslint-config-prettier: bin/cli.js
+  checksum: 0d0f5c32e7a0ad91249467ce71ca92394ccd343178277d318baf32063b79ea90216f4c81d1065d60f96366fdc60f151d4d68ae7811a58bd37228b84c2083f893
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-prettier@npm:^4.2.1":
   version: 4.2.1
   resolution: "eslint-plugin-prettier@npm:4.2.1"
@@ -1344,6 +1355,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.46.0
     discord.js: ^13.12.0
     eslint: ^8.29.0
+    eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
     prettier: 2.8.1
     typescript: ^4.9.4
