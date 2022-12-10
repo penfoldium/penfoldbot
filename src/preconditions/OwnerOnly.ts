@@ -17,9 +17,9 @@ export class OwnerOnlyPrecondition extends Precondition {
         ? [interaction.client.application.owner.tag]
         : Array.from(
             interaction.client.application.owner?.members.values() ?? []
-          ).map((member) => member.user.tag);
+          ).map((member) => member.user.id);
 
-    if (owners.includes(interaction.user.tag)) {
+    if (owners.includes(interaction.user.id)) {
       return this.ok();
     } else {
       return this.error({ message: "Only bot owners can use this command." });
