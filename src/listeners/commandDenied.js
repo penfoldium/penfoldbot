@@ -1,10 +1,4 @@
-const {
-  Listener,
-  // eslint-disable-next-line no-unused-vars
-  ChatInputCommandDeniedPayload,
-  // eslint-disable-next-line no-unused-vars
-  UserError,
-} = require("@sapphire/framework");
+const { Listener } = require("@sapphire/framework");
 const { DurationFormatter } = require("@sapphire/time-utilities");
 
 class CommmandDeniedEvent extends Listener {
@@ -18,8 +12,8 @@ class CommmandDeniedEvent extends Listener {
   }
 
   /**
-   * @param {UserError} error
-   * @param {ChatInputCommandDeniedPayload} context
+   * @param {import('@sapphire/framework').UserError} error
+   * @param {import('@sapphire/framework').ChatInputCommandDeniedPayload} context
    */
   run(error, context) {
     if (error.identifier == "preconditionCooldown") {
