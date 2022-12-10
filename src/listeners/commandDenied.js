@@ -16,14 +16,16 @@ class CommmandDeniedEvent extends Listener {
    * @param {import('@sapphire/framework').ChatInputCommandDeniedPayload} context
    */
   run(error, context) {
+    let content = error.message;
     if (error.identifier == "preconditionCooldown") {
-      return context.interaction.reply({
-        content: `There is a cooldown in effect for this command. You can use it again in ${new DurationFormatter().format(
-          error.context.remaining
-        )}.`,
-        ephemeral: true,
-      });
+      content = `There is a cooldown in effect for this command. You can use it again in ${new DurationFormatter().format(
+        error.context.remaining
+      )}.`;
     }
+    return context.interaction.reply({
+      content,
+      ephemeral: true,
+    });
   }
 }
 
