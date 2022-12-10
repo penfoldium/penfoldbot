@@ -32,6 +32,8 @@ jobs:
         with:
           node-version: 18
           cache: yarn
+      - name: Copy config.example.json to config.json
+        run: cp src/data/config.example.json src/data/config.json
       - name: Install Dependencies
         run: yarn --immutable
       - name: Run tsc
