@@ -8,5 +8,8 @@
       "plugins": [
         "@typescript-eslint"
       ],
+      "rules": {
+        "@typescript-eslint/no-non-null-assertion": 0
+      },
       "root": true
 }

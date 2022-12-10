@@ -47,7 +47,7 @@ export class HelloCommand extends Command {
 ❯ Hello, chief! I am **Penfold**, Danger Mouse's loyal sidekick, and your faithful personal assistant on Discord! Nice to meet you! :hamster: :heart:
 ❯ I can help you with reminders and various utilities.
 ❯ If you want to see how my code works, you can access it [here](https://github.com/penfoldium/penfoldbot)!
-❯ My creators are [YoshiFan13](https://github.com/YoshiFan13) and [AlexTheMaster](https://github.com/alexthemaster/). I'm currently being mainteined by \`${owners}\` - if you find any issues or have any ideas for new features, don't hesitate to contact them!
+❯ My creators are [YoshiFan13](https://github.com/YoshiFan13) and [AlexTheMaster](https://github.com/alexthemaster/). I'm currently being maintained by \`${owners}\` - if you find any issues or have any ideas for new features, don't hesitate to contact them!
 ❯ Alternatively, you can submit an issue on the Git linked above.
 ❯ You can also find us on the Penfoldbot server - just send \`/server\` for an invite!
 ❯ Cor, I hope we can be good friends! :blush:`
