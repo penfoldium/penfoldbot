@@ -133,11 +133,14 @@ export class ActionCommand extends Subcommand {
     return this.reply(
       interaction,
       (author, user) => {
-        return user.id === interaction.client.user?.id
-          ? `*You're pretty cuddly, ${author}...*` // @bot
-          : user.id === author.id
-          ? `It's no problem if you're alone, ${author} - I love to cuddle with my friends!` // @self
-          : `${author} is cuddling you, ${user}!`; // @user
+        switch (user.id) {
+          case interaction.client.user?.id: // @bot
+            return `*You're pretty cuddly, ${author}...*`;
+          case author.id: // @self
+            return `It's no problem if you're alone, ${author} - I love to cuddle with my friends!`;
+          default:
+            return `${author} is cuddling you, ${user}!`;
+        }
       },
       "cuddle"
     );
@@ -147,11 +150,14 @@ export class ActionCommand extends Subcommand {
     return this.reply(
       interaction,
       (author, user) => {
-        return user.id === interaction.client.user?.id
-          ? `Sure, I'll take that, ${author}! :yum:` // @bot
-          : user.id === author.id
-          ? `Oh, I don't mind sharing my food with you, ${author}!` // @self
-          : `${user}, here's some food from ${author}!`; // @user
+        switch (user.id) {
+          case interaction.client.user?.id: // @bot
+            return `Sure, I'll take that, ${author}! :yum:`;
+          case author.id: // @self
+            return `Oh, I don't mind sharing my food with you, ${author}!`;
+          default:
+            return `${user}, here's some food from ${author}!`;
+        }
       },
       "feed"
     );
@@ -161,11 +167,14 @@ export class ActionCommand extends Subcommand {
     return this.reply(
       interaction,
       (author, user) => {
-        return user.id === interaction.client.user?.id
-          ? `Oh, you're hugging me, ${author}... :heart:` // @bot
-          : user.id === author.id
-          ? `${author}, I see you're lonely, chief... let me give you a hug :heart:` // @self
-          : `${user}, here's a hug from ${author}! :heart:`; // @user
+        switch (user.id) {
+          case interaction.client.user?.id: // @bot
+            return `Oh, you're hugging me, ${author}... :heart:`;
+          case author.id: // @self
+            return `${author}, I see you're lonely, chief... let me give you a hug :heart:`;
+          default:
+            return `${user}, here's a hug from ${author}! :heart:`;
+        }
       },
       "hug"
     );
@@ -175,11 +184,14 @@ export class ActionCommand extends Subcommand {
     return this.reply(
       interaction,
       (author, user) => {
-        return user.id === interaction.client.user?.id
-          ? `\\*blushing\\* *That's so sweet of you, ${author}...*` // @bot
-          : user.id === author.id
-          ? `Nobody around? I guess a friendly kiss from me won't hurt you, ${author}!` // @self
-          : `${user}, here's a kiss from ${author}!`; // @user
+        switch (user.id) {
+          case interaction.client.user?.id: // @bot
+            return `\\*blushing\\* *That's so sweet of you, ${author}...*`;
+          case author.id: // @self
+            return `Nobody around? I guess a friendly kiss from me won't hurt you, ${author}!`;
+          default:
+            return `${user}, here's a kiss from ${author}!`;
+        }
       },
       "kiss"
     );
@@ -189,11 +201,14 @@ export class ActionCommand extends Subcommand {
     return this.reply(
       interaction,
       (author, user) => {
-        return user.id === interaction.client.user?.id
-          ? `*It feels good, ${author}, keep going...*` // @bot
-          : user.id === author.id
-          ? `You're an amazing friend, ${author}, so you deserve it!` // @self
-          : `${user}, here's a pat from ${author}!`; // @user
+        switch (user.id) {
+          case interaction.client.user?.id: // @bot
+            return `*It feels good, ${author}, keep going...*`;
+          case author.id: // @self
+            return `You're an amazing friend, ${author}, so you deserve it!`;
+          default:
+            return `${user}, here's a pat from ${author}!`;
+        }
       },
       "pat"
     );
@@ -203,11 +218,14 @@ export class ActionCommand extends Subcommand {
     return this.reply(
       interaction,
       (author, user) => {
-        return user.id === interaction.client.user?.id
-          ? `Ouch! What have I done to you, ${author}?` // @bot
-          : user.id === author.id
-          ? `Why are you slapping yourself, ${author}?` // @self
-          : `Hey ${user}, you've just been slapped by ${author}`; // @user
+        switch (user.id) {
+          case interaction.client.user?.id: // @bot
+            return `Ouch! What have I done to you, ${author}?`;
+          case author.id: // @self
+            return `Why are you slapping yourself, ${author}?`;
+          default:
+            return `Hey ${user}, you've just been slapped by ${author}`;
+        }
       },
       "slap"
     );
@@ -217,11 +235,14 @@ export class ActionCommand extends Subcommand {
     return this.reply(
       interaction,
       (author, user) => {
-        return user.id === interaction.client.user?.id
-          ? `Hey! Stop tickling me, ${author}!!` // @bot
-          : user.id === author.id
-          ? `${author}, it's tickle time!` // @self
-          : `${user}, ${author} is tickling you!`; // @user
+        switch (user.id) {
+          case interaction.client.user?.id: // @bot
+            return `Hey! Stop tickling me, ${author}!!`; // @bot
+          case author.id: // @self
+            return `${author}, it's tickle time!`;
+          default:
+            return `${user}, ${author} is tickling you!`;
+        }
       },
       "tickle"
     );
