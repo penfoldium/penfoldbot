@@ -19,5 +19,5 @@ export abstract class PenfoldCommand extends PenfoldBase {
 }
 
 export type CommandOptions = BaseOptions & {
-  description: string;
+  description?: string;
 };
