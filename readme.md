@@ -11,8 +11,8 @@
 
 Here's what you need to self-host Penfold:
 
-- A basic text editor to edit the [configuration](./src/data/example.env) file
-- A valid Discord bot token (get one from [here](https://discordapp.com/developers/applications))
+- A basic text editor to edit the [configuration](./example.env) file
+- A valid Discord bot token (get one from [here](https://discord.com/developers/applications))
 - [Node.js](https://nodejs.org/en) LTS or newer
 
 ### Optional stuff
