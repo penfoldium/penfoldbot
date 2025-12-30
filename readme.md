@@ -7,6 +7,8 @@
 [![Commit activity](https://img.shields.io/github/commit-activity/w/penfoldium/penfoldbot.svg)](https://github.com/penfoldium/penfoldbot/commits/master)
 [![Discord](https://img.shields.io/discord/564903050590945310.svg)](https://discord.gg/uaRkbEH)
 
+⌛ Looking for the legacy version of Penfold? Head over to the [legacy branch](https://github.com/penfoldium/penfoldbot/tree/legacy)
+
 ### Self-hosting
 
 Here's what you need to self-host Penfold:
