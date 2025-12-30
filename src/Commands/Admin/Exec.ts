@@ -1,4 +1,5 @@
 import {
+  AttachmentBuilder,
   codeBlock,
   SlashCommandNumberOption,
   SlashCommandStringOption,
@@ -16,7 +17,8 @@ export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
       name: "exec",
-      description: "Execute JS",
+      description:
+        "Execute commands on the system (⚠️ WARNING: USE WITH CAUTION)",
       ownerOnly: true,
     });
 
@@ -52,11 +54,26 @@ export default class extends PenfoldCommand {
       : "";
     const end = performance.now();
 
-    await interaction.editReply({
-      content:
-        ([output, outerr].join("\n") ||
-          "Done. There was no output to stdout or stderr.") +
-        `\nTook: ${ms(Number((end - start).toFixed(2)))} to execute ⌛`,
-    });
+    const attachment =
+      [output, outerr].join("\n").length > 1900
+        ? new AttachmentBuilder(
+            Buffer.from([output, outerr].join("\n"))
+          ).setName("result.txt")
+        : false;
+
+    if (!attachment)
+      await interaction.editReply({
+        content:
+          ([output, outerr].join("\n") ||
+            "Done. There was no output to stdout or stderr.") +
+          `\nTook: ${ms(Number((end - start).toFixed(2)))} to execute ⌛`,
+      });
+    else
+      await interaction.editReply({
+        content:
+          "Result too long, attacked as file instead." +
+          `\nTook: ${ms(Number((end - start).toFixed(2)))} to execute ⌛`,
+        files: [attachment],
+      });
   }
 }
