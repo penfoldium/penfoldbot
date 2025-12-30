@@ -23,7 +23,8 @@
   "scripts": {
     "build": "rm -rf dist && npx tsc",
     "start": "npm run build && node --env-file .env dist/src/Penfold",
-    "start:dev": "npm run build && node --env-file dev.env dist/src/Penfold"
+    "start:dev": "npm run build && node --env-file dev.env dist/src/Penfold",
+    "prisma:init": "npx prisma migrate deploy &&  npx prisma generate"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.2.0",
