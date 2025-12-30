@@ -286,7 +286,7 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**`
       });
 
     await interaction.editReply(
-      `Successfully sneezed reminder with id \`${id}\` to <t:${dayjs(
+      `Successfully snoozed reminder with id \`${id}\` to <t:${dayjs(
         updated?.date
       ).unix()}:F>`
     );
