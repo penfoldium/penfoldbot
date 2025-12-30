@@ -78,7 +78,7 @@ export default class extends PenfoldCommand {
 
     await this.client.db.userSettings
       .update({
-        where: { id: Number(interaction.user.id) },
+        where: { id: BigInt(interaction.user.id) },
         data,
       })
       .catch((err) => {
@@ -99,13 +99,13 @@ Timezone: \`${settings.timezone}\``);
 
   public async ensureUserSettings(id: string) {
     let settings = await this.client.db.userSettings.findUnique({
-      where: { id: Number(id) },
+      where: { id: BigInt(id) },
     });
 
     if (!settings) {
       settings = await this.client.db.userSettings.create({
         data: {
-          id: Number(id),
+          id: BigInt(id),
         },
       });
     }
