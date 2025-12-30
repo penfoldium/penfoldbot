@@ -1,4 +1,5 @@
 import type { ChatInputCommandInteraction } from "discord.js";
+import ms from "ms";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
 
@@ -7,7 +8,7 @@ export default class extends PenfoldCommand {
     super(client, {
       name: "ping",
       description:
-        "Test the time it takes for you to send a message on Discord and when it arrives to Penfold's server",
+        "Test the time it takes between you sending a message and Penfold receiving it",
     });
   }
 
@@ -16,6 +17,6 @@ export default class extends PenfoldCommand {
     const reply = await interaction.fetchReply();
     const time = reply.createdTimestamp - interaction.createdTimestamp;
 
-    await interaction.editReply(`🏓 Pong! Took ${time}ms ⏱️`);
+    await interaction.editReply(`🏓 Pong! Took ${ms(time)} ⏱️`);
   }
 }
