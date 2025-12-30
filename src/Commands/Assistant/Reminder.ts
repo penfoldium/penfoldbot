@@ -104,12 +104,6 @@ export default class extends PenfoldCommand {
     let when;
     if (dayjs(whenInput).isValid()) {
       when = dayjs(whenInput).diff();
-      if (when < 1) {
-        await interaction.editReply(
-          "You can't create a reminder for the past!"
-        );
-        return;
-      }
     } else when = parse(whenInput);
 
     const reminder = interaction.options.getString("reminder", true);
@@ -117,6 +111,11 @@ export default class extends PenfoldCommand {
       await interaction.editReply(
         'Please provide a valid duration. (examples: "in 24 hours", "2h", "two hours" or a date like "2026-06-31")'
       );
+      return;
+    }
+
+    if (when < 1) {
+      await interaction.editReply("You can't create a reminder for the past!");
       return;
     }
 
@@ -257,14 +256,15 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**`
     let snoozeFor;
     if (dayjs(time).isValid()) {
       snoozeFor = dayjs(time).diff();
-      if (snoozeFor < 1) {
-        interaction.editReply("You can't snooze a reminder into the past!");
-        return;
-      }
     } else snoozeFor = parse(time);
 
     if (!snoozeFor) {
       await interaction.editReply("Invalid snooze time provided.");
+      return;
+    }
+
+    if (snoozeFor < 1) {
+      interaction.editReply("You can't snooze a reminder into the past!");
       return;
     }
 
