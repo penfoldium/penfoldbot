@@ -11,7 +11,7 @@ export default class extends PenfoldEvent {
   }
 
   public async run(client: Client<true>) {
-    await this.#populateOwners();
+    await this.#populateOwners(client);
 
     client.user.setActivity(`Danger Mouse`, {
       type: ActivityType.Watching,
@@ -24,19 +24,18 @@ export default class extends PenfoldEvent {
     );
   }
 
-  async #populateOwners() {
-    if (!this.client.application) return;
-
-    const application = await this.client.application.fetch();
+  async #populateOwners(client: Client<true>) {
+    const application = await client.application.fetch();
     const isTeam = Object.hasOwn(application, "members");
-    const owners = [];
 
     if (isTeam) {
       (application.owner as Team).members.forEach((owner) =>
         this.client.owners.push(owner.id)
       );
     } else {
-      owners.push(application.owner?.id);
+      const id = application.owner?.id;
+      if (!id) return;
+      this.client.owners.push(id);
     }
   }
 }
