@@ -1,6 +1,7 @@
 import { Client, Collection, type ClientOptions } from "discord.js";
 import { mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
+import type { PrismaClient } from "../../db/prisma/client.js";
 import type { PenfoldCommand } from "./PenfoldCommand.js";
 import type { PenfoldEvent } from "./PenfoldEvent.js";
 
@@ -14,15 +15,18 @@ class PenfoldClient extends Client {
   tasks: Collection<string, string>;
   /** Whether or not the client is run with the DEV=true env variable */
   dev: boolean;
+  db: PrismaClient;
   debug: (args: any) => void = () => null;
 
-  constructor(options: ClientOptions) {
+  constructor(options: PenfoldClientOptions) {
     super(options);
 
     this.commands = new Collection();
     this.events = new Collection();
     this.tasks = new Collection();
     this.dev = process.env["DEV"]?.toLowerCase() == "true";
+
+    this.db = options.db;
 
     if (process.env["DEBUG"]?.toLowerCase() == "true" || this.dev == true) {
       this.debug = (str: any) => console.debug(`[PenfoldDebug] ${str}`);
@@ -112,3 +116,7 @@ class PenfoldClient extends Client {
 export { PenfoldClient };
 
 export type CollectionType = "commands" | "events";
+
+export type PenfoldClientOptions = ClientOptions & {
+  db: PrismaClient;
+};

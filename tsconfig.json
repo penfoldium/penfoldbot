@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     "baseUrl": "./",
 
@@ -29,6 +29,6 @@
     "skipLibCheck": true,
   },
   
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "db/prisma/**/*"],
   "exclude": ["src/Examples/*"]
 }

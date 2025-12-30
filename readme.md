@@ -29,8 +29,9 @@ These offer additional features, but the bot can run without them:
 - Edit the `example.env` file and rename it to `.env`
 - Install the required npm packages using `npm install`
 - Build the bot using `npm run build`
+- Generate the database and prisma client `DATABASE_URL=file:./db/penfold.sqlite npx prisma migrate deploy && DATABASE_URL=file:./db/penfold.sqlite npx prisma generate` (replace `DATABASE_URL` with whichever path you set in the `.env` file)
 - Run the bot using either commands:
-  - `node --env-file src/data/.env dist/Penfold`
+  - `node --env-file src/data/.env dist/src/Penfold`
   - `npm run start` (assumes that the env file is called `.env` - builds automatically)
 
 _If you want to run the bot in a process manager, we recommend using **[pm2](https://pm2.keymetrics.io)**!_
