@@ -5,6 +5,7 @@ import type { PenfoldCommand } from "./PenfoldCommand.js";
 import type { PenfoldEvent } from "./PenfoldEvent.js";
 
 class PenfoldClient extends Client {
+  owners: string[] = [];
   /** Collection containing all commands and their initialized classes */
   commands: Collection<string, PenfoldCommand>;
   /** Collection containing all events and their initialized classes */

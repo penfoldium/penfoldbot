@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import {
   ChatInputCommandInteraction,
   Events,
-  Team,
   type Interaction,
 } from "discord.js";
 import type { PenfoldCommand } from "src/Classes/PenfoldCommand.js";
@@ -27,7 +26,7 @@ export default class extends PenfoldEvent {
       );
 
     const user = interaction.user.id;
-    const isOwner = await this.#isOwner(interaction);
+    const isOwner = this.client.owners.includes(interaction.user.id);
 
     if (command?.ownerOnly && !isOwner) {
       return interaction.reply("This is an owner only command.");
@@ -42,22 +41,6 @@ export default class extends PenfoldEvent {
     );
 
     if (!cooldown) return command.run(interaction);
-  }
-
-  async #isOwner(interaction: Interaction) {
-    const application = await interaction.client.application.fetch();
-    const isTeam = Object.hasOwn(application, "members");
-    const owners = [];
-
-    if (isTeam) {
-      (application.owner as Team).members.forEach((owner) =>
-        owners.push(owner.id)
-      );
-    } else {
-      owners.push(application.owner?.id);
-    }
-
-    return owners.includes(interaction.user.id);
   }
 
   async #checkCooldown(
