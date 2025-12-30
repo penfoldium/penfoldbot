@@ -15,3 +15,12 @@ model UserSettings {
   timezone    String @default("Etc/UTC")
   dailyDmTime String @default("8AM")
 }
+
+model Reminders {
+  id        Int      @id @unique @default(autoincrement())
+  user_id   BigInt
+  date      DateTime
+  message   String
+  notes     String?
+  triggered Boolean
+}

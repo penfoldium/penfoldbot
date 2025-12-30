@@ -4,6 +4,7 @@ import { join } from "node:path";
 import type { PrismaClient } from "../../db/prisma/client.js";
 import type { PenfoldCommand } from "./PenfoldCommand.js";
 import type { PenfoldEvent } from "./PenfoldEvent.js";
+import type { PenfoldTask } from "./PenfoldTask.js";
 
 class PenfoldClient extends Client {
   owners: string[] = [];
@@ -12,7 +13,7 @@ class PenfoldClient extends Client {
   /** Collection containing all events and their initialized classes */
   events: Collection<string, PenfoldEvent>;
   /** Collection containing all tasks and their initialized classes */
-  tasks: Collection<string, string>;
+  tasks: Collection<string, PenfoldTask>;
   /** Whether or not the client is run with the DEV=true env variable */
   dev: boolean;
   db: PrismaClient;
@@ -37,6 +38,7 @@ class PenfoldClient extends Client {
   async loadAll() {
     await this.loadCommands();
     await this.loadEvents();
+    await this.loadTasks();
     return this;
   }
 
@@ -55,6 +57,15 @@ class PenfoldClient extends Client {
    */
   async loadEvents(dir: string = "events") {
     await this.#loadClasses(dir, "events");
+    return this;
+  }
+
+  /**
+   * Load tasks into memory
+   * @param {string} dir Custom folder for tasks
+   */
+  async loadTasks(dir: string = "tasks") {
+    await this.#loadClasses(dir, "tasks");
     return this;
   }
 
@@ -102,6 +113,9 @@ class PenfoldClient extends Client {
         );
 
       this[collection].set(initClass.name, initClass);
+
+      if (collection == "tasks") (initClass as PenfoldTask).setup();
+      if (collection == "events") (initClass as PenfoldEvent).setup();
     }
 
     const size = this[collection].size;
@@ -115,7 +129,7 @@ class PenfoldClient extends Client {
 
 export { PenfoldClient };
 
-export type CollectionType = "commands" | "events";
+export type CollectionType = "commands" | "events" | "tasks";
 
 export type PenfoldClientOptions = ClientOptions & {
   db: PrismaClient;

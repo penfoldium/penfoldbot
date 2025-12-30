@@ -10,11 +10,9 @@ export abstract class PenfoldEvent extends PenfoldBase {
     super(client, options);
     this.event = options.event;
     this.once = options.once ?? false;
-
-    this.#setup();
   }
 
-  #setup() {
+  setup() {
     if (this.once)
       this.client.once(this.event, (...args) => {
         this.run(...args);
