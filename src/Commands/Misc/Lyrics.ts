@@ -14,6 +14,7 @@ export default class extends PenfoldCommand {
     super(client, {
       name: "lyrics",
       description: "Search for song lyrics using LRCLib",
+      cooldown: 30,
     });
 
     this.builder
@@ -39,32 +40,45 @@ export default class extends PenfoldCommand {
     const search = artist
       ? `?track_name=${query}&artist=${artist}`
       : `?q=${query}`;
-    let res: LRCLibReturn[] = await (
-      await fetch(`${this.lrclib}/search${search}`, {
+    let fetchedRes: Response | false = await fetch(
+      `${this.lrclib}/search${search}`,
+      {
         headers: {
           "User-Agent": `Penfoldbot (https://github.com/penfoldium/penfoldbot)`,
         },
-      })
-    ).json();
-    if (res.length < 1) {
+      }
+    ).catch((err: string) => {
+      interaction.reply(
+        `Something went wrong while fetching the lyrics: ${err}`
+      );
+      return false;
+    });
+
+    if (fetchedRes == false) return;
+
+    const lyrics: LRCLibReturn[] = await fetchedRes.json();
+
+    if (lyrics.length < 1) {
       await interaction.editReply(
         `I'm sorry but no lyrics were found for \`${query}\``
       );
-    } else {
-      const song = res[0]!;
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: "LRCLib Lyrics Search" })
-        .setTitle(`**${song.trackName}** by **${song.artistName}**`)
-        .setDescription(
-          song.plainLyrics.length <= 4096
-            ? song.plainLyrics
-            : song.plainLyrics.substring(0, 4093) + "..."
-        )
-        .setColor("#4338ca")
-        .setFooter(getEmbedFooter(interaction))
-        .setTimestamp();
-      await interaction.editReply({ embeds: [embed] });
+
+      return;
     }
+
+    const song = lyrics[0]!;
+    const embed = new EmbedBuilder()
+      .setAuthor({ name: "LRCLib Lyrics Search" })
+      .setTitle(`**${song.trackName}** by **${song.artistName}**`)
+      .setDescription(
+        song.plainLyrics.length <= 4096
+          ? song.plainLyrics
+          : song.plainLyrics.substring(0, 4093) + "..."
+      )
+      .setColor("#4338ca")
+      .setFooter(getEmbedFooter(interaction))
+      .setTimestamp();
+    await interaction.editReply({ embeds: [embed] });
   }
 }
 

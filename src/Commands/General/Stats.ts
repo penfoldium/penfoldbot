@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime.js";
 import {
   EmbedBuilder,
   version,
@@ -10,7 +9,6 @@ import { arch, cpus, freemem, release, totalmem, type, uptime } from "node:os";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
 import { getBotAvatar, getEmbedFooter } from "../../Util/Helpers.js";
-dayjs.extend(relativeTime);
 
 export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
