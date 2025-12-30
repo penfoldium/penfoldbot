@@ -14,3 +14,11 @@ export function getBotAvatar(client: PenfoldClient) {
     "https://avatars.githubusercontent.com/u/49412957?s=400&u=01dfdf6c953e302f5873c284ea0dcf192df63239&v=4"
   );
 }
+
+export function sleep(ms: number): Promise<void> {
+  return new Promise((res, _rej) => {
+    setTimeout(() => {
+      res();
+    }, ms);
+  });
+}

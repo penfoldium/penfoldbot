@@ -5,10 +5,12 @@ import { type PenfoldClient } from "./PenfoldClient.js";
 export abstract class PenfoldCommand extends PenfoldBase {
   builder: SlashCommandBuilder;
   description: string;
+  ownerOnly?: boolean;
 
   constructor(client: PenfoldClient, options: CommandOptions) {
     super(client, options);
     this.description = options.description ?? "No description provided.";
+    this.ownerOnly = options.ownerOnly ?? false;
 
     this.builder = new SlashCommandBuilder()
       .setName(this.name)
@@ -20,4 +22,5 @@ export abstract class PenfoldCommand extends PenfoldBase {
 
 export type CommandOptions = BaseOptions & {
   description?: string;
+  ownerOnly?: boolean;
 };
