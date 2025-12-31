@@ -13,6 +13,17 @@ export default class extends PenfoldEvent {
   }
 
   public async run(interaction: Interaction) {
+    if (interaction.isAutocomplete()) {
+      const command = this.client.commands.get(interaction.commandName);
+      if (!command) return;
+
+      try {
+        await command.autocomplete(interaction);
+      } catch {
+        return;
+      }
+    }
+
     if (!interaction.isChatInputCommand()) return;
     const command = this.client.commands.get(interaction.commandName);
 

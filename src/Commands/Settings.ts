@@ -1,4 +1,5 @@
 import {
+  AutocompleteInteraction,
   MessageFlags,
   SlashCommandBooleanOption,
   SlashCommandStringOption,
@@ -42,6 +43,7 @@ export default class extends PenfoldCommand {
             new SlashCommandStringOption()
               .setName("value")
               .setDescription("New value")
+              .setAutocomplete(true)
               .setRequired(true)
           )
       )
@@ -65,6 +67,21 @@ export default class extends PenfoldCommand {
               .setRequired(true)
           )
       );
+  }
+
+  public override async autocomplete(interaction: AutocompleteInteraction) {
+    if (interaction.options.getString("option") !== "timezone") {
+      await interaction.respond([]);
+      return;
+    }
+
+    const focused = interaction.options.getFocused();
+    const choices = timezone.default
+      .map(tz => tz.tzCode)
+      .filter(choice => choice.toLowerCase().includes(focused.toLowerCase()))
+      .slice(0, 25);
+    const response = choices.map(choice => ({ name: choice, value: choice }));
+    await interaction.respond(response);
   }
 
   public async run(interaction: ChatInputCommandInteraction) {

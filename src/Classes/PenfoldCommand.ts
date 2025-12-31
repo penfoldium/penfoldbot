@@ -1,4 +1,9 @@
-import { Collection, SlashCommandBuilder, type Interaction } from "discord.js";
+import {
+  AutocompleteInteraction,
+  Collection,
+  SlashCommandBuilder,
+  type Interaction
+} from "discord.js";
 import { PenfoldBase, type BaseOptions } from "./PenfoldBase.js";
 import { type PenfoldClient } from "./PenfoldClient.js";
 
@@ -19,6 +24,11 @@ export abstract class PenfoldCommand extends PenfoldBase {
   }
 
   abstract override run(interaction: Interaction): unknown;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async autocomplete(_interaction: AutocompleteInteraction) {
+    throw new Error("Function not implemented.");
+  }
 
   addCooldown(user: string, until: Date) {
     this.#cooldowns.set(user, until);
