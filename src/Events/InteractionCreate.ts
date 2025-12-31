@@ -24,6 +24,40 @@ export default class extends PenfoldEvent {
       }
     }
 
+    // Handle snooze buttons for reminders
+    if (interaction.isButton()) {
+      if (!interaction.customId.startsWith("snooze")) return;
+      await interaction.deferReply();
+      const snoozeTime = interaction.customId.split("snooze")[1]?.split("-")[0];
+      const id = interaction.customId.split("-")[1];
+
+      const reminder = await this.client.db.reminders.findUnique({
+        where: {
+          id: Number(id)
+        }
+      });
+
+      if (!reminder) return;
+      const updated = await this.client.db.reminders
+        .update({
+          where: {
+            id: reminder.id
+          },
+          data: {
+            date: dayjs(reminder.date).add(Number(snoozeTime), "minutes").toDate()
+          }
+        })
+        .catch(async err => {
+          await interaction.editReply(`Something went wrong while snoozing your reminder: ${err}`);
+          return;
+        });
+
+      if (!updated) return;
+      await interaction.editReply(
+        `Successfully snoozed reminder with id \`${updated.id}\` to <t:${dayjs(updated.date).unix()}:F>`
+      );
+    }
+
     if (!interaction.isChatInputCommand()) return;
     const command = this.client.commands.get(interaction.commandName);
 
