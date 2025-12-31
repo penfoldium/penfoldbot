@@ -1,4 +1,5 @@
 import {
+  MessageFlags,
   SlashCommandBooleanOption,
   SlashCommandStringOption,
   SlashCommandSubcommandBuilder,
@@ -68,7 +69,7 @@ export default class extends PenfoldCommand {
 
   public async run(interaction: ChatInputCommandInteraction) {
     const subcommand = interaction.options.getSubcommand();
-    await interaction.deferReply();
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (subcommand == "set") return this.set(interaction);
     if (subcommand == "list") return this.list(interaction);
     if (subcommand == "toggledaily") return this.toggledaily(interaction);
