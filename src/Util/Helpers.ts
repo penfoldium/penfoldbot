@@ -16,7 +16,7 @@ export function getBotAvatar(client: PenfoldClient) {
 }
 
 export function sleep(ms: number): Promise<void> {
-  return new Promise((res, _rej) => {
+  return new Promise((res) => {
     setTimeout(() => {
       res();
     }, ms);

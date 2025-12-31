@@ -100,7 +100,7 @@ export default class extends PenfoldCommand {
   }
 
   public async add(interaction: ChatInputCommandInteraction) {
-    let whenInput = interaction.options.getString("when", true);
+    const whenInput = interaction.options.getString("when", true);
     let when;
     if (dayjs(whenInput).isValid()) {
       when = dayjs(whenInput).diff();

@@ -35,12 +35,12 @@ export default class extends PenfoldCommand {
   public async run(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
     const query = interaction.options.getString("query", true);
-    let artist = interaction.options.getString("artist");
+    const artist = interaction.options.getString("artist");
 
     const search = artist
       ? `?track_name=${query}&artist=${artist}`
       : `?q=${query}`;
-    let fetchedRes: Response | false = await fetch(
+    const fetchedRes: Response | false = await fetch(
       `${this.lrclib}/search${search}`,
       {
         headers: {

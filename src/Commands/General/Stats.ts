@@ -20,13 +20,14 @@ export default class extends PenfoldCommand {
   }
 
   public async run(interaction: ChatInputCommandInteraction) {
-    let [activeUsers, users, guilds, channels, memory] = [
+    let [activeUsers, users, guilds, channels] = [
       0,
       0,
       0,
       0,
-      process.memoryUsage().heapUsed / 1024 / 1024,
     ];
+
+    const memory = process.memoryUsage().heapUsed / 1024 / 1024;
 
     if (this.client.shard) {
       const results: number[][] = await this.client.shard.broadcastEval(

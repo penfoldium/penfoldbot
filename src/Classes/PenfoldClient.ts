@@ -17,7 +17,7 @@ class PenfoldClient extends Client {
   /** Whether or not the client is run with the DEV=true env variable */
   dev: boolean;
   db: PrismaClient;
-  debug: (args: any) => void = () => null;
+  debug: (args: unknown) => void = () => null;
 
   constructor(options: PenfoldClientOptions) {
     super(options);
@@ -30,7 +30,7 @@ class PenfoldClient extends Client {
     this.db = options.db;
 
     if (process.env["DEBUG"]?.toLowerCase() == "true" || this.dev == true) {
-      this.debug = (str: any) => console.debug(`[PenfoldDebug] ${str}`);
+      this.debug = (str: unknown) => console.debug(`[PenfoldDebug] ${str}`);
     }
   }
 

@@ -22,8 +22,6 @@ export abstract class PenfoldEvent extends PenfoldBase {
         this.run(...args);
       });
   }
-
-  abstract override run(...args: any[]): any;
 }
 
 export type EventOptions = BaseOptions & {

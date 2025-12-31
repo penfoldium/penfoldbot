@@ -27,8 +27,6 @@ export abstract class PenfoldTask extends PenfoldBase {
 
     this.scheduler?.execute();
   }
-
-  abstract override run(...args: any[]): any;
 }
 
 export type TaskOptions = BaseOptions & {

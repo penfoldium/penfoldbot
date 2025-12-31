@@ -10,7 +10,6 @@ export abstract class PenfoldCommand extends PenfoldBase {
   #cooldowns = new Collection<string, Date>();
 
   constructor(client: PenfoldClient, options: CommandOptions) {
-    client.user;
     super(client, options);
     this.description = options.description ?? "No description provided.";
     this.ownerOnly = options.ownerOnly ?? false;
@@ -21,7 +20,7 @@ export abstract class PenfoldCommand extends PenfoldBase {
       .setDescription(this.description);
   }
 
-  abstract override run(interaction: Interaction): any;
+  abstract override run(interaction: Interaction): unknown;
 
   addCooldown(user: string, until: Date) {
     this.#cooldowns.set(user, until);

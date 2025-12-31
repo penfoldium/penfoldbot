@@ -20,16 +20,19 @@ export default class extends PenfoldEvent {
     if (!interaction.isChatInputCommand()) return;
     const command = this.client.commands.get(interaction.commandName);
 
-    if (!command)
-      return interaction.reply(
+    if (!command) {
+      await interaction.reply(
         `No command with the name of ${interaction.commandName} found in code.`
       );
+      return;
+    }
 
     const user = interaction.user.id;
     const isOwner = this.client.owners.includes(interaction.user.id);
 
     if (command?.ownerOnly && !isOwner) {
-      return interaction.reply("This is an owner only command.");
+      await interaction.reply("This is an owner only command.");
+      return;
     }
 
     const cooldown = isOwner
@@ -40,7 +43,7 @@ export default class extends PenfoldEvent {
       `Command ${interaction.commandName} ran by user ${interaction.user.username}`
     );
 
-    if (!cooldown) return command.run(interaction);
+    if (!cooldown) command.run(interaction);
   }
 
   async #checkCooldown(

@@ -11,7 +11,7 @@ export abstract class PenfoldBase {
     this.name = options.name;
   }
 
-  public abstract run(...args: any[]): any;
+  public abstract run(...args: unknown[]): unknown;
 }
 
 export type BaseOptions = {

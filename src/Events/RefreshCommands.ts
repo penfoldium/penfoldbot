@@ -17,7 +17,7 @@ export default class extends PenfoldEvent {
   }
 
   public async run(client: PenfoldClient) {
-    this.id = client.user?.id!;
+    this.id = client.user!.id!;
 
     if (this.client.dev && !this.guild)
       throw new Error(
@@ -48,7 +48,7 @@ export default class extends PenfoldEvent {
       });
 
       console.log(
-        // @ts-expect-error
+        // @ts-expect-error As far as I know discord.js doesn't provide typings for this
         `[RefreshCommands] Refreshed ${data.length} application (/) commands`
       );
     } catch (error) {
@@ -72,7 +72,7 @@ export default class extends PenfoldEvent {
       );
 
       console.log(
-        // @ts-expect-error
+        // @ts-expect-error As far as I know discord.js doesn't provide typings for this
         `[RefreshCommandsOwnerServer] Refreshed ${data.length} application (/) commands in guild id ${this.guild}`
       );
     } catch (error) {
