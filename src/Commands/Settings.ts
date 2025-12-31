@@ -1,4 +1,5 @@
 import {
+  SlashCommandBooleanOption,
   SlashCommandStringOption,
   SlashCommandSubcommandBuilder,
   type ChatInputCommandInteraction,
@@ -49,6 +50,19 @@ export default class extends PenfoldCommand {
         new SlashCommandSubcommandBuilder()
           .setName("list")
           .setDescription("List your current user settings")
+      )
+
+      // toggle daily subcommand
+      .addSubcommand(
+        new SlashCommandSubcommandBuilder()
+          .setName("toggledaily")
+          .setDescription("Toggle Daily DMs on and off")
+          .addBooleanOption(
+            new SlashCommandBooleanOption()
+              .setName("value")
+              .setDescription("Enabled or disabled")
+              .setRequired(true)
+          )
       );
   }
 
@@ -57,6 +71,7 @@ export default class extends PenfoldCommand {
     await interaction.deferReply();
     if (subcommand == "set") return this.set(interaction);
     if (subcommand == "list") return this.list(interaction);
+    if (subcommand == "toggledaily") return this.toggledaily(interaction);
   }
 
   public async set(interaction: ChatInputCommandInteraction) {
@@ -94,7 +109,35 @@ export default class extends PenfoldCommand {
     const settings = await this.ensureUserSettings(interaction.user.id);
     interaction.editReply(`Here are your current settings:
 Daily DM time: \`${settings.dailyDmTime}\`
+Daily DM enabled: \`${settings.dailyDmEnabled}\`
 Timezone: \`${settings.timezone}\``);
+  }
+
+  public async toggledaily(interaction: ChatInputCommandInteraction) {
+    await this.ensureUserSettings(interaction.user.id);
+    const newValue = interaction.options.getBoolean("value", true);
+
+    const updated = await this.client.db.userSettings
+      .update({
+        where: {
+          id: BigInt(interaction.user.id),
+        },
+        data: {
+          dailyDmEnabled: newValue,
+        },
+      })
+      .catch(async (err) => {
+        await interaction.editReply(
+          `Something went wrong while updating your settings: ${err}`
+        );
+        return;
+      });
+
+    if (!updated) return;
+    const toggled = updated.dailyDmEnabled == true ? "enabled" : "disabled";
+    return interaction.editReply(
+      `Successfully toggled Daily DMs to \`${toggled}\`.`
+    );
   }
 
   public async ensureUserSettings(id: string) {

@@ -11,9 +11,10 @@ datasource db {
 }
 
 model UserSettings {
-  id          BigInt @id @unique
-  timezone    String @default("Etc/UTC")
-  dailyDmTime String @default("8AM")
+  id             BigInt  @id @unique
+  timezone       String  @default("Etc/UTC")
+  dailyDmTime    String  @default("8AM")
+  dailyDmEnabled Boolean @default(true)
 }
 
 model Reminders {
