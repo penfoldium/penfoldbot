@@ -6,6 +6,7 @@ import {
 } from "discord.js";
 import { execSync } from "node:child_process";
 import { arch, cpus, freemem, release, totalmem, type, uptime } from "node:os";
+import * as pkg from '../../../package.json' with { type: "json" };
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
 import { getBotAvatar, getEmbedFooter } from "../../Util/Helpers.js";
@@ -101,6 +102,7 @@ export default class extends PenfoldCommand {
           )}](https://github.com/penfoldium/penfoldbot/commit/${hash})`,
           `\n**Node.js version:** ${process.version}`,
           `**Discord.js version:** v${version}`,
+          `**Penfoldbot version:** v${pkg.default.version}`
         ].join("\n"),
       },
     ];
