@@ -6,14 +6,8 @@ export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
       // Complicated way to use filename as command name (works on both windows and linux) - recommended to explicitly set it
-      name: import.meta.filename
-        .split(".")
-        .slice(-2)[0]!
-        .split("\\")
-        .pop()!
-        .split("/")
-        .pop()!,
-      description: "No description provided",
+      name: import.meta.filename.split(".").slice(-2)[0]!.split("\\").pop()!.split("/").pop()!,
+      description: "No description provided"
     });
   }
 

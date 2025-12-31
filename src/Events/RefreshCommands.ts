@@ -12,7 +12,7 @@ export default class extends PenfoldEvent {
     super(client, {
       name: "RefreshCommands",
       event: Events.ClientReady,
-      once: true,
+      once: true
     });
   }
 
@@ -26,7 +26,7 @@ export default class extends PenfoldEvent {
 
     const allCommands = this.client.commands;
 
-    const commands = allCommands.filter((command) => !command.ownerOnly);
+    const commands = allCommands.filter(command => !command.ownerOnly);
 
     if (allCommands.size > commands.size && this.guild) {
       await this.#refreshOwnerCommands(allCommands);
@@ -44,7 +44,7 @@ export default class extends PenfoldEvent {
       );
 
       const data = await this.rest.put(Routes.applicationCommands(this.id!), {
-        body: commands.map((command) => command.builder.toJSON()),
+        body: commands.map(command => command.builder.toJSON())
       });
 
       console.log(
@@ -52,9 +52,7 @@ export default class extends PenfoldEvent {
         `[RefreshCommands] Refreshed ${data.length} application (/) commands`
       );
     } catch (error) {
-      console.error(
-        `[RefreshCommands] Something went wrong when refreshing commands: ${error}`
-      );
+      console.error(`[RefreshCommands] Something went wrong when refreshing commands: ${error}`);
     }
   }
 
@@ -64,12 +62,9 @@ export default class extends PenfoldEvent {
         `[RefreshCommandsOwnerServer] Started refreshing ${commands.size} application (/) commands in guild id ${this.guild}`
       );
 
-      const data = await this.rest.put(
-        Routes.applicationGuildCommands(this.id!, this.guild!),
-        {
-          body: commands.map((command) => command.builder.toJSON()),
-        }
-      );
+      const data = await this.rest.put(Routes.applicationGuildCommands(this.id!, this.guild!), {
+        body: commands.map(command => command.builder.toJSON())
+      });
 
       console.log(
         // @ts-expect-error As far as I know discord.js doesn't provide typings for this

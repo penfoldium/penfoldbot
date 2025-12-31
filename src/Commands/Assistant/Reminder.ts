@@ -5,7 +5,7 @@ import {
   SlashCommandNumberOption,
   SlashCommandStringOption,
   SlashCommandSubcommandBuilder,
-  type ChatInputCommandInteraction,
+  type ChatInputCommandInteraction
 } from "discord.js";
 import parse from "parse-duration";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
@@ -15,7 +15,7 @@ export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
       name: "reminder",
-      description: "Everything reminder related",
+      description: "Everything reminder related"
     });
 
     this.builder
@@ -125,13 +125,11 @@ export default class extends PenfoldCommand {
           user_id: BigInt(interaction.user.id),
           date: dayjs().add(when, "ms").toDate(),
           message: reminder,
-          triggered: false,
-        },
+          triggered: false
+        }
       })
-      .catch((err) => {
-        interaction.editReply(
-          `Something  went wrong when creating your reminder: ${err}`
-        );
+      .catch(err => {
+        interaction.editReply(`Something  went wrong when creating your reminder: ${err}`);
       });
 
     if (!created) return;
@@ -146,8 +144,8 @@ export default class extends PenfoldCommand {
     const inactive = interaction.options.getBoolean("inactive");
     const reminders = await this.client.db.reminders.findMany({
       where: {
-        user_id: BigInt(interaction.user.id),
-      },
+        user_id: BigInt(interaction.user.id)
+      }
     });
 
     if (!reminders.length) {
@@ -155,10 +153,7 @@ export default class extends PenfoldCommand {
       return;
     }
 
-    if (
-      reminders.filter((reminder) => !reminder.triggered).length < 1 &&
-      !inactive
-    ) {
+    if (reminders.filter(reminder => !reminder.triggered).length < 1 && !inactive) {
       await interaction.editReply(
         "You currently don't have any active reminders. You can also view your inactive reminders by setting the `View active reminders` command option to True!"
       );
@@ -169,12 +164,12 @@ export default class extends PenfoldCommand {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `All reminders for ${interaction.user.username}`,
-          iconURL: interaction.user.displayAvatarURL(),
+          iconURL: interaction.user.displayAvatarURL()
         })
         .setDescription(
           reminders
             .map(
-              (reminder) =>
+              reminder =>
                 `Reminder ID: **${reminder.id}**
 Reminder: **${reminder.message}**
 When: **<t:${dayjs(reminder.date).unix()}:F>**
@@ -190,13 +185,13 @@ Active: **${!reminder.triggered}**`
     const embed = new EmbedBuilder()
       .setAuthor({
         name: `Active reminders for ${interaction.user.username}`,
-        iconURL: interaction.user.displayAvatarURL(),
+        iconURL: interaction.user.displayAvatarURL()
       })
       .setDescription(
         reminders
-          .filter((reminder) => !reminder.triggered)
+          .filter(reminder => !reminder.triggered)
           .map(
-            (reminder) =>
+            reminder =>
               `Reminder ID: **${reminder.id}**
 Reminder: **${reminder.message}**
 When: **<t:${dayjs(reminder.date).unix()}:F>**`
@@ -212,8 +207,8 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**`
     const id = interaction.options.getNumber("id", true);
     const exists = await this.client.db.reminders.findUnique({
       where: {
-        id,
-      },
+        id
+      }
     });
 
     if (exists && exists.user_id !== BigInt(interaction.user.id)) {
@@ -233,19 +228,15 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**`
     await this.client.db.reminders
       .delete({
         where: {
-          id: exists.id,
-        },
+          id: exists.id
+        }
       })
-      .catch(async (err) => {
-        await interaction.editReply(
-          `Something went wrong while deleting your reminder: ${err}`
-        );
+      .catch(async err => {
+        await interaction.editReply(`Something went wrong while deleting your reminder: ${err}`);
         return;
       })
       .finally(async () => {
-        await interaction.editReply(
-          `Successfully deleted reminder with ID of \`${id}\`.`
-        );
+        await interaction.editReply(`Successfully deleted reminder with ID of \`${id}\`.`);
         return;
       });
   }
@@ -271,24 +262,20 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**`
     const updated = await this.client.db.reminders
       .update({
         where: {
-          id,
+          id
         },
         data: {
           date: dayjs().add(snoozeFor, "ms").toDate(),
-          triggered: false,
-        },
+          triggered: false
+        }
       })
-      .catch(async (err) => {
-        await interaction.editReply(
-          `Something went wrong while snoozing your reminder: ${err}`
-        );
+      .catch(async err => {
+        await interaction.editReply(`Something went wrong while snoozing your reminder: ${err}`);
         return null;
       });
 
     await interaction.editReply(
-      `Successfully snoozed reminder with id \`${id}\` to <t:${dayjs(
-        updated?.date
-      ).unix()}:F>`
+      `Successfully snoozed reminder with id \`${id}\` to <t:${dayjs(updated?.date).unix()}:F>`
     );
   }
 }

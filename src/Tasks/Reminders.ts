@@ -6,26 +6,24 @@ export default class extends PenfoldTask {
   constructor(client: PenfoldClient) {
     super(client, {
       name: "Reminders",
-      cron: "* * * * *",
+      cron: "* * * * *"
     });
   }
 
   public async run() {
     let reminders = await this.client.db.reminders.findMany({
       where: {
-        triggered: false,
-      },
+        triggered: false
+      }
     });
-    reminders = reminders.filter((reminder) => dayjs(reminder.date).diff() < 1);
+    reminders = reminders.filter(reminder => dayjs(reminder.date).diff() < 1);
 
     if (!reminders) return;
-    reminders.forEach(async (reminder) => {
+    reminders.forEach(async reminder => {
       const user = await this.client.users
         .fetch(reminder.user_id.toString())
-        .catch((err) =>
-          this.client.debug(
-            `Something went wrong when fetching reminder user: ${err}`
-          )
+        .catch(err =>
+          this.client.debug(`Something went wrong when fetching reminder user: ${err}`)
         );
       if (!user) return;
 
@@ -37,11 +35,11 @@ export default class extends PenfoldTask {
 
       await this.client.db.reminders.update({
         where: {
-          id: reminder.id,
+          id: reminder.id
         },
         data: {
-          triggered: true,
-        },
+          triggered: true
+        }
       });
     });
   }

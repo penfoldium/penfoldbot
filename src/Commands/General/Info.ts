@@ -8,14 +8,14 @@ export default class extends PenfoldCommand {
     super(client, {
       // Complicated way to use filename as command name (works on both windows and linux) - recommended to explicitly set it
       name: "info",
-      description: "Get information about the bot",
+      description: "Get information about the bot"
     });
   }
 
   public run(interaction: ChatInputCommandInteraction) {
     const authorObject = {
       name: "About me",
-      iconURL: getBotAvatar(this.client),
+      iconURL: getBotAvatar(this.client)
     };
 
     const description = `❯ Hello, chief! I am **Penfold**, Danger Mouse's loyal sidekick, and your faithful personal assistant on Discord! Nice to meet you! :hamster: :heart:

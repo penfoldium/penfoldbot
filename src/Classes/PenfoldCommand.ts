@@ -15,9 +15,7 @@ export abstract class PenfoldCommand extends PenfoldBase {
     this.ownerOnly = options.ownerOnly ?? false;
     this.cooldown = options.cooldown ?? 5;
 
-    this.builder = new SlashCommandBuilder()
-      .setName(this.name)
-      .setDescription(this.description);
+    this.builder = new SlashCommandBuilder().setName(this.name).setDescription(this.description);
   }
 
   abstract override run(interaction: Interaction): unknown;

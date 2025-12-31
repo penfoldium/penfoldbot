@@ -1,9 +1,5 @@
 import dayjs from "dayjs";
-import {
-  ChatInputCommandInteraction,
-  Events,
-  type Interaction,
-} from "discord.js";
+import { ChatInputCommandInteraction, Events, type Interaction } from "discord.js";
 import type { PenfoldCommand } from "src/Classes/PenfoldCommand.js";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
 import { PenfoldEvent } from "../Classes/PenfoldEvent.js";
@@ -12,7 +8,7 @@ export default class extends PenfoldEvent {
   constructor(client: PenfoldClient) {
     super(client, {
       name: "InteractionCreate",
-      event: Events.InteractionCreate,
+      event: Events.InteractionCreate
     });
   }
 
@@ -35,9 +31,7 @@ export default class extends PenfoldEvent {
       return;
     }
 
-    const cooldown = isOwner
-      ? false
-      : await this.#checkCooldown(command, user, interaction);
+    const cooldown = isOwner ? false : await this.#checkCooldown(command, user, interaction);
 
     this.client.debug(
       `Command ${interaction.commandName} ran by user ${interaction.user.username}`
@@ -54,10 +48,7 @@ export default class extends PenfoldEvent {
     if (command.cooldown <= 0) return false;
 
     if (!command.hasCooldown(user)) {
-      command.addCooldown(
-        user,
-        dayjs().add(command.cooldown, "seconds").toDate()
-      );
+      command.addCooldown(user, dayjs().add(command.cooldown, "seconds").toDate());
 
       return false;
     }

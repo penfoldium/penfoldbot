@@ -10,8 +10,7 @@ export abstract class PenfoldTask extends PenfoldBase {
   constructor(client: PenfoldClient, options: TaskOptions) {
     super(client, options);
 
-    if (!validate(options.cron))
-      throw new Error("Invalid cron string provided");
+    if (!validate(options.cron)) throw new Error("Invalid cron string provided");
     this.cron = options.cron;
   }
 

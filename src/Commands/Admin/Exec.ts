@@ -3,7 +3,7 @@ import {
   codeBlock,
   SlashCommandNumberOption,
   SlashCommandStringOption,
-  type ChatInputCommandInteraction,
+  type ChatInputCommandInteraction
 } from "discord.js";
 import ms from "ms";
 import { exec } from "node:child_process";
@@ -17,9 +17,8 @@ export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
       name: "exec",
-      description:
-        "Execute commands on the system (⚠️ WARNING: USE WITH CAUTION)",
-      ownerOnly: true,
+      description: "Execute commands on the system (⚠️ WARNING: USE WITH CAUTION)",
+      ownerOnly: true
     });
 
     this.builder
@@ -44,36 +43,29 @@ export default class extends PenfoldCommand {
 
     const start = performance.now();
     const result = await execPromise(input, {
-      timeout: timeout ?? 60000,
-    }).catch((error) => ({ stdout: null, stderr: error }));
-    const output = result.stdout
-      ? `**\`OUTPUT\`**${codeBlock("prolog", result.stdout)}`
-      : "";
-    const outerr = result.stderr
-      ? `**\`ERROR\`**${codeBlock("prolog", result.stderr)}`
-      : "";
+      timeout: timeout ?? 60000
+    }).catch(error => ({ stdout: null, stderr: error }));
+    const output = result.stdout ? `**\`OUTPUT\`**${codeBlock("prolog", result.stdout)}` : "";
+    const outerr = result.stderr ? `**\`ERROR\`**${codeBlock("prolog", result.stderr)}` : "";
     const end = performance.now();
 
     const attachment =
       [output, outerr].join("\n").length > 1900
-        ? new AttachmentBuilder(
-            Buffer.from([output, outerr].join("\n"))
-          ).setName("result.txt")
+        ? new AttachmentBuilder(Buffer.from([output, outerr].join("\n"))).setName("result.txt")
         : false;
 
     if (!attachment)
       await interaction.editReply({
         content:
-          ([output, outerr].join("\n") ||
-            "Done. There was no output to stdout or stderr.") +
-          `\nTook: ${ms(Number((end - start).toFixed(2)))} to execute ⌛`,
+          ([output, outerr].join("\n") || "Done. There was no output to stdout or stderr.") +
+          `\nTook: ${ms(Number((end - start).toFixed(2)))} to execute ⌛`
       });
     else
       await interaction.editReply({
         content:
           "Result too long, attacked as file instead." +
           `\nTook: ${ms(Number((end - start).toFixed(2)))} to execute ⌛`,
-        files: [attachment],
+        files: [attachment]
       });
   }
 }

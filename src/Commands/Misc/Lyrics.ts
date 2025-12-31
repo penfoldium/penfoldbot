@@ -1,7 +1,7 @@
 import {
   EmbedBuilder,
   SlashCommandStringOption,
-  type ChatInputCommandInteraction,
+  type ChatInputCommandInteraction
 } from "discord.js";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
@@ -14,7 +14,7 @@ export default class extends PenfoldCommand {
     super(client, {
       name: "lyrics",
       description: "Search for song lyrics using LRCLib",
-      cooldown: 30,
+      cooldown: 30
     });
 
     this.builder
@@ -37,20 +37,13 @@ export default class extends PenfoldCommand {
     const query = interaction.options.getString("query", true);
     const artist = interaction.options.getString("artist");
 
-    const search = artist
-      ? `?track_name=${query}&artist=${artist}`
-      : `?q=${query}`;
-    const fetchedRes: Response | false = await fetch(
-      `${this.lrclib}/search${search}`,
-      {
-        headers: {
-          "User-Agent": `Penfoldbot (https://github.com/penfoldium/penfoldbot)`,
-        },
+    const search = artist ? `?track_name=${query}&artist=${artist}` : `?q=${query}`;
+    const fetchedRes: Response | false = await fetch(`${this.lrclib}/search${search}`, {
+      headers: {
+        "User-Agent": `Penfoldbot (https://github.com/penfoldium/penfoldbot)`
       }
-    ).catch((err: string) => {
-      interaction.reply(
-        `Something went wrong while fetching the lyrics: ${err}`
-      );
+    }).catch((err: string) => {
+      interaction.reply(`Something went wrong while fetching the lyrics: ${err}`);
       return false;
     });
 
@@ -59,9 +52,7 @@ export default class extends PenfoldCommand {
     const lyrics: LRCLibReturn[] = await fetchedRes.json();
 
     if (lyrics.length < 1) {
-      await interaction.editReply(
-        `I'm sorry but no lyrics were found for \`${query}\``
-      );
+      await interaction.editReply(`I'm sorry but no lyrics were found for \`${query}\``);
 
       return;
     }

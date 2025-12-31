@@ -70,12 +70,8 @@ class PenfoldClient extends Client {
   }
 
   async #loadClasses(dir: string, collection: CollectionType) {
-    if (!dir)
-      throw new Error(
-        `Can't load ${collection} into memory, no directory provided`
-      );
-    if (!collection)
-      throw new Error("Can't load classes into memory, no collection provided");
+    if (!dir) throw new Error(`Can't load ${collection} into memory, no directory provided`);
+    if (!collection) throw new Error("Can't load classes into memory, no collection provided");
 
     const start = performance.now();
 
@@ -85,26 +81,20 @@ class PenfoldClient extends Client {
 
     const files = (
       await readdir(join(import.meta.dirname, "..", dir), {
-        recursive: true,
+        recursive: true
       })
-    ).filter((file) => file.endsWith(".js"));
+    ).filter(file => file.endsWith(".js"));
 
     // Make sure collection is empty before loading
     this[collection].clear();
 
     for (const file of files) {
-      const { default: importedClass } = await import(
-        "file://" + join(directory, file)
-      );
+      const { default: importedClass } = await import("file://" + join(directory, file));
       const initClass = new importedClass(this);
       if (!("name" in initClass))
-        throw new Error(
-          `${file} from ${collection} collection has no name property`
-        );
+        throw new Error(`${file} from ${collection} collection has no name property`);
       if (!("run" in initClass))
-        throw new Error(
-          `${file} from ${collection} collection has no run function`
-        );
+        throw new Error(`${file} from ${collection} collection has no run function`);
 
       // Check for duplicates
       if (this[collection].has(initClass.name))
@@ -121,9 +111,7 @@ class PenfoldClient extends Client {
     const size = this[collection].size;
     const time = (performance.now() - start).toFixed(2);
 
-    console.log(
-      `[PenfoldClient] Loaded ${size} classes into ${collection} in ${time}ms`
-    );
+    console.log(`[PenfoldClient] Loaded ${size} classes into ${collection} in ${time}ms`);
   }
 }
 

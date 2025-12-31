@@ -3,7 +3,7 @@ import {
   codeBlock,
   SlashCommandBooleanOption,
   SlashCommandStringOption,
-  type ChatInputCommandInteraction,
+  type ChatInputCommandInteraction
 } from "discord.js";
 import ms from "ms";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
@@ -14,7 +14,7 @@ export default class extends PenfoldCommand {
     super(client, {
       name: "eval",
       description: "Execute JS (⚠️ WARNING: USE WITH CAUTION)",
-      ownerOnly: true,
+      ownerOnly: true
     });
 
     this.builder
@@ -42,9 +42,7 @@ export default class extends PenfoldCommand {
     const start = performance.now();
     let result;
     try {
-      result = async
-        ? await eval(`async function input() {${input}}; input();`)
-        : eval(input);
+      result = async ? await eval(`async function input() {${input}}; input();`) : eval(input);
     } catch (error) {
       result = `Something went wrong: ${codeBlock(error as string)}`;
     }
@@ -52,23 +50,21 @@ export default class extends PenfoldCommand {
 
     const attachment =
       result && result.length > 1900
-        ? new AttachmentBuilder(Buffer.from(result as string)).setName(
-            "result.txt"
-          )
+        ? new AttachmentBuilder(Buffer.from(result as string)).setName("result.txt")
         : false;
 
     if (!attachment)
       await interaction.editReply({
         content:
           codeBlock("js", result ?? "No output.") +
-          `\nTook: ${ms(Number((end - start).toFixed(2)))} to evaluate ⌛`,
+          `\nTook: ${ms(Number((end - start).toFixed(2)))} to evaluate ⌛`
       });
     else
       await interaction.editReply({
         content:
           "Result too long, attacked as file instead." +
           `\nTook: ${ms(Number((end - start).toFixed(2)))} to evaluate ⌛`,
-        files: [attachment],
+        files: [attachment]
       });
   }
 }

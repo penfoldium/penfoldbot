@@ -5,7 +5,7 @@ export default class extends PenfoldTask {
   constructor(client: PenfoldClient) {
     super(client, {
       name: "CheckReminders",
-      cron: "* * * * *",
+      cron: "* * * * *"
     });
   }
 

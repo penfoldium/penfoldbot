@@ -26,9 +26,9 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
-  
+
   "include": ["src/**/*", "db/prisma/**/*"],
   "exclude": ["src/Examples/*"]
 }

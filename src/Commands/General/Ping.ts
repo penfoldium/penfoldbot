@@ -7,8 +7,7 @@ export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
       name: "ping",
-      description:
-        "Test the time it takes between you sending a message and Penfold receiving it",
+      description: "Test the time it takes between you sending a message and Penfold receiving it"
     });
   }
 

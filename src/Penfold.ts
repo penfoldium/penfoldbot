@@ -5,8 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime.js";
 dayjs.extend(relativeTime);
 
-if (!process.env["DATABASE_URL"])
-  throw new Error("Please populate the DATABASE_URL env variable.");
+if (!process.env["DATABASE_URL"]) throw new Error("Please populate the DATABASE_URL env variable.");
 
 const adapter = new PrismaBetterSqlite3({ url: process.env["DATABASE_URL"] });
 const prisma = new PrismaClient({ adapter });
@@ -16,7 +15,7 @@ import { PrismaClient } from "../db/prisma/client.js";
 
 const client = new PenfoldClient({
   intents: [GatewayIntentBits.Guilds],
-  db: prisma,
+  db: prisma
 });
 
 await client.loadAll();

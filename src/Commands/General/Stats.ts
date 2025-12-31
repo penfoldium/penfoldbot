@@ -1,12 +1,8 @@
 import dayjs from "dayjs";
-import {
-  EmbedBuilder,
-  version,
-  type ChatInputCommandInteraction,
-} from "discord.js";
+import { EmbedBuilder, version, type ChatInputCommandInteraction } from "discord.js";
 import { execSync } from "node:child_process";
 import { arch, cpus, freemem, release, totalmem, type, uptime } from "node:os";
-import * as pkg from '../../../package.json' with { type: "json" };
+import * as pkg from "../../../package.json" with { type: "json" };
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
 import { getBotAvatar, getEmbedFooter } from "../../Util/Helpers.js";
@@ -15,29 +11,22 @@ export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
       name: "stats",
-      description: "Provides some statistics about the bot",
+      description: "Provides some statistics about the bot"
     });
   }
 
   public async run(interaction: ChatInputCommandInteraction) {
-    let [activeUsers, users, guilds, channels] = [
-      0,
-      0,
-      0,
-      0,
-    ];
+    let [activeUsers, users, guilds, channels] = [0, 0, 0, 0];
 
     const memory = process.memoryUsage().heapUsed / 1024 / 1024;
 
     if (this.client.shard) {
-      const results: number[][] = await this.client.shard.broadcastEval(
-        (client) => [
-          client.users.cache.size,
-          client.guilds.cache.reduce((acc, cur) => acc + cur.memberCount, 0),
-          client.guilds.cache.size,
-          client.channels.cache.size,
-        ]
-      );
+      const results: number[][] = await this.client.shard.broadcastEval(client => [
+        client.users.cache.size,
+        client.guilds.cache.reduce((acc, cur) => acc + cur.memberCount, 0),
+        client.guilds.cache.size,
+        client.channels.cache.size
+      ]);
       for (const result of results) {
         activeUsers += result[0]!;
         users += result[1]!;
@@ -46,10 +35,7 @@ export default class extends PenfoldCommand {
       }
     } else {
       activeUsers = this.client.users.cache.size;
-      users = this.client.guilds.cache.reduce(
-        (acc, cur) => acc + cur.memberCount,
-        0
-      );
+      users = this.client.guilds.cache.reduce((acc, cur) => acc + cur.memberCount, 0);
       channels = this.client.channels.cache.size;
       guilds = this.client.guilds.cache.size;
     }
@@ -69,18 +55,18 @@ export default class extends PenfoldCommand {
       RAM: {
         usage: memory.toFixed(2),
         free: this.#bToGB(freemem()),
-        total: this.#bToGB(totalmem()),
-      },
+        total: this.#bToGB(totalmem())
+      }
     };
 
     const fields = [
       {
         name: "Connected to:",
-        value: `**${info.guilds}** servers | **${info.channels}** channels  | **${info.users}** users  | **${info.activeUsers}** active users`,
+        value: `**${info.guilds}** servers | **${info.channels}** channels  | **${info.users}** users  | **${info.activeUsers}** active users`
       },
       {
         name: "Collections loaded:",
-        value: `**${this.client.commands.size}** commands | **${this.client.events.size}** events | **${this.client.tasks.size}** tasks`,
+        value: `**${this.client.commands.size}** commands | **${this.client.events.size}** events | **${this.client.tasks.size}** tasks`
       },
       {
         // (Active users are counted for the past 30 minutes)\n\n
@@ -89,8 +75,8 @@ export default class extends PenfoldCommand {
           `**${type()} ${release()} ${arch()}**`,
           `**System uptime:** ${info.uptime}`,
           `**CPU:** ${info.cpuModel.trim()}`,
-          `**RAM:** ${info.RAM.free}GB free of ${info.RAM.total}GB`,
-        ].join("\n"),
+          `**RAM:** ${info.RAM.free}GB free of ${info.RAM.total}GB`
+        ].join("\n")
       },
       {
         name: "Bot Information:",
@@ -104,14 +90,14 @@ export default class extends PenfoldCommand {
           `\n**Node.js version:** ${process.version}`,
           `**Discord.js version:** v${version}`,
           `**Penfoldbot version:** v${pkg.default.version}`
-        ].join("\n"),
-      },
+        ].join("\n")
+      }
     ];
 
     const embed = new EmbedBuilder()
       .setAuthor({
         name: "Bot Statistics",
-        iconURL: getBotAvatar(this.client),
+        iconURL: getBotAvatar(this.client)
       })
       .addFields(fields)
       .setFooter(getEmbedFooter(interaction))

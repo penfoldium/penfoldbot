@@ -3,7 +3,7 @@ import {
   SlashCommandBooleanOption,
   SlashCommandStringOption,
   SlashCommandSubcommandBuilder,
-  type ChatInputCommandInteraction,
+  type ChatInputCommandInteraction
 } from "discord.js";
 import timezone from "timezones-list";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
@@ -13,7 +13,7 @@ export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
       name: "settings",
-      description: "View and modify your user settings",
+      description: "View and modify your user settings"
     });
 
     this.builder
@@ -29,11 +29,11 @@ export default class extends PenfoldCommand {
               .setChoices(
                 {
                   name: "Timezone",
-                  value: "timezone",
+                  value: "timezone"
                 },
                 {
                   name: "Daily DM Time",
-                  value: "dailydmtime",
+                  value: "dailydmtime"
                 }
               )
               .setRequired(true)
@@ -80,10 +80,7 @@ export default class extends PenfoldCommand {
     const option = interaction.options.getString("option", true);
     const newValue = interaction.options.getString("value", true);
 
-    if (
-      option == "timezone" &&
-      !timezone.default.some((e) => e.tzCode == newValue)
-    )
+    if (option == "timezone" && !timezone.default.some(e => e.tzCode == newValue))
       return interaction.editReply(
         `The provided timezone is not valid. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for details (make sure to use the \`TZ identified\`!) - Case sensitive!`
       );
@@ -95,12 +92,10 @@ export default class extends PenfoldCommand {
     await this.client.db.userSettings
       .update({
         where: { id: BigInt(interaction.user.id) },
-        data,
+        data
       })
-      .catch((err) => {
-        return interaction.editReply(
-          `Something went wrong while updating your settings: ${err}`
-        );
+      .catch(err => {
+        return interaction.editReply(`Something went wrong while updating your settings: ${err}`);
       });
 
     return interaction.editReply("Successfully edited your settings!");
@@ -121,36 +116,32 @@ Timezone: \`${settings.timezone}\``);
     const updated = await this.client.db.userSettings
       .update({
         where: {
-          id: BigInt(interaction.user.id),
+          id: BigInt(interaction.user.id)
         },
         data: {
-          dailyDmEnabled: newValue,
-        },
+          dailyDmEnabled: newValue
+        }
       })
-      .catch(async (err) => {
-        await interaction.editReply(
-          `Something went wrong while updating your settings: ${err}`
-        );
+      .catch(async err => {
+        await interaction.editReply(`Something went wrong while updating your settings: ${err}`);
         return;
       });
 
     if (!updated) return;
     const toggled = updated.dailyDmEnabled == true ? "enabled" : "disabled";
-    return interaction.editReply(
-      `Successfully toggled Daily DMs to \`${toggled}\`.`
-    );
+    return interaction.editReply(`Successfully toggled Daily DMs to \`${toggled}\`.`);
   }
 
   public async ensureUserSettings(id: string) {
     let settings = await this.client.db.userSettings.findUnique({
-      where: { id: BigInt(id) },
+      where: { id: BigInt(id) }
     });
 
     if (!settings) {
       settings = await this.client.db.userSettings.create({
         data: {
-          id: BigInt(id),
-        },
+          id: BigInt(id)
+        }
       });
     }
 

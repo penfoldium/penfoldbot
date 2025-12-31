@@ -7,7 +7,7 @@ export default class extends PenfoldEvent {
     super(client, {
       name: "readyEvent",
       event: Events.ClientReady,
-      once: false,
+      once: false
     });
   }
 

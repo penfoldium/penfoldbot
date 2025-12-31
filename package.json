@@ -24,6 +24,8 @@
     "build": "rm -rf dist && npx tsc",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix",
+    "format:check": "npx prettier . --check",
+    "format:write": "npx prettier . --write",
     "start": "npm run build && node --env-file .env dist/src/Penfold",
     "start:dev": "npm run build && node --env-file dev.env dist/src/Penfold",
     "prisma:init": "npx prisma migrate deploy &&  npx prisma generate"
@@ -46,6 +48,8 @@
     "@types/ms": "^2.1.0",
     "@types/node": "^25.0.3",
     "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "3.7.4",
     "prisma": "^7.2.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.51.0"
