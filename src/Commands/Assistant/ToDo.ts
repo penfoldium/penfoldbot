@@ -42,6 +42,18 @@ export default class extends PenfoldCommand {
 
       .addSubcommand(
         new SlashCommandSubcommandBuilder()
+          .setName("search")
+          .setDescription("See through your todos")
+          .addStringOption(
+            new SlashCommandStringOption()
+              .setName("search")
+              .setDescription("Search query")
+              .setRequired(true)
+          )
+      )
+
+      .addSubcommand(
+        new SlashCommandSubcommandBuilder()
           .setName("complete")
           .setDescription("Mark a todo as completed")
           .addNumberOption(
@@ -62,6 +74,9 @@ export default class extends PenfoldCommand {
         break;
       case "list":
         this.list(interaction);
+        break;
+      case "search":
+        this.search(interaction);
         break;
       case "complete":
         this.complete(interaction);
@@ -86,6 +101,41 @@ export default class extends PenfoldCommand {
 
     if (!created) return;
     await interaction.editReply(`Successfully created todo with the id of \`${created.id}\`.`);
+  }
+
+  public async search(interaction: ChatInputCommandInteraction) {
+    const query = interaction.options.getString("search", true);
+    const todos = await this.client.db.todos.findMany({
+      where: {
+        user_id: BigInt(interaction.user.id)
+      }
+    });
+
+    const filtered = todos.filter(todo => todo.todo.toLowerCase().includes(query));
+
+    if (!filtered.length) {
+      await interaction.editReply("Can't find any todos matching your search query.");
+      return;
+    }
+
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: `Todos containing \`${query}\` for ${interaction.user.username}`,
+        iconURL: interaction.user.displayAvatarURL()
+      })
+      .setDescription(
+        filtered
+          .map(
+            todo =>
+              `Todo ID: **${todo.id}**
+Todo: **${todo.todo}**`
+          )
+          .join("\n\n")
+          .slice(0, 4096)
+      )
+      .setTimestamp();
+    await interaction.editReply({ embeds: [embed] });
+    return;
   }
 
   public async list(interaction: ChatInputCommandInteraction) {
