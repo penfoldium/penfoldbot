@@ -20,7 +20,7 @@ export default class extends PenfoldEvent {
     client.user.setStatus("dnd");
 
     console.log(
-      `[Ready] Successfully logged in as ${client.user.tag}. Ready to serve ${client.guilds.cache.size} guilds with a total of ${client.users.cache.size} users.`
+      `[Ready] Successfully logged in as ${client.user.tag}. Ready to serve ${client.guilds.cache.size} guilds.`
     );
   }
 
