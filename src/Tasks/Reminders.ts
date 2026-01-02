@@ -36,9 +36,13 @@ export default class extends PenfoldTask {
         }
       });
 
-      setTimeout(async () => {
-        await this.sendReminder(reminder);
-      }, dayjs().diff(reminder.date));
+      setTimeout(
+        async () => {
+          await this.sendReminder(reminder);
+        },
+        // We use Math.abs() here to convert negative number to positive
+        Math.abs(dayjs().diff(reminder.date))
+      );
     }
 
     if (!remindersToFire) return;
