@@ -6,18 +6,21 @@ import { type PenfoldClient } from "./PenfoldClient.js";
 export abstract class PenfoldTask extends PenfoldBase {
   cron: string;
   scheduler?: ScheduledTask;
+  clientReady: boolean;
 
   constructor(client: PenfoldClient, options: TaskOptions) {
     super(client, options);
 
     if (!validate(options.cron)) throw new Error("Invalid cron string provided");
     this.cron = options.cron;
+    this.clientReady = options.clientReady ?? false;
   }
 
   setup() {
     this.scheduler = schedule(
       this.cron,
       async () => {
+        if (this.clientReady && !this.client.isReady()) return;
         this.client.debug(`Running task ${this.name}`);
         await this.run();
       },
@@ -30,4 +33,8 @@ export abstract class PenfoldTask extends PenfoldBase {
 
 export type TaskOptions = BaseOptions & {
   cron: string;
+  /**
+   * Only run this task if the client is ready
+   */
+  clientReady?: boolean;
 };
