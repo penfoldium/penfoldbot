@@ -61,16 +61,16 @@ export default class extends PenfoldTask {
     if (!user) return;
 
     const snooze5 = new ButtonBuilder()
-      .setCustomId(`snooze5-${reminder.id}`)
-      .setLabel("Snooze 5 minutes")
+      .setCustomId(`snooze15-${reminder.id}`)
+      .setLabel("Snooze 15 minutes")
       .setStyle(ButtonStyle.Primary);
     const snooze10 = new ButtonBuilder()
-      .setCustomId(`snooze10-${reminder.id}`)
-      .setLabel("Snooze 10 minutes")
+      .setCustomId(`snooze60-${reminder.id}`)
+      .setLabel("Snooze 1 hour")
       .setStyle(ButtonStyle.Primary);
     const snooze30 = new ButtonBuilder()
-      .setCustomId(`snooze30-${reminder.id}`)
-      .setLabel("Snooze 30 minutes")
+      .setCustomId(`snooze1440-${reminder.id}`)
+      .setLabel("Snooze 1 day")
       .setStyle(ButtonStyle.Primary);
 
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(snooze5, snooze10, snooze30);
