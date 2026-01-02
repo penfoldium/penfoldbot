@@ -88,7 +88,7 @@ export default class extends PenfoldTask {
 
     for (const todo of todos) {
       fields.push({
-        name: `Todo \`${todo.id}\`)`,
+        name: `Todo \`${todo.id}\``,
         value: `\`${todo.todo}\``
       });
     }
