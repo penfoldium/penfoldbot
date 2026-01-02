@@ -58,7 +58,6 @@ export default class extends PenfoldTask {
     user_id: bigint;
     date: Date;
     message: string;
-    notes: string | null;
     triggered: boolean;
   }) {
     const user = await this.client.users

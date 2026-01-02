@@ -22,7 +22,6 @@ model Reminders {
   user_id   BigInt
   date      DateTime
   message   String
-  notes     String?
   triggered Boolean
 }
 
