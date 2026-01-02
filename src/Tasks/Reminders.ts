@@ -38,7 +38,7 @@ export default class extends PenfoldTask {
 
       setTimeout(async () => {
         await this.sendReminder(reminder);
-      }, dayjs(reminder.date).diff());
+      }, dayjs().diff(reminder.date));
     }
 
     if (!remindersToFire) return;
