@@ -13,7 +13,7 @@ datasource db {
 model UserSettings {
   id             BigInt  @id @unique
   timezone       String  @default("Etc/UTC")
-  dailyDmTime    String  @default("8AM")
+  dailyDmTime    String  @default("8:00")
   dailyDmEnabled Boolean @default(true)
 }
 

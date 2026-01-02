@@ -1,3 +1,4 @@
+import { parse } from "chrono-node";
 import {
   AutocompleteInteraction,
   MessageFlags,
@@ -94,17 +95,29 @@ export default class extends PenfoldCommand {
 
   public async set(interaction: ChatInputCommandInteraction) {
     await this.ensureUserSettings(interaction.user.id);
-    const option = interaction.options.getString("option", true);
+    const option = interaction.options.getString("option", true) as "timezone" | "dailydmtime";
     const newValue = interaction.options.getString("value", true);
-
-    if (option == "timezone" && !timezone.default.some(e => e.tzCode == newValue))
-      return interaction.editReply(
-        `The provided timezone is not valid. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for details (make sure to use the \`TZ identified\`!) - Case sensitive!`
-      );
-
     let data: { timezone: string } | { dailyDmTime: string };
-    if (option == "timezone") data = { timezone: newValue };
-    else data = { dailyDmTime: newValue };
+
+    if (option == "dailydmtime") {
+      const parsed = parse(newValue)[0]?.start;
+      if (!parsed) {
+        await interaction.editReply(
+          "Please set a valid time for your Daily DM's. (example: `8AM`, `21:00`, `10:21PM`"
+        );
+        return;
+      }
+
+      const [hour, minute] = [parsed?.get("hour"), parsed?.get("minute")];
+      data = { dailyDmTime: `${hour}:${minute}` };
+    } else {
+      if (!timezone.default.some(e => e.tzCode == newValue))
+        return interaction.editReply(
+          `The provided timezone is not valid. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for details (make sure to use the \`TZ identified\`!) - Case sensitive!`
+        );
+
+      data = { timezone: newValue };
+    }
 
     await this.client.db.userSettings
       .update({
