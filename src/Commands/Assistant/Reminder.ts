@@ -138,6 +138,8 @@ export default class extends PenfoldCommand {
         created.id
       }\`. I will remind you on <t:${dayjs(created.date).unix()}:F>`
     );
+    const task = this.client.tasks.get("Reminders");
+    if (task) await task.run();
   }
 
   public async list(interaction: ChatInputCommandInteraction) {
