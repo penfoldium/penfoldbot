@@ -32,3 +32,9 @@ model Todos {
   todo      String
   completed Boolean
 }
+
+model Notes {
+  id      Int    @id @unique @default(autoincrement())
+  user_id BigInt
+  note    String
+}
