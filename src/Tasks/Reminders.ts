@@ -22,7 +22,8 @@ export default class extends PenfoldTask {
 
     // If there are reminders with less than 1 minute remaining, mark them as triggered and send them using a setTimeout
     const remindersOneMinute = reminders.filter(
-      reminder => dayjs(reminder.date).diff(dayjs(), "minute") < 1
+      reminder =>
+        dayjs(reminder.date).diff(dayjs(), "minute") < 1 && !remindersToFire.includes(reminder)
     );
 
     for (const reminder of remindersOneMinute) {
