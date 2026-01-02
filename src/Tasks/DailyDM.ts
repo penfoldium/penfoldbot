@@ -63,13 +63,19 @@ export default class extends PenfoldTask {
       })
       .catch(() => {});
 
+    const todos = await this.client.db.todos.findMany({
+      where: {
+        user_id: daily.id
+      }
+    });
+
     if (!reminders) return;
 
     const filteredReminders = reminders.filter(reminder => {
       return dayjs().diff(reminder.date, "days") == 0;
     });
 
-    if (!filteredReminders.length) return;
+    if (!filteredReminders.length && (!todos || !todos.length)) return;
 
     const fields = [];
 
@@ -77,6 +83,13 @@ export default class extends PenfoldTask {
       fields.push({
         name: `Reminder \`${reminder.id}\` (due in ${ms(Math.abs(dayjs().tz(daily.timezone).diff(reminder.date)), { long: true })})`,
         value: `\`${reminder.message}\``
+      });
+    }
+
+    for (const todo of todos) {
+      fields.push({
+        name: `Todo \`${todo.id}\`)`,
+        value: `\`${todo.todo}\``
       });
     }
 

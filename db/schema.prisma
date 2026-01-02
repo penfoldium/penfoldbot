@@ -25,3 +25,10 @@ model Reminders {
   notes     String?
   triggered Boolean
 }
+
+model Todos {
+  id        Int     @id @unique @default(autoincrement())
+  user_id   BigInt
+  todo      String
+  completed Boolean
+}
