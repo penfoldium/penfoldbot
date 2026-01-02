@@ -178,6 +178,7 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**
 Active: **${!reminder.triggered}**`
             )
             .join("\n\n")
+            .slice(0, 4093) + "..."
         )
         .setTimestamp();
       await interaction.editReply({ embeds: [embed] });
@@ -199,6 +200,7 @@ Reminder: **${reminder.message}**
 When: **<t:${dayjs(reminder.date).unix()}:F>**`
           )
           .join("\n\n")
+          .slice(0, 4096)
       )
       .setTimestamp();
     await interaction.editReply({ embeds: [embed] });

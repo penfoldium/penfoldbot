@@ -77,24 +77,32 @@ export default class extends PenfoldTask {
 
     if (!filteredReminders.length && (!todos || !todos.length)) return;
 
-    const fields = [];
+    let fields = [];
 
     for (const reminder of filteredReminders) {
       fields.push({
         name: `Reminder \`${reminder.id}\` (due in ${ms(Math.abs(dayjs().tz(daily.timezone).diff(reminder.date)), { long: true })})`,
-        value: `\`${reminder.message}\``
+        value: `\`${reminder.message.slice(0, 1024)}\``
       });
     }
 
     for (const todo of todos) {
       fields.push({
         name: `Todo \`${todo.id}\``,
-        value: `\`${todo.todo}\``
+        value: `\`${todo.todo.slice(0, 1024)}\``
       });
+    }
+
+    let warning: string | null = null;
+    if (fields.length >= 24) {
+      fields = fields.slice(0, 24);
+      warning =
+        "⚠️ Can only display a total of 25 reminders and todos. Make sure to clean them up!";
     }
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: `Daily DM for ${user.username}`, iconURL: user.displayAvatarURL() })
+      .setDescription(warning)
       .setFields(fields);
 
     let dm = await user.dmChannel?.fetch();

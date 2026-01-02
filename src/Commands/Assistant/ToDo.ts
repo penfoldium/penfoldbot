@@ -123,6 +123,7 @@ Todo: **${todo.todo}**
 Completed: **${!todo.completed}**`
             )
             .join("\n\n")
+            .slice(0, 4093) + "..."
         )
         .setTimestamp();
       await interaction.editReply({ embeds: [embed] });
@@ -143,6 +144,7 @@ Completed: **${!todo.completed}**`
 Todo: **${todo.todo}**`
           )
           .join("\n\n")
+          .slice(0, 4096)
       )
       .setTimestamp();
     await interaction.editReply({ embeds: [embed] });
