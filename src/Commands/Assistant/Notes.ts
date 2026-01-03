@@ -53,7 +53,7 @@ export default class extends PenfoldCommand {
           .addNumberOption(
             new SlashCommandNumberOption()
               .setName("id")
-              .setDescription("The ID of the todo to delete")
+              .setDescription("The ID of the note to delete")
               .setRequired(true)
           )
       );
@@ -192,7 +192,7 @@ Note: **${note.note}**`
         }
       })
       .catch(async err => {
-        await interaction.editReply(`Something went wrong while deleting your todo: ${err}`);
+        await interaction.editReply(`Something went wrong while deleting your note: ${err}`);
         return;
       })
       .finally(async () => {
