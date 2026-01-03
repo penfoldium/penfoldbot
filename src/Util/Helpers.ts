@@ -1,4 +1,4 @@
-import type { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction, Client } from "discord.js";
 import type { PenfoldClient } from "src/Classes/PenfoldClient.js";
 
 export function getEmbedFooter(interaction: ChatInputCommandInteraction) {
@@ -8,7 +8,7 @@ export function getEmbedFooter(interaction: ChatInputCommandInteraction) {
   };
 }
 
-export function getBotAvatar(client: PenfoldClient) {
+export function getBotAvatar(client: PenfoldClient | Client<true>) {
   return (
     client.user?.displayAvatarURL() ??
     "https://avatars.githubusercontent.com/u/49412957?s=400&u=01dfdf6c953e302f5873c284ea0dcf192df63239&v=4"
