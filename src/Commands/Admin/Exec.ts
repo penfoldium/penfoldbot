@@ -1,43 +1,42 @@
-import {
-  AttachmentBuilder,
-  codeBlock,
-  SlashCommandNumberOption,
-  SlashCommandStringOption,
-  type ChatInputCommandInteraction
-} from "discord.js";
+import { AttachmentBuilder, codeBlock, type ChatInputCommandInteraction } from "discord.js";
 import ms from "ms";
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
+import {
+  PenfoldSlashCommandNumberOption,
+  PenfoldSlashCommandStringOption
+} from "../../Classes/PenfoldSlashCommandBuilders.js";
+import { getLocaleString } from "../../Util/Helpers.js";
 
 const execPromise = promisify(exec);
 
 export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
-      name: "exec",
-      description: "Execute commands on the system (⚠️ WARNING: USE WITH CAUTION)",
+      name: "exec.name",
+      description: "exec.description",
       ownerOnly: true
     });
 
     this.builder
       .addStringOption(
-        new SlashCommandStringOption()
-          .setName("str")
-          .setDescription("String to execute")
+        new PenfoldSlashCommandStringOption()
+          .localizeName("exec.options.str.name")
+          .localizeDescription("exec.options.str.description")
           .setRequired(true)
       )
       .addNumberOption(
-        new SlashCommandNumberOption()
-          .setName("timeout")
-          .setDescription("The amount of time in ms for the command to timeout")
+        new PenfoldSlashCommandNumberOption()
+          .localizeName("exec.options.timeout.name")
+          .localizeDescription("exec.options.timeout.description")
           .setRequired(false)
       );
   }
 
   public async run(interaction: ChatInputCommandInteraction) {
-    await interaction.reply("Executing your command...");
+    await interaction.reply(getLocaleString("exec.strings.executing", interaction));
     const input = interaction.options.getString("str", true);
     const timeout = interaction.options.getNumber("timeout");
 
@@ -54,17 +53,21 @@ export default class extends PenfoldCommand {
         ? new AttachmentBuilder(Buffer.from([output, outerr].join("\n"))).setName("result.txt")
         : false;
 
+    const took = getLocaleString("exec.strings.took", interaction, {
+      time: ms(Number((end - start).toFixed(2)))
+    });
+
     if (!attachment)
       await interaction.editReply({
         content:
-          ([output, outerr].join("\n") || "Done. There was no output to stdout or stderr.") +
-          `\nTook: ${ms(Number((end - start).toFixed(2)))} to execute ⌛`
+          ([output, outerr].join("\n") ||
+            getLocaleString("exec.strings.done_no_output", interaction)) +
+          `\n` +
+          took
       });
     else
       await interaction.editReply({
-        content:
-          "Result too long, attacked as file instead." +
-          `\nTook: ${ms(Number((end - start).toFixed(2)))} to execute ⌛`,
+        content: getLocaleString("exec.strings.result_too_long", interaction) + `\n` + took,
         files: [attachment]
       });
   }

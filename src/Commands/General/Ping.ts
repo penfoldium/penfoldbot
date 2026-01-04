@@ -2,20 +2,21 @@ import type { ChatInputCommandInteraction } from "discord.js";
 import ms from "ms";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
+import { getLocaleString } from "../../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
-      name: "ping",
-      description: "Test the time it takes between you sending a message and Penfold receiving it"
+      name: "ping.name",
+      description: "ping.description"
     });
   }
 
   public async run(interaction: ChatInputCommandInteraction) {
-    await interaction.reply("Ping?");
+    await interaction.reply(getLocaleString("ping.strings.ping", interaction));
     const reply = await interaction.fetchReply();
-    const time = reply.createdTimestamp - interaction.createdTimestamp;
+    const time = ms(reply.createdTimestamp - interaction.createdTimestamp);
 
-    await interaction.editReply(`🏓 Pong! Took ${ms(time)} ⏱️`);
+    await interaction.editReply(getLocaleString("ping.strings.pong", interaction, { time }));
   }
 }

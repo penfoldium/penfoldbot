@@ -5,13 +5,13 @@ import { arch, cpus, freemem, release, totalmem, type, uptime } from "node:os";
 import * as pkg from "../../../package.json" with { type: "json" };
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
-import { getBotAvatar, getEmbedFooter } from "../../Util/Helpers.js";
+import { getBotAvatar, getLocaleString } from "../../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
-      name: "stats",
-      description: "Provides some statistics about the bot"
+      name: "stats.name",
+      description: "stats.description"
     });
   }
 
@@ -61,47 +61,53 @@ export default class extends PenfoldCommand {
 
     const fields = [
       {
-        name: "Connected to:",
-        value: `**${info.guilds}** servers | **${info.channels}** channels  | **${info.users}** users  | **${info.activeUsers}** active users`
+        name: getLocaleString("stats.strings.connected_to.name", interaction),
+        value: getLocaleString("stats.strings.connected_to.value", interaction, {
+          guilds: info.guilds,
+          channels: info.channels,
+          users: info.users,
+          activeUsers: info.activeUsers
+        })
       },
       {
-        name: "Collections loaded:",
-        value: `**${this.client.commands.size}** commands | **${this.client.events.size}** events | **${this.client.tasks.size}** tasks`
+        name: getLocaleString("stats.strings.collections_loaded.name", interaction),
+        value: getLocaleString("stats.strings.collections_loaded.value", interaction, {
+          commands: this.client.commands.size,
+          events: this.client.events.size,
+          tasks: this.client.tasks.size
+        })
       },
       {
         // (Active users are counted for the past 30 minutes)\n\n
-        name: "OS Information:",
-        value: [
-          `**${type()} ${release()} ${arch()}**`,
-          `**System uptime:** ${info.uptime}`,
-          `**CPU:** ${info.cpuModel.trim()}`,
-          `**RAM:** ${info.RAM.free}GB free of ${info.RAM.total}GB`
-        ].join("\n")
+        name: getLocaleString("stats.strings.os_info.name", interaction),
+        value: getLocaleString("stats.strings.os_info.value", interaction, {
+          os: `${type()} ${release()} ${arch()}`,
+          uptime: info.uptime,
+          cpu: info.cpuModel.trim(),
+          free: info.RAM.free,
+          total: info.RAM.total
+        })
       },
       {
-        name: "Bot Information:",
-        value: [
-          `**Bot uptime:** ${info.botUptime}`,
-          `**RAM usage:** ${info.RAM.usage}MB`,
-          `**Commit:** [${hash.substring(
-            0,
-            7
-          )}](https://github.com/penfoldium/penfoldbot/commit/${hash})`,
-          `\n**Node.js version:** ${process.version}`,
-          `**Discord.js version:** v${version}`,
-          `**Penfoldbot version:** v${pkg.default.version}`
-        ].join("\n")
+        name: getLocaleString("stats.strings.bot_info.name", interaction),
+        value: getLocaleString("stats.strings.bot_info.value", interaction, {
+          uptime: info.botUptime,
+          usage: info.RAM.usage,
+          commit: hash.substring(0, 7),
+          hash,
+          node_version: process.version,
+          djs_version: version,
+          penfold_version: pkg.default.version
+        })
       }
     ];
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: "Bot Statistics",
+        name: getLocaleString("stats.strings.bot_statistics", interaction),
         iconURL: getBotAvatar(this.client)
       })
-      .addFields(fields)
-      .setFooter(getEmbedFooter(interaction))
-      .setTimestamp();
+      .addFields(fields);
     return interaction.reply({ embeds: [embed] });
   }
 

@@ -4,8 +4,11 @@ import {
   SlashCommandBuilder,
   type Interaction
 } from "discord.js";
-import { PenfoldBase, type BaseOptions } from "./PenfoldBase.js";
+import type { CustomTypeOptions } from "i18next";
+import { getEnglishLocale } from "../Util/Helpers.js";
+import { PenfoldBase } from "./PenfoldBase.js";
 import { type PenfoldClient } from "./PenfoldClient.js";
+import { PenfoldSlashCommandBuilder } from "./PenfoldSlashCommandBuilders.js";
 
 export abstract class PenfoldCommand extends PenfoldBase {
   builder: SlashCommandBuilder;
@@ -16,11 +19,14 @@ export abstract class PenfoldCommand extends PenfoldBase {
 
   constructor(client: PenfoldClient, options: CommandOptions) {
     super(client, options);
-    this.description = options.description ?? "No description provided.";
+    this.name = getEnglishLocale(options.name);
+    this.description = getEnglishLocale(options.description);
     this.ownerOnly = options.ownerOnly ?? false;
     this.cooldown = options.cooldown ?? 5;
 
-    this.builder = new SlashCommandBuilder().setName(this.name).setDescription(this.description);
+    this.builder = new PenfoldSlashCommandBuilder()
+      .localizeName(options.name)
+      .localizeDescription(options.description);
   }
 
   abstract override run(interaction: Interaction): unknown;
@@ -47,8 +53,9 @@ export abstract class PenfoldCommand extends PenfoldBase {
   }
 }
 
-export type CommandOptions = BaseOptions & {
-  description?: string;
+export type CommandOptions = {
+  name: keyof CustomTypeOptions["resources"]["commands"];
+  description: keyof CustomTypeOptions["resources"]["commands"];
   ownerOnly?: boolean;
   cooldown?: number;
 };

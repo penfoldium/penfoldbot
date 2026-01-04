@@ -1,8 +1,10 @@
 import dayjs from "dayjs";
 import { ChatInputCommandInteraction, Events, type Interaction } from "discord.js";
-import type { PenfoldCommand } from "src/Classes/PenfoldCommand.js";
+import i18next from "i18next";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
+import type { PenfoldCommand } from "../Classes/PenfoldCommand.js";
 import { PenfoldEvent } from "../Classes/PenfoldEvent.js";
+import { getLocaleString } from "../Util/Helpers.js";
 
 export default class extends PenfoldEvent {
   constructor(client: PenfoldClient) {
@@ -24,7 +26,7 @@ export default class extends PenfoldEvent {
       }
     }
 
-    // Handle snooze buttons for reminders
+    // #region Handle snooze buttons for reminders
     if (interaction.isButton()) {
       if (!interaction.customId.startsWith("snooze")) return;
       await interaction.deferReply();
@@ -48,22 +50,28 @@ export default class extends PenfoldEvent {
           }
         })
         .catch(async err => {
-          await interaction.editReply(`Something went wrong while snoozing your reminder: ${err}`);
+          await interaction.editReply(getLocaleString("snooze.error", interaction, { err }));
           return;
         });
 
       if (!updated) return;
       await interaction.editReply(
-        `Successfully snoozed reminder with id \`${updated.id}\` to <t:${dayjs(updated.date).unix()}:F>`
+        getLocaleString("snooze.strings.snoozed", interaction, {
+          id: updated.id,
+          time: dayjs(updated.date).unix()
+        })
       );
     }
+    // #endregion
 
     if (!interaction.isChatInputCommand()) return;
     const command = this.client.commands.get(interaction.commandName);
 
     if (!command) {
       await interaction.reply(
-        `No command with the name of ${interaction.commandName} found in code.`
+        getLocaleString("no_command", interaction, {
+          command: interaction.commandName
+        })
       );
       return;
     }
@@ -72,14 +80,17 @@ export default class extends PenfoldEvent {
     const isOwner = this.client.owners.includes(interaction.user.id);
 
     if (command?.ownerOnly && !isOwner) {
-      await interaction.reply("This is an owner only command.");
+      await interaction.reply(getLocaleString("owner_only", interaction));
       return;
     }
 
     const cooldown = isOwner ? false : await this.#checkCooldown(command, user, interaction);
 
     this.client.debug(
-      `Command ${interaction.commandName} ran by user ${interaction.user.username}`
+      i18next.t("client:debug.command_ran", {
+        command: interaction.commandName,
+        user: interaction.user.username
+      })
     );
 
     if (!cooldown) command.run(interaction);
@@ -108,9 +119,9 @@ export default class extends PenfoldEvent {
     }
 
     await interaction.reply(
-      `You're running this command too fast! You can run it again in <t:${dayjs(
-        cooldown
-      ).unix()}:R>!`
+      getLocaleString("cooldown_text", interaction, {
+        time: dayjs(cooldown).unix()
+      })
     );
 
     return true;

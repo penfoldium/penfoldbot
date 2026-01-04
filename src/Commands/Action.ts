@@ -1,14 +1,12 @@
-import {
-  EmbedBuilder,
-  SlashCommandStringOption,
-  SlashCommandUserOption,
-  type ChatInputCommandInteraction,
-  type User
-} from "discord.js";
+import { EmbedBuilder, type ChatInputCommandInteraction, type User } from "discord.js";
 import NekoClient from "nekos.life";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../Classes/PenfoldCommand.js";
-import { getBotAvatar } from "../Util/Helpers.js";
+import {
+  PenfoldSlashCommandStringOption,
+  PenfoldSlashCommandUserOption
+} from "../Classes/PenfoldSlashCommandBuilders.js";
+import { getAllLocales, getBotAvatar, getEnglishLocale, getLocaleString } from "../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
   actions = ["cuddle", "feed", "hug", "kiss", "pat", "poke", "slap", "tickle"] as const;
@@ -16,28 +14,65 @@ export default class extends PenfoldCommand {
 
   constructor(client: PenfoldClient) {
     super(client, {
-      name: "action",
-      description: "Some fun actions to do to other users!"
+      name: "action.name",
+      description: "action.description"
     });
 
     this.builder
 
       .addStringOption(
-        new SlashCommandStringOption()
-          .setName("action")
-          .setDescription("What action to do")
-          .setChoices(
-            this.actions.map(action => {
-              return { name: action, value: action };
-            })
+        new PenfoldSlashCommandStringOption()
+          .localizeName("action.options.action.name")
+          .localizeDescription("action.options.action.description")
+          .addChoices(
+            {
+              name: getEnglishLocale("action.actions.cuddle"),
+              name_localizations: getAllLocales("action.actions.cuddle"),
+              value: "cuddle"
+            },
+            {
+              name: getEnglishLocale("action.actions.feed"),
+              name_localizations: getAllLocales("action.actions.feed"),
+              value: "feed"
+            },
+            {
+              name: getEnglishLocale("action.actions.hug"),
+              name_localizations: getAllLocales("action.actions.hug"),
+              value: "hug"
+            },
+            {
+              name: getEnglishLocale("action.actions.kiss"),
+              name_localizations: getAllLocales("action.actions.kiss"),
+              value: "kiss"
+            },
+            {
+              name: getEnglishLocale("action.actions.pat"),
+              name_localizations: getAllLocales("action.actions.pat"),
+              value: "pat"
+            },
+            {
+              name: getEnglishLocale("action.actions.poke"),
+              name_localizations: getAllLocales("action.actions.poke"),
+              value: "poke"
+            },
+            {
+              name: getEnglishLocale("action.actions.slap"),
+              name_localizations: getAllLocales("action.actions.slap"),
+              value: "slap"
+            },
+            {
+              name: getEnglishLocale("action.actions.tickle"),
+              name_localizations: getAllLocales("action.actions.tickle"),
+              value: "tickle"
+            }
           )
           .setRequired(true)
       )
 
       .addUserOption(
-        new SlashCommandUserOption()
-          .setName("user")
-          .setDescription("The user to use the action on")
+        new PenfoldSlashCommandUserOption()
+          .localizeName("action.options.user.name")
+          .localizeDescription("action.options.user.description")
           .setRequired(true)
       );
   }
@@ -50,161 +85,272 @@ export default class extends PenfoldCommand {
   }
 
   public async cuddle(interaction: ChatInputCommandInteraction, user: User) {
-    const img = await this.nekoapi.cuddle();
+    const img = await this.nekoapi.cuddle().catch(async err => {
+      await interaction.editReply(
+        getLocaleString("action.strings.went_wrong", interaction, { err })
+      );
+      return;
+    });
+    if (!img) return;
+
     const description =
-      user.id === interaction.client.user.id
-        ? `*You're pretty cuddly, ${interaction.user}...*` // @bot
-        : user === interaction.user
-          ? `It's no problem if you're alone, ${user} - I love to cuddle with my friends!` // @self
-          : `${interaction.user} is cuddling you, ${user}!`; // @user
+      user.id === interaction.client.user.id // @bot
+        ? getLocaleString("action.strings.cuddle.bot", interaction, { user: interaction.user })
+        : user === interaction.user // @self
+          ? getLocaleString("action.strings.cuddle.self", interaction, { user })
+          : // @user
+            getLocaleString("action.strings.cuddle.user", interaction, {
+              user1: interaction.user,
+              user2: user
+            });
 
     const embed = new EmbedBuilder()
       .setDescription(description)
       .setImage(img.url)
-      .setAuthor({ name: `Cuddle!`, iconURL: getBotAvatar(interaction.client) })
+      .setAuthor({
+        name: getLocaleString("action.strings.cuddle.name", interaction),
+        iconURL: getBotAvatar(interaction.client)
+      })
       .setFooter({
-        text: "Powered by nekos.life"
+        text: getLocaleString("action.strings.powered_by", interaction)
       });
 
     await interaction.editReply({ embeds: [embed] });
   }
 
   public async feed(interaction: ChatInputCommandInteraction, user: User) {
-    const img = await this.nekoapi.feed();
+    const img = await this.nekoapi.feed().catch(async err => {
+      await interaction.editReply(
+        getLocaleString("action.strings.went_wrong", interaction, { err })
+      );
+      return;
+    });
+    if (!img) return;
+
     const description =
-      user.id === interaction.client.user.id
-        ? `Sure, I'll take that, ${interaction.user}! :yum:` // @bot
-        : user === interaction.user
-          ? `Oh, I don't mind sharing my food with you, ${user}!` // @self
-          : `${user}, here's some food from ${interaction.user}!`; // @user
+      user.id === interaction.client.user.id // @bot
+        ? getLocaleString("action.strings.feed.bot", interaction, { user: interaction.user })
+        : user === interaction.user // @self
+          ? getLocaleString("action.strings.feed.self", interaction, { user })
+          : // @user
+            getLocaleString("action.strings.feed.user", interaction, {
+              user1: interaction.user,
+              user2: user
+            });
 
     const embed = new EmbedBuilder()
       .setDescription(description)
       .setImage(img.url)
-      .setAuthor({ name: `Feed!`, iconURL: getBotAvatar(interaction.client) })
+      .setAuthor({
+        name: getLocaleString("action.strings.feed.name", interaction),
+        iconURL: getBotAvatar(interaction.client)
+      })
       .setFooter({
-        text: "Powered by nekos.life"
+        text: getLocaleString("action.strings.powered_by", interaction)
       });
 
     await interaction.editReply({ embeds: [embed] });
   }
 
   public async hug(interaction: ChatInputCommandInteraction, user: User) {
-    const img = await this.nekoapi.hug();
+    const img = await this.nekoapi.hug().catch(async err => {
+      await interaction.editReply(
+        getLocaleString("action.strings.went_wrong", interaction, { err })
+      );
+      return;
+    });
+    if (!img) return;
 
     const description =
-      user.id === interaction.client.user.id
-        ? `Oh, you're hugging me, ${interaction.user}... :heart:` // @bot
-        : user === interaction.user
-          ? `${user}, I see you're lonely, chief... let me give you a hug :heart:` // @self
-          : `${user}, here's a hug from ${interaction.user}! :heart:`; // @user
+      user.id === interaction.client.user.id // @bot
+        ? getLocaleString("action.strings.hug.bot", interaction, { user: interaction.user })
+        : user === interaction.user // @self
+          ? getLocaleString("action.strings.hug.self", interaction, { user })
+          : // @user
+            getLocaleString("action.strings.hug.user", interaction, {
+              user1: interaction.user,
+              user2: user
+            });
 
     const embed = new EmbedBuilder()
       .setDescription(description)
       .setImage(img.url)
-      .setAuthor({ name: `Hug!`, iconURL: getBotAvatar(interaction.client) })
+      .setAuthor({
+        name: getLocaleString("action.strings.hug.name", interaction),
+        iconURL: getBotAvatar(interaction.client)
+      })
       .setFooter({
-        text: "Powered by nekos.life"
+        text: getLocaleString("action.strings.powered_by", interaction)
       });
 
     await interaction.editReply({ embeds: [embed] });
   }
 
   public async kiss(interaction: ChatInputCommandInteraction, user: User) {
-    const img = await this.nekoapi.kiss();
+    const img = await this.nekoapi.kiss().catch(async err => {
+      await interaction.editReply(
+        getLocaleString("action.strings.went_wrong", interaction, { err })
+      );
+      return;
+    });
+    if (!img) return;
+
     const description =
-      user.id === interaction.client.user.id
-        ? `\\*blushing\\* *That's so sweet of you, ${interaction.user}...*` // @bot
-        : user === interaction.user
-          ? `Nobody around? I guess a friendly kiss from me won't hurt you, ${user}!` // @self
-          : `${user}, here's a kiss from ${interaction.user}!`; // @user
+      user.id === interaction.client.user.id // @bot
+        ? getLocaleString("action.strings.kiss.bot", interaction, { user: interaction.user })
+        : user === interaction.user // @self
+          ? getLocaleString("action.strings.kiss.self", interaction, { user })
+          : // @user
+            getLocaleString("action.strings.kiss.user", interaction, {
+              user1: interaction.user,
+              user2: user
+            });
 
     const embed = new EmbedBuilder()
       .setDescription(description)
       .setImage(img.url)
-      .setAuthor({ name: `Kiss!`, iconURL: getBotAvatar(interaction.client) })
+      .setAuthor({
+        name: getLocaleString("action.strings.kiss.name", interaction),
+        iconURL: getBotAvatar(interaction.client)
+      })
       .setFooter({
-        text: "Powered by nekos.life"
+        text: getLocaleString("action.strings.powered_by", interaction)
       });
 
     await interaction.editReply({ embeds: [embed] });
   }
 
   public async pat(interaction: ChatInputCommandInteraction, user: User) {
-    const img = await this.nekoapi.pat();
+    const img = await this.nekoapi.pat().catch(async err => {
+      await interaction.editReply(
+        getLocaleString("action.strings.went_wrong", interaction, { err })
+      );
+      return;
+    });
+    if (!img) return;
+
     const description =
-      user.id === interaction.client.user.id
-        ? `*It feels good, ${interaction.user}, keep going...*` // @bot
-        : user === interaction.user
-          ? `You're an amazing friend, ${user}, so you deserve it!` // @self
-          : `${user}, here's a pat from ${interaction.user}`; // @user
+      user.id === interaction.client.user.id // @bot
+        ? getLocaleString("action.strings.pat.bot", interaction, { user: interaction.user })
+        : user === interaction.user // @self
+          ? getLocaleString("action.strings.pat.self", interaction, { user })
+          : // @user
+            getLocaleString("action.strings.pat.user", interaction, {
+              user1: interaction.user,
+              user2: user
+            });
 
     const embed = new EmbedBuilder()
       .setDescription(description)
       .setImage(img.url)
-      .setAuthor({ name: `Pat!`, iconURL: getBotAvatar(interaction.client) })
+      .setAuthor({
+        name: getLocaleString("action.strings.pat.name", interaction),
+        iconURL: getBotAvatar(interaction.client)
+      })
       .setFooter({
-        text: "Powered by nekos.life"
+        text: getLocaleString("action.strings.powered_by", interaction)
       });
 
     await interaction.editReply({ embeds: [embed] });
   }
 
   public async poke(interaction: ChatInputCommandInteraction, user: User) {
-    const img = await this.nekoapi.poke();
+    const img = await this.nekoapi.poke().catch(async err => {
+      await interaction.editReply(
+        getLocaleString("action.strings.went_wrong", interaction, { err })
+      );
+      return;
+    });
+    if (!img) return;
+
     const description =
-      user.id === interaction.client.user.id
-        ? `Ow. Watch it, ${interaction.user}!` // @bot
-        : user === interaction.user
-          ? `\\*pokes ${user}\\*` // @self
-          : `${user}, ${interaction.user} is poking you!`; // @user
+      user.id === interaction.client.user.id // @bot
+        ? getLocaleString("action.strings.poke.bot", interaction, { user: interaction.user })
+        : user === interaction.user // @self
+          ? getLocaleString("action.strings.poke.self", interaction, { user })
+          : // @user
+            getLocaleString("action.strings.poke.user", interaction, {
+              user1: interaction.user,
+              user2: user
+            });
 
     const embed = new EmbedBuilder()
       .setDescription(description)
       .setImage(img.url)
-      .setAuthor({ name: `Poke!`, iconURL: getBotAvatar(interaction.client) })
+      .setAuthor({
+        name: getLocaleString("action.strings.poke.name", interaction),
+        iconURL: getBotAvatar(interaction.client)
+      })
       .setFooter({
-        text: "Powered by nekos.life"
+        text: getLocaleString("action.strings.powered_by", interaction)
       });
 
     await interaction.editReply({ embeds: [embed] });
   }
 
   public async slap(interaction: ChatInputCommandInteraction, user: User) {
-    const img = await this.nekoapi.slap();
+    const img = await this.nekoapi.slap().catch(async err => {
+      await interaction.editReply(
+        getLocaleString("action.strings.went_wrong", interaction, { err })
+      );
+      return;
+    });
+    if (!img) return;
+
     const description =
-      user.id === interaction.client.user.id
-        ? `Ouch! What have I done to you, ${interaction.user}?` // @bot
-        : user === interaction.user
-          ? `Why are you slapping yourself, ${user}?` // @self
-          : `Hey ${user}, you've just been slapped by ${interaction.user}`; // @user
+      user.id === interaction.client.user.id // @bot
+        ? getLocaleString("action.strings.slap.bot", interaction, { user: interaction.user })
+        : user === interaction.user // @self
+          ? getLocaleString("action.strings.slap.self", interaction, { user })
+          : // @user
+            getLocaleString("action.strings.slap.user", interaction, {
+              user1: interaction.user,
+              user2: user
+            });
 
     const embed = new EmbedBuilder()
       .setDescription(description)
       .setImage(img.url)
-      .setAuthor({ name: `Slap!`, iconURL: getBotAvatar(interaction.client) })
+      .setAuthor({
+        name: getLocaleString("action.strings.slap.name", interaction),
+        iconURL: getBotAvatar(interaction.client)
+      })
       .setFooter({
-        text: "Powered by nekos.life"
+        text: getLocaleString("action.strings.powered_by", interaction)
       });
 
     await interaction.editReply({ embeds: [embed] });
   }
 
   public async tickle(interaction: ChatInputCommandInteraction, user: User) {
-    const img = await this.nekoapi.tickle();
+    const img = await this.nekoapi.tickle().catch(async err => {
+      await interaction.editReply(
+        getLocaleString("action.strings.went_wrong", interaction, { err })
+      );
+      return;
+    });
+    if (!img) return;
+
     const description =
-      user.id === interaction.client.user.id
-        ? `Hey! Stop tickling me, ${interaction.user}!!` // @bot
-        : user === interaction.user
-          ? `${user}, it's tickle time!` // @self
-          : `${user}, ${interaction.user} is tickling you!`; // @user
+      user.id === interaction.client.user.id // @bot
+        ? getLocaleString("action.strings.tickle.bot", interaction, { user: interaction.user })
+        : user === interaction.user // @self
+          ? getLocaleString("action.strings.tickle.self", interaction, { user })
+          : // @user
+            getLocaleString("action.strings.tickle.user", interaction, {
+              user1: interaction.user,
+              user2: user
+            });
 
     const embed = new EmbedBuilder()
       .setDescription(description)
       .setImage(img.url)
-      .setAuthor({ name: `Tickle!`, iconURL: getBotAvatar(interaction.client) })
+      .setAuthor({
+        name: getLocaleString("action.strings.tickle.name", interaction),
+        iconURL: getBotAvatar(interaction.client)
+      })
       .setFooter({
-        text: "Powered by nekos.life"
+        text: getLocaleString("action.strings.powered_by", interaction)
       });
 
     await interaction.editReply({ embeds: [embed] });

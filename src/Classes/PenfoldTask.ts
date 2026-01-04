@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import type { ScheduledTask } from "node-cron";
 import { schedule, validate } from "node-cron";
 import { PenfoldBase, type BaseOptions } from "./PenfoldBase.js";
@@ -11,7 +12,7 @@ export abstract class PenfoldTask extends PenfoldBase {
   constructor(client: PenfoldClient, options: TaskOptions) {
     super(client, options);
 
-    if (!validate(options.cron)) throw new Error("Invalid cron string provided");
+    if (!validate(options.cron)) throw new Error(i18next.t("errors:INVALID_CRON"));
     this.cron = options.cron;
     this.clientReady = options.clientReady ?? false;
   }
@@ -21,7 +22,7 @@ export abstract class PenfoldTask extends PenfoldBase {
       this.cron,
       async () => {
         if (this.clientReady && !this.client.isReady()) return;
-        this.client.debug(`Running task ${this.name}`);
+        this.client.debug(i18next.t("client:RUNNING_TASK", { name: this.name }));
         await this.run();
       },
       { noOverlap: true }

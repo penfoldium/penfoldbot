@@ -1,4 +1,6 @@
 import { Client, Collection, type ClientOptions } from "discord.js";
+import i18next from "i18next";
+import ms from "ms";
 import { mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import type { PrismaClient } from "../../db/prisma/client.js";
@@ -70,8 +72,13 @@ class PenfoldClient extends Client {
   }
 
   async #loadClasses(dir: string, collection: CollectionType) {
-    if (!dir) throw new Error(`Can't load ${collection} into memory, no directory provided`);
-    if (!collection) throw new Error("Can't load classes into memory, no collection provided");
+    if (!dir)
+      throw new Error(
+        i18next.t("errors:NO_DIRECTORY_COLLECTION", {
+          collection
+        })
+      );
+    if (!collection) throw new Error(i18next.t("errors:NO_COLLECTION_PROVIDED"));
 
     const start = performance.now();
 
@@ -91,15 +98,16 @@ class PenfoldClient extends Client {
     for (const file of files) {
       const { default: importedClass } = await import("file://" + join(directory, file));
       const initClass = new importedClass(this);
-      if (!("name" in initClass))
-        throw new Error(`${file} from ${collection} collection has no name property`);
       if (!("run" in initClass))
-        throw new Error(`${file} from ${collection} collection has no run function`);
+        throw new Error(i18next.t("errors:NO_RUN_COLLECTION", { collection, file }));
 
       // Check for duplicates
       if (this[collection].has(initClass.name))
         throw new Error(
-          `Can't have multiple ${collection} with the same name (duplicate(s): ${initClass.name})`
+          i18next.t("errors:MULTIPLE_COLLECTION_SAME_NAME", {
+            name: initClass.name,
+            collection
+          })
         );
 
       this[collection].set(initClass.name, initClass);
@@ -109,9 +117,9 @@ class PenfoldClient extends Client {
     }
 
     const size = this[collection].size;
-    const time = (performance.now() - start).toFixed(2);
+    const time = ms(Number((performance.now() - start).toFixed(2)));
 
-    console.log(`[PenfoldClient] Loaded ${size} classes into ${collection} in ${time}ms`);
+    console.log(i18next.t("client:CLIENT_LOADED", { size, time, collection }));
   }
 }
 

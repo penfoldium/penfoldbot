@@ -1,6 +1,7 @@
 import { Collection, Events, REST, Routes } from "discord.js";
-import type { PenfoldCommand } from "src/Classes/PenfoldCommand.js";
+import i18next from "i18next";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
+import type { PenfoldCommand } from "../Classes/PenfoldCommand.js";
 import { PenfoldEvent } from "../Classes/PenfoldEvent.js";
 
 export default class extends PenfoldEvent {
@@ -19,19 +20,19 @@ export default class extends PenfoldEvent {
   public async run(client: PenfoldClient) {
     this.id = client.user!.id!;
 
-    if (this.client.dev && !this.guild)
-      throw new Error(
-        "You cannot use Penfold with the development env variable unless you specify a guild id."
-      );
+    if (this.client.dev && !this.guild) throw new Error(i18next.t("errors:NO_DEV_WITHOUT_GUILD"));
 
     const allCommands = this.client.commands;
 
     const commands = allCommands.filter(command => !command.ownerOnly);
 
+    if (this.client.dev) {
+      await this.#refreshOwnerCommands(allCommands);
+      return;
+    }
+
     if (allCommands.size > commands.size && this.guild) {
       await this.#refreshOwnerCommands(allCommands);
-      // If we're in development mode, then running refreshCommands would have the same effect as refreshOwnerCommands
-      if (this.client.dev) return;
     }
 
     await this.#refreshCommands(commands);
@@ -39,9 +40,7 @@ export default class extends PenfoldEvent {
 
   async #refreshCommands(commands: Collection<string, PenfoldCommand>) {
     try {
-      console.log(
-        `[RefreshCommands] Started refreshing ${commands.size} application (/) commands.`
-      );
+      console.log(i18next.t("client:refreshcommands.started", { size: commands.size }));
 
       const data = await this.rest.put(Routes.applicationCommands(this.id!), {
         body: commands.map(command => command.builder.toJSON())
@@ -49,17 +48,20 @@ export default class extends PenfoldEvent {
 
       console.log(
         // @ts-expect-error As far as I know discord.js doesn't provide typings for this
-        `[RefreshCommands] Refreshed ${data.length} application (/) commands`
+        i18next.t("refreshcommands.refreshed", { ns: "client", size: data.length })
       );
     } catch (error) {
-      console.error(`[RefreshCommands] Something went wrong when refreshing commands: ${error}`);
+      console.error(i18next.t("client:refreshcommands.error", { error }));
     }
   }
 
   async #refreshOwnerCommands(commands: Collection<string, PenfoldCommand>) {
     try {
       console.log(
-        `[RefreshCommandsOwnerServer] Started refreshing ${commands.size} application (/) commands in guild id ${this.guild}`
+        i18next.t("client:refreshcommandsownerserver.started", {
+          size: commands.size,
+          id: this.guild
+        })
       );
 
       const data = await this.rest.put(Routes.applicationGuildCommands(this.id!, this.guild!), {
@@ -67,13 +69,14 @@ export default class extends PenfoldEvent {
       });
 
       console.log(
-        // @ts-expect-error As far as I know discord.js doesn't provide typings for this
-        `[RefreshCommandsOwnerServer] Refreshed ${data.length} application (/) commands in guild id ${this.guild}`
+        i18next.t("client:refreshcommandsownerserver.refreshed", {
+          // @ts-expect-error As far as I know discord.js doesn't provide typings for this
+          size: data.length,
+          id: this.guild
+        })
       );
     } catch (error) {
-      console.error(
-        `[RefreshCommandsOwnerServer] Something went wrong when refreshing admin commands: ${error}`
-      );
+      console.error(i18next.t("client:refreshcommandsownerserver.error", { error }));
     }
   }
 }

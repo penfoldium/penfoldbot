@@ -2,48 +2,55 @@ import { parse } from "chrono-node";
 import {
   AutocompleteInteraction,
   MessageFlags,
-  SlashCommandBooleanOption,
-  SlashCommandStringOption,
-  SlashCommandSubcommandBuilder,
   type ChatInputCommandInteraction
 } from "discord.js";
 import timezone from "timezones-list";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../Classes/PenfoldCommand.js";
+import {
+  PenfoldSlashCommandBooleanOption,
+  PenfoldSlashCommandStringOption,
+  PenfoldSlashCommandSubcommandBuilder
+} from "../Classes/PenfoldSlashCommandBuilders.js";
+import { getAllLocales, getEnglishLocale, getLocaleString } from "../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
-      name: "settings",
-      description: "View and modify your user settings"
+      name: "settings.name",
+      description: "settings.description"
     });
 
     this.builder
       // set subcommand
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("set")
-          .setDescription("Modify your user settings")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("settings.subcommands.set.name")
+          .localizeDescription("settings.subcommands.set.description")
+
           .addStringOption(
-            new SlashCommandStringOption()
-              .setName("option")
-              .setDescription("Which setting to change")
-              .setChoices(
+            new PenfoldSlashCommandStringOption()
+              .localizeName("settings.options.option.name")
+              .localizeDescription("settings.options.option.description")
+
+              .addChoices(
                 {
-                  name: "Timezone",
-                  value: "timezone"
+                  name: getEnglishLocale("settings.options.option.choices.timezone"),
+                  value: "timezone",
+                  name_localizations: getAllLocales("settings.options.option.choices.timezone")
                 },
                 {
-                  name: "Daily DM Time",
-                  value: "dailydmtime"
+                  name: getEnglishLocale("settings.options.option.choices.dailydmtime"),
+                  value: "dailydmtime",
+                  name_localizations: getAllLocales("settings.options.option.choices.dailydmtime")
                 }
               )
               .setRequired(true)
           )
           .addStringOption(
-            new SlashCommandStringOption()
-              .setName("value")
-              .setDescription("New value")
+            new PenfoldSlashCommandStringOption()
+              .localizeName("settings.options.value.name")
+              .localizeDescription("settings.options.value.description")
               .setAutocomplete(true)
               .setRequired(true)
           )
@@ -51,20 +58,21 @@ export default class extends PenfoldCommand {
 
       // list subcommand
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("list")
-          .setDescription("List your current user settings")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("settings.subcommands.list.name")
+          .localizeDescription("settings.subcommands.list.description")
       )
 
       // toggle daily subcommand
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("toggledaily")
-          .setDescription("Toggle Daily DMs on and off")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("settings.subcommands.toggledaily.name")
+          .localizeDescription("settings.subcommands.toggledaily.description")
+
           .addBooleanOption(
-            new SlashCommandBooleanOption()
-              .setName("value")
-              .setDescription("Enabled or disabled")
+            new PenfoldSlashCommandBooleanOption()
+              .localizeName("settings.options.value.name")
+              .localizeDescription("settings.options.value.description")
               .setRequired(true)
           )
       );
@@ -103,7 +111,7 @@ export default class extends PenfoldCommand {
       const parsed = parse(newValue)[0]?.start;
       if (!parsed) {
         await interaction.editReply(
-          "Please set a valid time for your Daily DM's. (example: `8AM`, `21:00`, `10:21PM`"
+          getLocaleString("settings.strings.set_valid_time", interaction)
         );
         return;
       }
@@ -113,7 +121,7 @@ export default class extends PenfoldCommand {
     } else {
       if (!timezone.default.some(e => e.tzCode == newValue))
         return interaction.editReply(
-          `The provided timezone is not valid. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for details (make sure to use the \`TZ identified\`!) - Case sensitive!`
+          getLocaleString("settings.strings.invalid_timezone", interaction)
         );
 
       data = { timezone: newValue };
@@ -125,18 +133,23 @@ export default class extends PenfoldCommand {
         data
       })
       .catch(err => {
-        return interaction.editReply(`Something went wrong while updating your settings: ${err}`);
+        return interaction.editReply(
+          getLocaleString("settings.strings.went_wrong", interaction, { err })
+        );
       });
 
-    return interaction.editReply("Successfully edited your settings!");
+    return interaction.editReply(getLocaleString("settings.strings.edit_success", interaction));
   }
 
   public async list(interaction: ChatInputCommandInteraction) {
     const settings = await this.ensureUserSettings(interaction.user.id);
-    interaction.editReply(`Here are your current settings:
-Daily DM time: \`${settings.dailyDmTime}\`
-Daily DM enabled: \`${settings.dailyDmEnabled}\`
-Timezone: \`${settings.timezone}\``);
+    interaction.editReply(
+      getLocaleString("settings.strings.current_settings", interaction, {
+        dailyDmTime: settings.dailyDmTime,
+        dailyDmEnabled: settings.dailyDmEnabled,
+        timezone: settings.timezone
+      })
+    );
   }
 
   public async toggledaily(interaction: ChatInputCommandInteraction) {
@@ -153,13 +166,18 @@ Timezone: \`${settings.timezone}\``);
         }
       })
       .catch(async err => {
-        await interaction.editReply(`Something went wrong while updating your settings: ${err}`);
+        await interaction.editReply(
+          getLocaleString("settings.strings.went_wrong", interaction, { err })
+        );
         return;
       });
 
     if (!updated) return;
-    const toggled = updated.dailyDmEnabled == true ? "enabled" : "disabled";
-    return interaction.editReply(`Successfully toggled Daily DMs to \`${toggled}\`.`);
+    return interaction.editReply(
+      updated.dailyDmEnabled == true
+        ? getLocaleString("settings.strings.toggled_enabled", interaction)
+        : getLocaleString("settings.strings.toggled_disabled", interaction)
+    );
   }
 
   public async ensureUserSettings(id: string) {

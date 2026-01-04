@@ -1,59 +1,59 @@
-import {
-  EmbedBuilder,
-  SlashCommandNumberOption,
-  SlashCommandStringOption,
-  SlashCommandSubcommandBuilder,
-  type ChatInputCommandInteraction
-} from "discord.js";
+import { EmbedBuilder, type ChatInputCommandInteraction } from "discord.js";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
+import {
+    PenfoldSlashCommandNumberOption,
+    PenfoldSlashCommandStringOption,
+    PenfoldSlashCommandSubcommandBuilder
+} from "../../Classes/PenfoldSlashCommandBuilders.js";
+import { getLocaleString } from "../../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
-      name: "notes",
-      description: "Everything notes related"
+      name: "notes.name",
+      description: "notes.description"
     });
 
     this.builder
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("add")
-          .setDescription("Add a note")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("notes.subcommands.add.name")
+          .localizeDescription("notes.subcommands.add.description")
           .addStringOption(
-            new SlashCommandStringOption()
-              .setName("note")
-              .setDescription("What you want to note")
+            new PenfoldSlashCommandStringOption()
+              .localizeName("notes.subcommands.add.options.note.name")
+              .localizeDescription("notes.subcommands.add.options.note.description")
               .setRequired(true)
           )
       )
 
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("list")
-          .setDescription("See a list of your notes")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("notes.subcommands.list.name")
+          .localizeDescription("notes.subcommands.list.description")
       )
 
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("search")
-          .setDescription("See through your notes")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("notes.subcommands.search.name")
+          .localizeDescription("notes.subcommands.search.description")
           .addStringOption(
-            new SlashCommandStringOption()
-              .setName("search")
-              .setDescription("Search query")
+            new PenfoldSlashCommandStringOption()
+              .localizeName("notes.subcommands.search.options.search.name")
+              .localizeDescription("notes.subcommands.search.options.search.description")
               .setRequired(true)
           )
       )
 
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("delete")
-          .setDescription("Delete a note")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("notes.subcommands.delete.name")
+          .localizeDescription("notes.subcommands.delete.description")
           .addNumberOption(
-            new SlashCommandNumberOption()
-              .setName("id")
-              .setDescription("The ID of the note to delete")
+            new PenfoldSlashCommandNumberOption()
+              .localizeName("notes.subcommands.delete.options.id.name")
+              .localizeDescription("notes.subcommands.delete.options.id.description")
               .setRequired(true)
           )
       );
@@ -89,11 +89,13 @@ export default class extends PenfoldCommand {
         }
       })
       .catch(err => {
-        interaction.editReply(`Something went wrong when creating your note: ${err}`);
+        interaction.editReply(getLocaleString("notes.strings.create_error", interaction, { err }));
       });
 
     if (!created) return;
-    await interaction.editReply(`Successfully created note with the id of \`${created.id}\`.`);
+    await interaction.editReply(
+      getLocaleString("notes.strings.create_success", interaction, { id: created.id })
+    );
   }
 
   public async search(interaction: ChatInputCommandInteraction) {
@@ -107,21 +109,25 @@ export default class extends PenfoldCommand {
     const filtered = notes.filter(note => note.note.toLowerCase().includes(query));
 
     if (!filtered.length) {
-      await interaction.editReply("Can't find any notes matching your search query.");
+      await interaction.editReply(getLocaleString("notes.strings.search_not_found", interaction));
       return;
     }
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `Notes containing \`${query}\` for ${interaction.user.username}`,
+        name: getLocaleString("notes.strings.search_results_title", interaction, {
+          query,
+          user: interaction.user.username
+        }),
         iconURL: interaction.user.displayAvatarURL()
       })
       .setDescription(
         filtered
-          .map(
-            note =>
-              `Note ID: **${note.id}**
-Note: **${note.note}**`
+          .map(note =>
+            getLocaleString("notes.strings.search_result_item", interaction, {
+              id: note.id,
+              note: note.note
+            })
           )
           .join("\n\n")
           .slice(0, 4096)
@@ -139,21 +145,24 @@ Note: **${note.note}**`
     });
 
     if (!notes.length) {
-      await interaction.editReply("You currently don't have any notes.");
+      await interaction.editReply(getLocaleString("notes.strings.list_empty", interaction));
       return;
     }
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `Notes for ${interaction.user.username}`,
+        name: getLocaleString("notes.strings.list_title", interaction, {
+          user: interaction.user.username
+        }),
         iconURL: interaction.user.displayAvatarURL()
       })
       .setDescription(
         notes
-          .map(
-            note =>
-              `Note ID: **${note.id}**
-Note: **${note.note}**`
+          .map(note =>
+            getLocaleString("notes.strings.search_result_item", interaction, {
+              id: note.id,
+              note: note.note
+            })
           )
           .join("\n\n")
           .slice(0, 4093) + "..."
@@ -172,16 +181,12 @@ Note: **${note.note}**`
     });
 
     if (exists && exists.user_id !== BigInt(interaction.user.id)) {
-      await interaction.editReply(
-        "You're being a bit naughty, can't mark delete another user's note!"
-      );
+      await interaction.editReply(getLocaleString("notes.strings.delete_others_note", interaction));
       return;
     }
 
     if (!exists) {
-      await interaction.editReply(
-        "I'm sorry, but there doesn't seem to be any note with that ID in my database."
-      );
+      await interaction.editReply(getLocaleString("notes.strings.note_not_found", interaction));
       return;
     }
 
@@ -192,11 +197,15 @@ Note: **${note.note}**`
         }
       })
       .catch(async err => {
-        await interaction.editReply(`Something went wrong while deleting your note: ${err}`);
+        await interaction.editReply(
+          getLocaleString("notes.strings.delete_error", interaction, { err })
+        );
         return;
       })
       .finally(async () => {
-        await interaction.editReply(`Successfully deleted note \`${id}\`.`);
+        await interaction.editReply(
+          getLocaleString("notes.strings.delete_success", interaction, { id })
+        );
         return;
       });
   }

@@ -1,4 +1,5 @@
 import { ActivityType, Client, Events, Team } from "discord.js";
+import i18next from "i18next";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
 import { PenfoldEvent } from "../Classes/PenfoldEvent.js";
 
@@ -20,7 +21,10 @@ export default class extends PenfoldEvent {
     client.user.setStatus("dnd");
 
     console.log(
-      `[Ready] Successfully logged in as ${client.user.tag}. Ready to serve ${client.guilds.cache.size} guilds.`
+      i18next.t("client:CLIENT_READY", {
+        user: client.user.tag,
+        guilds: client.guilds.cache.size
+      })
     );
   }
 

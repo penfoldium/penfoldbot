@@ -1,65 +1,68 @@
 import {
-  EmbedBuilder,
-  SlashCommandBooleanOption,
-  SlashCommandNumberOption,
-  SlashCommandStringOption,
-  SlashCommandSubcommandBuilder,
-  type ChatInputCommandInteraction
+    EmbedBuilder,
+    type ChatInputCommandInteraction
 } from "discord.js";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
+import {
+    PenfoldSlashCommandBooleanOption,
+    PenfoldSlashCommandNumberOption,
+    PenfoldSlashCommandStringOption,
+    PenfoldSlashCommandSubcommandBuilder
+} from "../../Classes/PenfoldSlashCommandBuilders.js";
+import { getLocaleString } from "../../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
-      name: "todo",
-      description: "Everything todo related"
+      name: "todo.name",
+      description: "todo.description"
     });
 
     this.builder
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("add")
-          .setDescription("Add a todo")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("todo.subcommands.add.name")
+          .localizeDescription("todo.subcommands.add.description")
           .addStringOption(
-            new SlashCommandStringOption()
-              .setName("todo")
-              .setDescription("What you have todo")
+            new PenfoldSlashCommandStringOption()
+              .localizeName("todo.subcommands.add.options.todo.name")
+              .localizeDescription("todo.subcommands.add.options.todo.description")
               .setRequired(true)
           )
       )
 
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("list")
-          .setDescription("See a list of your todos")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("todo.subcommands.list.name")
+          .localizeDescription("todo.subcommands.list.description")
           .addBooleanOption(
-            new SlashCommandBooleanOption()
-              .setName("completed")
-              .setDescription("Also view completed todos")
+            new PenfoldSlashCommandBooleanOption()
+              .localizeName("todo.subcommands.list.options.completed.name")
+              .localizeDescription("todo.subcommands.list.options.completed.description")
           )
       )
 
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("search")
-          .setDescription("See through your todos")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("todo.subcommands.search.name")
+          .localizeDescription("todo.subcommands.search.description")
           .addStringOption(
-            new SlashCommandStringOption()
-              .setName("search")
-              .setDescription("Search query")
+            new PenfoldSlashCommandStringOption()
+              .localizeName("todo.subcommands.search.options.search.name")
+              .localizeDescription("todo.subcommands.search.options.search.description")
               .setRequired(true)
           )
       )
 
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("complete")
-          .setDescription("Mark a todo as completed")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("todo.subcommands.complete.name")
+          .localizeDescription("todo.subcommands.complete.description")
           .addNumberOption(
-            new SlashCommandNumberOption()
-              .setName("id")
-              .setDescription("The ID of the todo to complete")
+            new PenfoldSlashCommandNumberOption()
+              .localizeName("todo.subcommands.complete.options.id.name")
+              .localizeDescription("todo.subcommands.complete.options.id.description")
               .setRequired(true)
           )
       );
@@ -96,11 +99,15 @@ export default class extends PenfoldCommand {
         }
       })
       .catch(err => {
-        interaction.editReply(`Something  went wrong when creating your todo: ${err}`);
+        interaction.editReply(
+            getLocaleString("todo.strings.create_error", interaction, { err })
+        );
       });
 
     if (!created) return;
-    await interaction.editReply(`Successfully created todo with the id of \`${created.id}\`.`);
+    await interaction.editReply(
+        getLocaleString("todo.strings.create_success", interaction, { id: created.id })
+    );
   }
 
   public async search(interaction: ChatInputCommandInteraction) {
@@ -114,21 +121,28 @@ export default class extends PenfoldCommand {
     const filtered = todos.filter(todo => todo.todo.toLowerCase().includes(query));
 
     if (!filtered.length) {
-      await interaction.editReply("Can't find any todos matching your search query.");
+      await interaction.editReply(
+          getLocaleString("todo.strings.search_not_found", interaction)
+      );
       return;
     }
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `Todos containing \`${query}\` for ${interaction.user.username}`,
+        name: getLocaleString("todo.strings.search_results_title", interaction, {
+            query,
+            user: interaction.user.username
+        }),
         iconURL: interaction.user.displayAvatarURL()
       })
       .setDescription(
         filtered
           .map(
             todo =>
-              `Todo ID: **${todo.id}**
-Todo: **${todo.todo}**`
+              getLocaleString("todo.strings.search_result_item", interaction, {
+                  id: todo.id,
+                  todo: todo.todo
+              })
           )
           .join("\n\n")
           .slice(0, 4096)
@@ -147,54 +161,40 @@ Todo: **${todo.todo}**`
     });
 
     if (!todos.length) {
-      await interaction.editReply("You currently don't have any todos.");
+      await interaction.editReply(
+          getLocaleString("todo.strings.list_empty", interaction)
+      );
       return;
     }
 
     if (todos.filter(todo => !todo.completed).length < 1 && !completed) {
       await interaction.editReply(
-        "You currently don't have any todos. You can also view your completed todos by setting the `View active todos` command option to True!"
+        getLocaleString("todo.strings.list_none_active", interaction)
       );
       return;
     }
 
-    if (completed) {
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: `All todos for ${interaction.user.username}`,
-          iconURL: interaction.user.displayAvatarURL()
-        })
-        .setDescription(
-          todos
-            .map(
-              todo =>
-                `Todo ID: **${todo.id}**
-Todo: **${todo.todo}**
-Completed: **${!todo.completed}**`
-            )
-            .join("\n\n")
-            .slice(0, 4093) + "..."
-        )
-        .setTimestamp();
-      await interaction.editReply({ embeds: [embed] });
-      return;
-    }
-
     const embed = new EmbedBuilder()
-      .setAuthor({
-        name: `Active todos for ${interaction.user.username}`,
-        iconURL: interaction.user.displayAvatarURL()
-      })
+    .setAuthor({
+      name: getLocaleString(
+          completed ? "todo.strings.list_all_title" : "todo.strings.list_active_title",
+           interaction,
+           { user: interaction.user.username }
+      ),
+      iconURL: interaction.user.displayAvatarURL()
+    })
       .setDescription(
         todos
-          .filter(todo => !todo.completed)
+          .filter(todo => completed || !todo.completed)
           .map(
             todo =>
-              `Todo ID: **${todo.id}**
-Todo: **${todo.todo}**`
+                getLocaleString("todo.strings.list_item", interaction, {
+                    id: todo.id,
+                    todo: todo.todo
+                }) + (completed ? getLocaleString("todo.strings.list_item_completed", interaction, { completed: !todo.completed }) : "")
           )
           .join("\n\n")
-          .slice(0, 4096)
+          .slice(0, 4093) + "..."
       )
       .setTimestamp();
     await interaction.editReply({ embeds: [embed] });
@@ -211,14 +211,14 @@ Todo: **${todo.todo}**`
 
     if (exists && exists.user_id !== BigInt(interaction.user.id)) {
       await interaction.editReply(
-        "You're being a bit naughty, can't mark another user's todo as complete!"
+        getLocaleString("todo.strings.complete_others_todo", interaction)
       );
       return;
     }
 
     if (!exists) {
       await interaction.editReply(
-        "I'm sorry, but there doesn't seem to be any todo with that ID in my database."
+        getLocaleString("todo.strings.todo_not_found", interaction)
       );
       return;
     }
@@ -233,11 +233,15 @@ Todo: **${todo.todo}**`
         }
       })
       .catch(async err => {
-        await interaction.editReply(`Something went wrong while completing your todo: ${err}`);
+        await interaction.editReply(
+            getLocaleString("todo.strings.complete_error", interaction, { err })
+        );
         return;
       })
       .finally(async () => {
-        await interaction.editReply(`Successfully marked todo \`${id}\` as completed.`);
+        await interaction.editReply(
+            getLocaleString("todo.strings.complete_success", interaction, { id })
+        );
         return;
       });
   }

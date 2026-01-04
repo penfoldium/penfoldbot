@@ -1,80 +1,80 @@
 import dayjs from "dayjs";
-import {
-  EmbedBuilder,
-  SlashCommandBooleanOption,
-  SlashCommandNumberOption,
-  SlashCommandStringOption,
-  SlashCommandSubcommandBuilder,
-  type ChatInputCommandInteraction
-} from "discord.js";
+import { EmbedBuilder, type ChatInputCommandInteraction } from "discord.js";
 import parse from "parse-duration";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
+import {
+    PenfoldSlashCommandBooleanOption,
+    PenfoldSlashCommandNumberOption,
+    PenfoldSlashCommandStringOption,
+    PenfoldSlashCommandSubcommandBuilder
+} from "../../Classes/PenfoldSlashCommandBuilders.js";
+import { getLocaleString } from "../../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
     super(client, {
-      name: "reminder",
-      description: "Everything reminder related"
+      name: "reminder.name",
+      description: "reminder.description"
     });
 
     this.builder
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("add")
-          .setDescription("Add a reminder")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("reminder.subcommands.add.name")
+          .localizeDescription("reminder.subcommands.add.description")
 
           .addStringOption(
-            new SlashCommandStringOption()
-              .setName("when")
-              .setDescription("When to be reminded")
+            new PenfoldSlashCommandStringOption()
+              .localizeName("reminder.subcommands.add.options.when.name")
+              .localizeDescription("reminder.subcommands.add.options.when.description")
               .setRequired(true)
           )
           .addStringOption(
-            new SlashCommandStringOption()
-              .setName("reminder")
-              .setDescription("What to be reminded of")
+            new PenfoldSlashCommandStringOption()
+              .localizeName("reminder.subcommands.add.options.reminder.name")
+              .localizeDescription("reminder.subcommands.add.options.reminder.description")
               .setRequired(true)
           )
       )
 
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("list")
-          .setDescription("See a list of your reminders")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("reminder.subcommands.list.name")
+          .localizeDescription("reminder.subcommands.list.description")
           .addBooleanOption(
-            new SlashCommandBooleanOption()
-              .setName("inactive")
-              .setDescription("Also view inactive reminders")
+            new PenfoldSlashCommandBooleanOption()
+              .localizeName("reminder.subcommands.list.options.inactive.name")
+              .localizeDescription("reminder.subcommands.list.options.inactive.description")
           )
       )
 
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("delete")
-          .setDescription("Delete a reminder")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("reminder.subcommands.delete.name")
+          .localizeDescription("reminder.subcommands.delete.description")
           .addNumberOption(
-            new SlashCommandNumberOption()
-              .setName("id")
-              .setDescription("The ID of the reminder to delete")
+            new PenfoldSlashCommandNumberOption()
+              .localizeName("reminder.subcommands.delete.options.id.name")
+              .localizeDescription("reminder.subcommands.delete.options.id.description")
               .setRequired(true)
           )
       )
 
       .addSubcommand(
-        new SlashCommandSubcommandBuilder()
-          .setName("snooze")
-          .setDescription("Snooze a reminder")
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("reminder.subcommands.snooze.name")
+          .localizeDescription("reminder.subcommands.snooze.description")
           .addNumberOption(
-            new SlashCommandNumberOption()
-              .setName("id")
-              .setDescription("The ID of the reminder to snooze")
+            new PenfoldSlashCommandNumberOption()
+              .localizeName("reminder.subcommands.snooze.options.id.name")
+              .localizeDescription("reminder.subcommands.snooze.options.id.description")
               .setRequired(true)
           )
           .addStringOption(
-            new SlashCommandStringOption()
-              .setName("time")
-              .setDescription("How long to snooze the reminder for")
+            new PenfoldSlashCommandStringOption()
+              .localizeName("reminder.subcommands.snooze.options.time.name")
+              .localizeDescription("reminder.subcommands.snooze.options.time.description")
               .setRequired(true)
           )
       );
@@ -109,13 +109,15 @@ export default class extends PenfoldCommand {
     const reminder = interaction.options.getString("reminder", true);
     if (!when) {
       await interaction.editReply(
-        'Please provide a valid duration. (examples: "in 24 hours", "2h", "two hours" or a date like "2026-06-31")'
+        getLocaleString("reminder.strings.invalid_duration", interaction)
       );
       return;
     }
 
     if (when < 1) {
-      await interaction.editReply("You can't create a reminder for the past!");
+      await interaction.editReply(
+        getLocaleString("reminder.strings.past_duration", interaction)
+      );
       return;
     }
 
@@ -129,14 +131,17 @@ export default class extends PenfoldCommand {
         }
       })
       .catch(err => {
-        interaction.editReply(`Something  went wrong when creating your reminder: ${err}`);
+        interaction.editReply(
+            getLocaleString("reminder.strings.create_error", interaction, { err })
+        );
       });
 
     if (!created) return;
     await interaction.editReply(
-      `Successfully created reminder with the id of \`${
-        created.id
-      }\`. I will remind you on <t:${dayjs(created.date).unix()}:F>`
+      getLocaleString("reminder.strings.create_success", interaction, {
+        id: created.id,
+        date: dayjs(created.date).unix()
+      })
     );
     const task = this.client.tasks.get("Reminders");
     if (task) await task.run();
@@ -151,53 +156,38 @@ export default class extends PenfoldCommand {
     });
 
     if (!reminders.length) {
-      await interaction.editReply("You currently don't have any reminders.");
+      await interaction.editReply(
+        getLocaleString("reminder.strings.list_empty", interaction)
+      );
       return;
     }
 
     if (reminders.filter(reminder => !reminder.triggered).length < 1 && !inactive) {
       await interaction.editReply(
-        "You currently don't have any active reminders. You can also view your inactive reminders by setting the `View active reminders` command option to True!"
+        getLocaleString("reminder.strings.list_none_active", interaction)
       );
-      return;
-    }
-
-    if (inactive) {
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: `All reminders for ${interaction.user.username}`,
-          iconURL: interaction.user.displayAvatarURL()
-        })
-        .setDescription(
-          reminders
-            .map(
-              reminder =>
-                `Reminder ID: **${reminder.id}**
-Reminder: **${reminder.message}**
-When: **<t:${dayjs(reminder.date).unix()}:F>**
-Active: **${!reminder.triggered}**`
-            )
-            .join("\n\n")
-            .slice(0, 4093) + "..."
-        )
-        .setTimestamp();
-      await interaction.editReply({ embeds: [embed] });
       return;
     }
 
     const embed = new EmbedBuilder()
       .setAuthor({
-        name: `Active reminders for ${interaction.user.username}`,
+        name: getLocaleString(
+            inactive ? "reminder.strings.list_all_title" : "reminder.strings.list_active_title",
+             interaction,
+             { user: interaction.user.username }
+        ),
         iconURL: interaction.user.displayAvatarURL()
       })
       .setDescription(
         reminders
-          .filter(reminder => !reminder.triggered)
+          .filter(reminder => inactive || !reminder.triggered)
           .map(
             reminder =>
-              `Reminder ID: **${reminder.id}**
-Reminder: **${reminder.message}**
-When: **<t:${dayjs(reminder.date).unix()}:F>**`
+                getLocaleString("reminder.strings.list_item", interaction, {
+                    id: reminder.id,
+                    message: reminder.message,
+                    date: dayjs(reminder.date).unix()
+                }) + (inactive ? getLocaleString("reminder.strings.list_item_active", interaction, { active: !reminder.triggered }) : "")
           )
           .join("\n\n")
           .slice(0, 4096)
@@ -217,14 +207,14 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**`
 
     if (exists && exists.user_id !== BigInt(interaction.user.id)) {
       await interaction.editReply(
-        "You're being a bit naughty, don't delete another user's reminder!"
+        getLocaleString("reminder.strings.delete_others_reminder", interaction)
       );
       return;
     }
 
     if (!exists) {
       await interaction.editReply(
-        "I'm sorry, but there doesn't seem to be any reminder with that ID in my database."
+        getLocaleString("reminder.strings.reminder_not_found", interaction)
       );
       return;
     }
@@ -236,11 +226,15 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**`
         }
       })
       .catch(async err => {
-        await interaction.editReply(`Something went wrong while deleting your reminder: ${err}`);
+        await interaction.editReply(
+            getLocaleString("reminder.strings.delete_error", interaction, { err })
+        );
         return;
       })
       .finally(async () => {
-        await interaction.editReply(`Successfully deleted reminder with ID of \`${id}\`.`);
+        await interaction.editReply(
+            getLocaleString("reminder.strings.delete_success", interaction, { id })
+        );
         return;
       });
   }
@@ -254,12 +248,16 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**`
     } else snoozeFor = parse(time);
 
     if (!snoozeFor) {
-      await interaction.editReply("Invalid snooze time provided.");
+      await interaction.editReply(
+        getLocaleString("reminder.strings.snooze_invalid_time", interaction)
+      );
       return;
     }
 
     if (snoozeFor < 1) {
-      interaction.editReply("You can't snooze a reminder into the past!");
+      interaction.editReply(
+        getLocaleString("reminder.strings.snooze_past", interaction)
+      );
       return;
     }
 
@@ -274,12 +272,19 @@ When: **<t:${dayjs(reminder.date).unix()}:F>**`
         }
       })
       .catch(async err => {
-        await interaction.editReply(`Something went wrong while snoozing your reminder: ${err}`);
+        await interaction.editReply(
+            getLocaleString("reminder.strings.snooze_error", interaction, { err })
+        );
         return null;
       });
 
-    await interaction.editReply(
-      `Successfully snoozed reminder with id \`${id}\` to <t:${dayjs(updated?.date).unix()}:F>`
-    );
+    if (updated) {
+        await interaction.editReply(
+            getLocaleString("reminder.strings.snooze_success", interaction, {
+                id,
+                date: dayjs(updated?.date).unix()
+            })
+        );
+    }
   }
 }

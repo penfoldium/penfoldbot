@@ -1,33 +1,32 @@
-import {
-  EmbedBuilder,
-  SlashCommandStringOption,
-  type ChatInputCommandInteraction
-} from "discord.js";
+import { EmbedBuilder, type ChatInputCommandInteraction } from "discord.js";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
-import { getEmbedFooter } from "../../Util/Helpers.js";
+import { PenfoldSlashCommandStringOption } from "../../Classes/PenfoldSlashCommandBuilders.js";
+import { getLocaleString } from "../../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
   lrclib = "https://lrclib.net/api";
 
   constructor(client: PenfoldClient) {
     super(client, {
-      name: "lyrics",
-      description: "Search for song lyrics using LRCLib",
+      name: "lyrics.name",
+      description: "lyrics.description",
       cooldown: 30
     });
 
     this.builder
       .addStringOption(
-        new SlashCommandStringOption()
-          .setName("query")
-          .setDescription("The song you want to the for")
+        new PenfoldSlashCommandStringOption()
+          .localizeName("lyrics.options.query.name")
+          .localizeDescription("lyrics.options.query.description")
+
           .setRequired(true)
       )
+
       .addStringOption(
-        new SlashCommandStringOption()
-          .setName("artist")
-          .setDescription("The artist(s) of the song")
+        new PenfoldSlashCommandStringOption()
+          .localizeName("lyrics.options.artist.name")
+          .localizeDescription("lyrics.options.artist.description")
           .setRequired(false)
       );
   }
@@ -43,7 +42,7 @@ export default class extends PenfoldCommand {
         "User-Agent": `Penfoldbot (https://github.com/penfoldium/penfoldbot)`
       }
     }).catch((err: string) => {
-      interaction.reply(`Something went wrong while fetching the lyrics: ${err}`);
+      interaction.reply(getLocaleString("lyrics.strings.went_wrong", interaction, { err }));
       return false;
     });
 
@@ -52,23 +51,30 @@ export default class extends PenfoldCommand {
     const lyrics: LRCLibReturn[] = await fetchedRes.json();
 
     if (lyrics.length < 1) {
-      await interaction.editReply(`I'm sorry but no lyrics were found for \`${query}\``);
+      await interaction.editReply(
+        getLocaleString("lyrics.strings.no_lyrics", interaction, { query })
+      );
 
       return;
     }
 
     const song = lyrics[0]!;
     const embed = new EmbedBuilder()
-      .setAuthor({ name: "LRCLib Lyrics Search" })
-      .setTitle(`**${song.trackName}** by **${song.artistName}**`)
+      .setAuthor({ name: getLocaleString("lyrics.embed.name", interaction) })
+      .setTitle(
+        getLocaleString("lyrics.embed.title", interaction, {
+          artistName: song.artistName,
+          trackName: song.trackName
+        })
+      )
       .setDescription(
         song.plainLyrics.length <= 4096
           ? song.plainLyrics
           : song.plainLyrics.substring(0, 4093) + "..."
       )
       .setColor("#4338ca")
-      .setFooter(getEmbedFooter(interaction))
       .setTimestamp();
+
     await interaction.editReply({ embeds: [embed] });
   }
 }

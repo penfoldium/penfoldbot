@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import { type PenfoldClient } from "./PenfoldClient.js";
 
 export abstract class PenfoldBase {
@@ -7,7 +8,7 @@ export abstract class PenfoldBase {
   constructor(client: PenfoldClient, options: BaseOptions) {
     this.client = client;
 
-    if (!options.name) throw new Error("Name property missing");
+    if (!options.name) throw new Error(i18next.t("errors:NO_NAME_PROVIDED"));
     this.name = options.name;
   }
 
