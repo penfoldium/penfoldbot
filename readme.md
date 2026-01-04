@@ -2,6 +2,7 @@
 
 # Penfold - the Discord bot :hamster::robot:
 
+[![Crowdin](https://badges.crowdin.net/penfold/localized.svg)](https://crowdin.com/project/penfold)
 [![License](https://img.shields.io/github/license/penfoldium/penfoldbot.svg)](https://github.com/penfoldium/penfoldbot/blob/master/LICENSE)
 [![Repository size](https://img.shields.io/github/repo-size/penfoldium/penfoldbot.svg)]()
 [![Commit activity](https://img.shields.io/github/commit-activity/w/penfoldium/penfoldbot.svg)](https://github.com/penfoldium/penfoldbot/commits/master)
