@@ -2,7 +2,7 @@
   "no_description": "No description provided.",
   "no_command": "No command with the name of {{command}} found in code.",
   "owner_only": "This is an owner only command.",
-  "cooldown_text": "You're running this command too fast! You can run it again in <t:{{time}}R>!",
+  "cooldown_text": "You're running this command too fast! You can run it again in <t:{{time}}:R>!",
 
   "snooze.error": "Something went wrong while snoozing your reminder: {{err}}",
   "snooze.strings.snoozed": "Successfully snoozed reminder with id `{{id}}` to <t:{{time}}:F>",
