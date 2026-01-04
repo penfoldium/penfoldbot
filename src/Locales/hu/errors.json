@@ -1,10 +1,10 @@
 {
-  "POPULATE_DATABASE_URL": "Please populate the DATABASE_URL env variable.",
-  "NO_DIRECTORY_COLLECTION": "Can't load {{collection}} into memory, no directory provided.",
-  "NO_COLLECTION_PROVIDED": "Can't load classes into memory, no collection provided.",
-  "NO_RUN_COLLECTION": "{{file}} from {{collection}} collection has no run function.",
-  "MULTIPLE_COLLECTION_SAME_NAME": "Can't have multiple {{collection}} with the same name (duplicate(s): {{name}})",
-  "NO_NAME_PROVIDED": "Name property missing.",
-  "INVALID_CRON": "Invalid cron string provided.",
-  "NO_DEV_WITHOUT_GUILD": "You cannot use Penfold with the development env variable unless you specify a guild id."
+  "POPULATE_DATABASE_URL": "Kérjük, töltse ki a DATABASE_URL környezeti változót.",
+  "NO_DIRECTORY_COLLECTION": "A(z) {{collection}} nem tölthető be a memóriába, nincs megadva mappa.",
+  "NO_COLLECTION_PROVIDED": "Nem lehet osztályokat betölteni a memóriába, nincs megadva egy gyűjtemény.",
+  "NO_RUN_COLLECTION": "A {{file}} fájlnak a {{collection}} gyűjteményből nincs run funkciója.",
+  "MULTIPLE_COLLECTION_SAME_NAME": "Nem lehet több azonos nevű {{collection}} (duplikáció(k): {{name}})",
+  "NO_NAME_PROVIDED": "Hiányzik a name tulajdonság.",
+  "INVALID_CRON": "Érvénytelen cron karakterláncot adott meg.",
+  "NO_DEV_WITHOUT_GUILD": "A Penfold nem használható a fejlesztői környezeti változóval, hacsak nem ad meg egy szerver azonosítót."
 }
