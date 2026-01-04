@@ -1,14 +1,11 @@
-import {
-    EmbedBuilder,
-    type ChatInputCommandInteraction
-} from "discord.js";
+import { EmbedBuilder, type ChatInputCommandInteraction } from "discord.js";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
 import {
-    PenfoldSlashCommandBooleanOption,
-    PenfoldSlashCommandNumberOption,
-    PenfoldSlashCommandStringOption,
-    PenfoldSlashCommandSubcommandBuilder
+  PenfoldSlashCommandBooleanOption,
+  PenfoldSlashCommandNumberOption,
+  PenfoldSlashCommandStringOption,
+  PenfoldSlashCommandSubcommandBuilder
 } from "../../Classes/PenfoldSlashCommandBuilders.js";
 import { getLocaleString } from "../../Util/Helpers.js";
 
@@ -99,14 +96,12 @@ export default class extends PenfoldCommand {
         }
       })
       .catch(err => {
-        interaction.editReply(
-            getLocaleString("todo.strings.create_error", interaction, { err })
-        );
+        interaction.editReply(getLocaleString("todo.strings.create_error", interaction, { err }));
       });
 
     if (!created) return;
     await interaction.editReply(
-        getLocaleString("todo.strings.create_success", interaction, { id: created.id })
+      getLocaleString("todo.strings.create_success", interaction, { id: created.id })
     );
   }
 
@@ -121,28 +116,25 @@ export default class extends PenfoldCommand {
     const filtered = todos.filter(todo => todo.todo.toLowerCase().includes(query));
 
     if (!filtered.length) {
-      await interaction.editReply(
-          getLocaleString("todo.strings.search_not_found", interaction)
-      );
+      await interaction.editReply(getLocaleString("todo.strings.search_not_found", interaction));
       return;
     }
 
     const embed = new EmbedBuilder()
       .setAuthor({
         name: getLocaleString("todo.strings.search_results_title", interaction, {
-            query,
-            user: interaction.user.username
+          query,
+          user: interaction.user.username
         }),
         iconURL: interaction.user.displayAvatarURL()
       })
       .setDescription(
         filtered
-          .map(
-            todo =>
-              getLocaleString("todo.strings.search_result_item", interaction, {
-                  id: todo.id,
-                  todo: todo.todo
-              })
+          .map(todo =>
+            getLocaleString("todo.strings.search_result_item", interaction, {
+              id: todo.id,
+              todo: todo.todo
+            })
           )
           .join("\n\n")
           .slice(0, 4096)
@@ -161,37 +153,38 @@ export default class extends PenfoldCommand {
     });
 
     if (!todos.length) {
-      await interaction.editReply(
-          getLocaleString("todo.strings.list_empty", interaction)
-      );
+      await interaction.editReply(getLocaleString("todo.strings.list_empty", interaction));
       return;
     }
 
     if (todos.filter(todo => !todo.completed).length < 1 && !completed) {
-      await interaction.editReply(
-        getLocaleString("todo.strings.list_none_active", interaction)
-      );
+      await interaction.editReply(getLocaleString("todo.strings.list_none_active", interaction));
       return;
     }
 
     const embed = new EmbedBuilder()
-    .setAuthor({
-      name: getLocaleString(
+      .setAuthor({
+        name: getLocaleString(
           completed ? "todo.strings.list_all_title" : "todo.strings.list_active_title",
-           interaction,
-           { user: interaction.user.username }
-      ),
-      iconURL: interaction.user.displayAvatarURL()
-    })
+          interaction,
+          { user: interaction.user.username }
+        ),
+        iconURL: interaction.user.displayAvatarURL()
+      })
       .setDescription(
         todos
           .filter(todo => completed || !todo.completed)
           .map(
             todo =>
-                getLocaleString("todo.strings.list_item", interaction, {
-                    id: todo.id,
-                    todo: todo.todo
-                }) + (completed ? getLocaleString("todo.strings.list_item_completed", interaction, { completed: !todo.completed }) : "")
+              getLocaleString("todo.strings.list_item", interaction, {
+                id: todo.id,
+                todo: todo.todo
+              }) +
+              (completed
+                ? getLocaleString("todo.strings.list_item_completed", interaction, {
+                    completed: !todo.completed
+                  })
+                : "")
           )
           .join("\n\n")
           .slice(0, 4093) + "..."
@@ -217,9 +210,7 @@ export default class extends PenfoldCommand {
     }
 
     if (!exists) {
-      await interaction.editReply(
-        getLocaleString("todo.strings.todo_not_found", interaction)
-      );
+      await interaction.editReply(getLocaleString("todo.strings.todo_not_found", interaction));
       return;
     }
 
@@ -234,13 +225,13 @@ export default class extends PenfoldCommand {
       })
       .catch(async err => {
         await interaction.editReply(
-            getLocaleString("todo.strings.complete_error", interaction, { err })
+          getLocaleString("todo.strings.complete_error", interaction, { err })
         );
         return;
       })
       .finally(async () => {
         await interaction.editReply(
-            getLocaleString("todo.strings.complete_success", interaction, { id })
+          getLocaleString("todo.strings.complete_success", interaction, { id })
         );
         return;
       });

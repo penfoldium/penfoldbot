@@ -4,10 +4,10 @@ import parse from "parse-duration";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
 import {
-    PenfoldSlashCommandBooleanOption,
-    PenfoldSlashCommandNumberOption,
-    PenfoldSlashCommandStringOption,
-    PenfoldSlashCommandSubcommandBuilder
+  PenfoldSlashCommandBooleanOption,
+  PenfoldSlashCommandNumberOption,
+  PenfoldSlashCommandStringOption,
+  PenfoldSlashCommandSubcommandBuilder
 } from "../../Classes/PenfoldSlashCommandBuilders.js";
 import { getLocaleString } from "../../Util/Helpers.js";
 
@@ -115,9 +115,7 @@ export default class extends PenfoldCommand {
     }
 
     if (when < 1) {
-      await interaction.editReply(
-        getLocaleString("reminder.strings.past_duration", interaction)
-      );
+      await interaction.editReply(getLocaleString("reminder.strings.past_duration", interaction));
       return;
     }
 
@@ -132,7 +130,7 @@ export default class extends PenfoldCommand {
       })
       .catch(err => {
         interaction.editReply(
-            getLocaleString("reminder.strings.create_error", interaction, { err })
+          getLocaleString("reminder.strings.create_error", interaction, { err })
         );
       });
 
@@ -156,9 +154,7 @@ export default class extends PenfoldCommand {
     });
 
     if (!reminders.length) {
-      await interaction.editReply(
-        getLocaleString("reminder.strings.list_empty", interaction)
-      );
+      await interaction.editReply(getLocaleString("reminder.strings.list_empty", interaction));
       return;
     }
 
@@ -172,9 +168,9 @@ export default class extends PenfoldCommand {
     const embed = new EmbedBuilder()
       .setAuthor({
         name: getLocaleString(
-            inactive ? "reminder.strings.list_all_title" : "reminder.strings.list_active_title",
-             interaction,
-             { user: interaction.user.username }
+          inactive ? "reminder.strings.list_all_title" : "reminder.strings.list_active_title",
+          interaction,
+          { user: interaction.user.username }
         ),
         iconURL: interaction.user.displayAvatarURL()
       })
@@ -183,11 +179,16 @@ export default class extends PenfoldCommand {
           .filter(reminder => inactive || !reminder.triggered)
           .map(
             reminder =>
-                getLocaleString("reminder.strings.list_item", interaction, {
-                    id: reminder.id,
-                    message: reminder.message,
-                    date: dayjs(reminder.date).unix()
-                }) + (inactive ? getLocaleString("reminder.strings.list_item_active", interaction, { active: !reminder.triggered }) : "")
+              getLocaleString("reminder.strings.list_item", interaction, {
+                id: reminder.id,
+                message: reminder.message,
+                date: dayjs(reminder.date).unix()
+              }) +
+              (inactive
+                ? getLocaleString("reminder.strings.list_item_active", interaction, {
+                    active: !reminder.triggered
+                  })
+                : "")
           )
           .join("\n\n")
           .slice(0, 4096)
@@ -227,13 +228,13 @@ export default class extends PenfoldCommand {
       })
       .catch(async err => {
         await interaction.editReply(
-            getLocaleString("reminder.strings.delete_error", interaction, { err })
+          getLocaleString("reminder.strings.delete_error", interaction, { err })
         );
         return;
       })
       .finally(async () => {
         await interaction.editReply(
-            getLocaleString("reminder.strings.delete_success", interaction, { id })
+          getLocaleString("reminder.strings.delete_success", interaction, { id })
         );
         return;
       });
@@ -255,9 +256,7 @@ export default class extends PenfoldCommand {
     }
 
     if (snoozeFor < 1) {
-      interaction.editReply(
-        getLocaleString("reminder.strings.snooze_past", interaction)
-      );
+      interaction.editReply(getLocaleString("reminder.strings.snooze_past", interaction));
       return;
     }
 
@@ -273,18 +272,18 @@ export default class extends PenfoldCommand {
       })
       .catch(async err => {
         await interaction.editReply(
-            getLocaleString("reminder.strings.snooze_error", interaction, { err })
+          getLocaleString("reminder.strings.snooze_error", interaction, { err })
         );
         return null;
       });
 
     if (updated) {
-        await interaction.editReply(
-            getLocaleString("reminder.strings.snooze_success", interaction, {
-                id,
-                date: dayjs(updated?.date).unix()
-            })
-        );
+      await interaction.editReply(
+        getLocaleString("reminder.strings.snooze_success", interaction, {
+          id,
+          date: dayjs(updated?.date).unix()
+        })
+      );
     }
   }
 }

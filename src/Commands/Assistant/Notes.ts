@@ -2,9 +2,9 @@ import { EmbedBuilder, type ChatInputCommandInteraction } from "discord.js";
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
 import {
-    PenfoldSlashCommandNumberOption,
-    PenfoldSlashCommandStringOption,
-    PenfoldSlashCommandSubcommandBuilder
+  PenfoldSlashCommandNumberOption,
+  PenfoldSlashCommandStringOption,
+  PenfoldSlashCommandSubcommandBuilder
 } from "../../Classes/PenfoldSlashCommandBuilders.js";
 import { getLocaleString } from "../../Util/Helpers.js";
 
