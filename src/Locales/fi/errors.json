@@ -1,0 +1,10 @@
+{
+  "POPULATE_DATABASE_URL": "Please populate the DATABASE_URL env variable.",
+  "NO_DIRECTORY_COLLECTION": "Can't load {{collection}} into memory, no directory provided.",
+  "NO_COLLECTION_PROVIDED": "Can't load classes into memory, no collection provided.",
+  "NO_RUN_COLLECTION": "{{file}} from {{collection}} collection has no run function.",
+  "MULTIPLE_COLLECTION_SAME_NAME": "Can't have multiple {{collection}} with the same name (duplicate(s): {{name}})",
+  "NO_NAME_PROVIDED": "Name property missing.",
+  "INVALID_CRON": "Invalid cron string provided.",
+  "NO_DEV_WITHOUT_GUILD": "You cannot use Penfold with the development env variable unless you specify a guild id."
+}
