@@ -1,12 +1,12 @@
 {
-  "CLIENT_LOADED": "[PenfoldClient] Loaded {{size}} classes into {{collection}} in {{time}}",
-  "RUNNING_TASK": "Running task {{name}}",
-  "CLIENT_READY": "[Ready] Successfully logged in as {{user}}. Ready to serve {{guilds}} guilds.",
-  "debug.command_ran": "Command {{command}} ran by user {{user}}",
-  "refreshcommands.started": "[RefreshCommands] Started refreshing {{size}} application (/) commands.",
-  "refreshcommands.error": "[RefreshCommands] Something went wrong when refreshing commands: {{error}}",
-  "refreshcommands.refreshed": "[RefreshCommands] Refreshed {{size}} application (/) commands",
-  "refreshcommandsownerserver.started": "[RefreshCommandsOwnerServer] Started refreshing {{size}} application (/) commands in guild id {{id}}",
-  "refreshcommandsownerserver.error": "[RefreshCommandsOwnerServer] Something went wrong when refreshing admin commands: {{error}}",
-  "refreshcommandsownerserver.refreshed": "[RefreshCommandsOwnerServer] Refreshed {{size}} application (/) commands in guild id {{id}}"
+  "CLIENT_LOADED": "[PenfoldClient] {{size}} osztály betöltése {{collection}} gyűjteménybe {{time}} alatt",
+  "RUNNING_TASK": "Feladat futtatása {{name}}",
+  "CLIENT_READY": "[Kész] Sikeresen bejelentkeztem {{user}} ként. Készen állok a(z) {{guilds}} szerver kiszolgálására.",
+  "debug.command_ran": "A(z) {{command}} parancsot a(z) {{user}} felhasználó futtatta",
+  "refreshcommands.started": "[RefreshCommands] Elkezdődött a {{size}} alkalmazás (/) parancsainak frissítése.",
+  "refreshcommands.error": "[RefreshCommands] Hiba történt a parancsok frissítése során: {{error}}",
+  "refreshcommands.refreshed": "[RefreshCommands] Frissített {{size}} alkalmazás (/) parancsok",
+  "refreshcommandsownerserver.started": "[RefreshCommandsOwnerServer] Elkezdődött a {{size}} alkalmazás (/) parancsának frissítése a {{id}} azonosítójú szerveren",
+  "refreshcommandsownerserver.error": "[RefreshCommandsOwnerServer] Hiba történt az adminisztrátori parancsok frissítése során: {{error}}",
+  "refreshcommandsownerserver.refreshed": "[RefreshCommandsOwnerServer] Frissítette a(z) {{size}} alkalmazás (/) parancsait a(z) {{id}} szerveren"
 }
