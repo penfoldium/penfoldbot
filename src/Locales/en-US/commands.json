@@ -87,7 +87,7 @@
   "eval.strings.evaluating": "Evaluating your input...",
   "eval.strings.went_wrong": "Something went wrong: {{error}}",
   "eval.strings.no_output": "No output.",
-  "eval.strings.result_too_long": "Result too long, attacked as file instead.",
+  "eval.strings.result_too_long": "Result too long, attached as file instead.",
   "eval.strings.took": "Took: {{time}} to evaluate ⌛",
 
   "exec.name": "exec",
@@ -100,7 +100,7 @@
 
   "exec.strings.executing": "Executing your command...",
   "exec.strings.done_no_output": "Done. There was no output to stdout or stderr.",
-  "exec.strings.result_too_long": "Result too long, attacked as file instead.",
+  "exec.strings.result_too_long": "Result too long, attached as file instead.",
   "exec.strings.took": "Took: {{time}} to execute ⌛",
 
   "action.name": "action",
