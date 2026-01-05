@@ -12,5 +12,7 @@ const client = new PenfoldClient({
 });
 
 await client.loadCommands();
-const json = client.commands.map(command => command.builder.toJSON());
+const json = client.commands
+  .filter(command => !command.ownerOnly)
+  .map(command => command.builder.toJSON());
 await writeFile("./commands.json", JSON.stringify(json));
