@@ -2,8 +2,8 @@ name: Crowdin Upload Sources
 
 on:
   push:
-    paths: ['src/Locales/**']
-    branches: [ rewrite ]
+    paths: ["src/Locales/**"]
+    branches: [rewrite]
 
 jobs:
   crowdin-upload:
