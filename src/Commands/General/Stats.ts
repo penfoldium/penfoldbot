@@ -5,7 +5,7 @@ import { arch, cpus, freemem, release, totalmem, type, uptime } from "node:os";
 import * as pkg from "../../../package.json" with { type: "json" };
 import type { PenfoldClient } from "../../Classes/PenfoldClient.js";
 import { PenfoldCommand } from "../../Classes/PenfoldCommand.js";
-import { getBotAvatar, getLocaleString } from "../../Util/Helpers.js";
+import { bToGB, getBotAvatar, getLocaleString } from "../../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
   constructor(client: PenfoldClient) {
@@ -54,8 +54,8 @@ export default class extends PenfoldCommand {
 
       RAM: {
         usage: memory.toFixed(2),
-        free: this.#bToGB(freemem()),
-        total: this.#bToGB(totalmem())
+        free: bToGB(freemem()),
+        total: bToGB(totalmem())
       }
     };
 
@@ -109,10 +109,5 @@ export default class extends PenfoldCommand {
       })
       .addFields(fields);
     return interaction.reply({ embeds: [embed] });
-  }
-
-  #bToGB(bytes: number) {
-    const byte = 0.00000095367432 / 1000;
-    return (byte * bytes).toFixed(2);
   }
 }

@@ -3,6 +3,16 @@ import type { CustomTypeOptions } from "i18next";
 import i18next from "i18next";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
 
+export function bToGB(bytes: number) {
+  const byte = 0.00000095367432 / 1000;
+  return (byte * bytes).toFixed(2);
+}
+
+export function bToMB(bytes: number) {
+  const mb = 0.00000095367432;
+  return (mb * bytes).toFixed(2);
+}
+
 export function getEmbedFooter(interaction: ChatInputCommandInteraction) {
   return {
     text: `Requested by ${interaction.user.username}`,
