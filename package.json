@@ -22,6 +22,7 @@
   "main": "src/bot.js",
   "scripts": {
     "build": "rm -rf dist && npx tsc && cp -R ./src/Locales/* ./dist/src/Locales/",
+    "generatejson": "npm run build && node dist/src/Util/ExportCommands",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix",
     "format:check": "npx prettier . --check",
