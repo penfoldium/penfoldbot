@@ -146,7 +146,7 @@ export default class extends PenfoldCommand {
         },
         {
           name: getLocaleString("utilities.strings.appstore.size", interaction),
-          value: bToMB(Number(size)),
+          value: bToMB(Number(size)) + "MB",
           inline: true
         },
         {
