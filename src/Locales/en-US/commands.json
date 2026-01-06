@@ -308,5 +308,29 @@
   "utilities.strings.appstore.icons": "Icons",
   "utilities.strings.appstore.iphone_screenshots": "iPhone Screenshots",
   "utilities.strings.appstore.ipad_screenshots": "iPad Screenshots",
-  "utilities.strings.appstore.continued": "(continued)"
+  "utilities.strings.appstore.continued": "(continued)",
+
+  "utilities.subcommands.atbash.name": "atbash",
+  "utilities.subcommands.atbash.description": "Encrypt text using the Atbash cipher",
+  "utilities.strings.atbash.title": "Atbash Cipher",
+  "utilities.strings.atbash.returned": "**Original text**\n`{{original}}`\n\n**Cipher text**\n`{{cipher}}`",
+
+  "utilities.subcommands.rot13.name": "rot13",
+  "utilities.subcommands.rot13.description": "Encrypt text using the ROT13 cipher",
+  "utilities.strings.rot13.title": "ROT13 Cipher",
+  "utilities.strings.rot13.returned": "**Original text**\n`{{original}}`\n\n**Cipher text**\n`{{cipher}}`",
+
+  "utilities.subcommands.base64_encode.name": "base64_encode",
+  "utilities.subcommands.base64_encode.description": "Encode text to Base64",
+  "utilities.strings.base64_encode.title": "Base64 Encode",
+  "utilities.strings.base64_encode.returned": "**Original text**\n`{{original}}`\n\n**Encoded text**\n`{{encoded}}`",
+
+  "utilities.subcommands.base64_decode.name": "base64_decode",
+  "utilities.subcommands.base64_decode.description": "Decode Base64 text",
+  "utilities.strings.base64_decode.title": "Base64 Decode",
+  "utilities.strings.base64_decode.returned": "**Original text**\n`{{original}}`\n\n**Decoded text**\n`{{decoded}}`",
+  "utilities.strings.base64_decode.invalid": "The provided text is not valid Base64 encoded text.",
+
+  "utilities.options.text.name": "text",
+  "utilities.options.text.description": "The text to be processed"
 }

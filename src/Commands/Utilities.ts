@@ -6,39 +6,91 @@ import {
   PenfoldSlashCommandStringOption,
   PenfoldSlashCommandSubcommandBuilder
 } from "../Classes/PenfoldSlashCommandBuilders.js";
-import { bToMB, getLocaleString } from "../Util/Helpers.js";
+import { bToMB, getBotAvatar, getLocaleString } from "../Util/Helpers.js";
 
 export default class extends PenfoldCommand {
+  stringOption = new PenfoldSlashCommandStringOption()
+    .localizeName("utilities.options.text.name")
+    .localizeDescription("utilities.options.text.description")
+    .setRequired(true);
   constructor(client: PenfoldClient) {
     super(client, {
       name: "utilities.name",
       description: "utilities.description"
     });
 
-    this.builder.addSubcommand(
-      new PenfoldSlashCommandSubcommandBuilder()
-        .localizeName("utilities.subcommands.appstore.name")
-        .localizeDescription("utilities.subcommands.appstore.description")
-        .addStringOption(
-          new PenfoldSlashCommandStringOption()
-            .localizeName("utilities.options.search.name")
-            .localizeDescription("utilities.options.search.description")
-            .setRequired(true)
-        )
-        .addStringOption(
-          new PenfoldSlashCommandStringOption()
-            .localizeName("utilities.options.country_code.name")
-            .localizeDescription("utilities.options.country_code.description")
-        )
-    );
+    this.builder
+      .addSubcommand(
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("utilities.subcommands.appstore.name")
+          .localizeDescription("utilities.subcommands.appstore.description")
+          .addStringOption(
+            new PenfoldSlashCommandStringOption()
+              .localizeName("utilities.options.search.name")
+              .localizeDescription("utilities.options.search.description")
+              .setRequired(true)
+          )
+          .addStringOption(
+            new PenfoldSlashCommandStringOption()
+              .localizeName("utilities.options.country_code.name")
+              .localizeDescription("utilities.options.country_code.description")
+          )
+      )
+      .addSubcommand(
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("utilities.subcommands.atbash.name")
+          .localizeDescription("utilities.subcommands.atbash.description")
+          .addStringOption(
+            new PenfoldSlashCommandStringOption()
+              .localizeName("utilities.options.text.name")
+              .localizeDescription("utilities.options.text.description")
+              .setRequired(true)
+          )
+      )
+      .addSubcommand(
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("utilities.subcommands.rot13.name")
+          .localizeDescription("utilities.subcommands.rot13.description")
+          .addStringOption(
+            new PenfoldSlashCommandStringOption()
+              .localizeName("utilities.options.text.name")
+              .localizeDescription("utilities.options.text.description")
+              .setRequired(true)
+          )
+      )
+      .addSubcommand(
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("utilities.subcommands.base64_encode.name")
+          .localizeDescription("utilities.subcommands.base64_encode.description")
+          .addStringOption(this.stringOption)
+      )
+      .addSubcommand(
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("utilities.subcommands.base64_decode.name")
+          .localizeDescription("utilities.subcommands.base64_decode.description")
+          .addStringOption(this.stringOption)
+      );
   }
 
   public async run(interaction: ChatInputCommandInteraction) {
-    await interaction.deferReply();
     const subcommand = interaction.options.getSubcommand();
+    await interaction.deferReply();
+
     switch (subcommand) {
       case "appstore":
         this.appstore(interaction);
+        break;
+      case "atbash":
+        this.atbash(interaction);
+        break;
+      case "rot13":
+        this.rot13(interaction);
+        break;
+      case "base64_encode":
+        this.base64_encode(interaction);
+        break;
+      case "base64_decode":
+        this.base64_decode(interaction);
         break;
     }
   }
@@ -239,6 +291,153 @@ export default class extends PenfoldCommand {
     }
 
     return interaction.editReply({ embeds: [embed] });
+  }
+
+  public async atbash(interaction: ChatInputCommandInteraction) {
+    function cipher(str: string) {
+      enum alphabet {
+        a = "z",
+        b = "y",
+        c = "x",
+        d = "w",
+        e = "v",
+        f = "u",
+        g = "t",
+        h = "s",
+        i = "r",
+        j = "q",
+        k = "p",
+        l = "o",
+        m = "n",
+        n = "m",
+        o = "l",
+        p = "k",
+        q = "j",
+        r = "i",
+        s = "h",
+        t = "g",
+        u = "f",
+        v = "e",
+        w = "d",
+        x = "c",
+        y = "b",
+        z = "a"
+      }
+
+      let toReturn = "";
+      for (const char of str) {
+        toReturn += alphabet[char.toLowerCase() as keyof typeof alphabet] ?? char;
+      }
+
+      return toReturn;
+    }
+
+    const text = interaction.options.getString("text", true);
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: getLocaleString("utilities.strings.atbash.title", interaction),
+        iconURL: getBotAvatar(this.client)
+      })
+      .setDescription(
+        getLocaleString("utilities.strings.atbash.returned", interaction, {
+          original: text,
+          cipher: cipher(text)
+        })
+      );
+    return await interaction.editReply({ embeds: [embed] });
+  }
+
+  public async rot13(interaction: ChatInputCommandInteraction) {
+    function cipher(str: string) {
+      enum alphabet {
+        a = "n",
+        b = "o",
+        c = "p",
+        d = "q",
+        e = "r",
+        f = "s",
+        g = "t",
+        h = "u",
+        i = "v",
+        j = "w",
+        k = "x",
+        l = "y",
+        m = "z",
+        n = "a",
+        o = "b",
+        p = "c",
+        q = "d",
+        r = "e",
+        s = "f",
+        t = "g",
+        u = "h",
+        v = "i",
+        w = "j",
+        x = "k",
+        y = "l",
+        z = "m"
+      }
+
+      let toReturn = "";
+      for (const char of str) {
+        toReturn += alphabet[char.toLowerCase() as keyof typeof alphabet] ?? char;
+      }
+
+      return toReturn;
+    }
+
+    const text = interaction.options.getString("text", true);
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: getLocaleString("utilities.strings.rot13.title", interaction),
+        iconURL: getBotAvatar(this.client)
+      })
+      .setDescription(
+        getLocaleString("utilities.strings.rot13.returned", interaction, {
+          original: text,
+          cipher: cipher(text)
+        })
+      );
+    return await interaction.editReply({ embeds: [embed] });
+  }
+
+  public async base64_encode(interaction: ChatInputCommandInteraction) {
+    const text = interaction.options.getString("text", true);
+    const encoded = Buffer.from(text, "utf-8").toString("base64");
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: getLocaleString("utilities.strings.base64_encode.title", interaction),
+        iconURL: getBotAvatar(this.client)
+      })
+      .setDescription(
+        getLocaleString("utilities.strings.base64_encode.returned", interaction, {
+          original: text,
+          encoded: encoded
+        })
+      );
+
+    return await interaction.editReply({ embeds: [embed] });
+  }
+
+  public async base64_decode(interaction: ChatInputCommandInteraction) {
+    const text = interaction.options.getString("text", true);
+    const decoded =
+      Buffer.from(text, "base64").toString("utf-8") ??
+      getLocaleString("utilities.strings.base64_decode.invalid", interaction);
+
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: getLocaleString("utilities.strings.base64_decode.title", interaction),
+        iconURL: getBotAvatar(this.client)
+      })
+      .setDescription(
+        getLocaleString("utilities.strings.base64_decode.returned", interaction, {
+          original: text,
+          decoded: decoded
+        })
+      );
+
+    return await interaction.editReply({ embeds: [embed] });
   }
 }
 

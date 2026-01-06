@@ -5,6 +5,7 @@ import {
   SlashCommandNumberOption as Number,
   SlashCommandStringOption as String,
   SlashCommandSubcommandBuilder as Subcommand,
+  SlashCommandSubcommandGroupBuilder as SubcommandGroup,
   SlashCommandUserOption as User
 } from "discord.js";
 import type { CustomTypeOptions } from "i18next";
@@ -36,6 +37,7 @@ export const PenfoldSlashCommandUserOption = PenfoldSlashMixinBuilder(User);
 export const PenfoldSlashCommandNumberOption = PenfoldSlashMixinBuilder(Number);
 export const PenfoldSlashCommandBooleanOption = PenfoldSlashMixinBuilder(Boolean);
 export const PenfoldSlashCommandSubcommandBuilder = PenfoldSlashMixinBuilder(Subcommand);
+export const PenfoldSlashCommandSubcommandGroupBuilder = PenfoldSlashMixinBuilder(SubcommandGroup);
 
 export type PenfoldSlashMixin = {
   setName(name: string): any;
