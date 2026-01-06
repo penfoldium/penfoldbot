@@ -31,8 +31,8 @@ These offer additional features, but the bot can run without them:
 
 - Edit the `example.env` file and rename it to `.env`
 - Install the required npm packages using `npm install`
+- Generate the database and Prisma Client `DATABASE_URL=file:./db/penfold.sqlite npm run prisma:init` (replace `DATABASE_URL` with whichever path you set in the `.env` file)
 - Build the bot using `npm run build`
-- Generate the database and prisma client `DATABASE_URL=file:./db/penfold.sqlite npm run prisma:init` (replace `DATABASE_URL` with whichever path you set in the `.env` file)
 - Run the bot using either commands:
   - `node --env-file src/data/.env dist/src/Penfold`
   - `npm run start` (assumes that the env file is called `.env` - builds automatically)
