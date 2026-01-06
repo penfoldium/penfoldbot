@@ -42,24 +42,14 @@ export default class extends PenfoldCommand {
         new PenfoldSlashCommandSubcommandBuilder()
           .localizeName("utilities.subcommands.atbash.name")
           .localizeDescription("utilities.subcommands.atbash.description")
-          .addStringOption(
-            new PenfoldSlashCommandStringOption()
-              .localizeName("utilities.options.text.name")
-              .localizeDescription("utilities.options.text.description")
-              .setRequired(true)
-          )
+          .addStringOption(this.stringOption)
       )
       // ROT13 Cipher
       .addSubcommand(
         new PenfoldSlashCommandSubcommandBuilder()
           .localizeName("utilities.subcommands.rot13.name")
           .localizeDescription("utilities.subcommands.rot13.description")
-          .addStringOption(
-            new PenfoldSlashCommandStringOption()
-              .localizeName("utilities.options.text.name")
-              .localizeDescription("utilities.options.text.description")
-              .setRequired(true)
-          )
+          .addStringOption(this.stringOption)
       )
       // Base64 Encode
       .addSubcommand(
