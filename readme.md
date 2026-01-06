@@ -18,15 +18,6 @@ Here's what you need to self-host Penfold:
 - A valid Discord bot token (get one from [here](https://discord.com/developers/applications))
 - [Node.js](https://nodejs.org/en) LTS or newer
 
-### Optional stuff
-
-These offer additional features, but the bot can run without them:
-
-- YouTube Data API v3 key (follow the steps presented [here](https://developers.google.com/youtube/v3/getting-started))
-- Genius API client (go [here](https://genius.com/api-clients))
-- Spotify API client (go [here](https://developer.spotify.com/dashboard))
-- Pokole (go [here](https://github.com/penfoldium/pokole))
-
 ### Setup guide
 
 - Edit the `example.env` file and rename it to `.env`
