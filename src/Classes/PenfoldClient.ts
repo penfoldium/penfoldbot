@@ -48,7 +48,7 @@ class PenfoldClient extends Client {
    * Load commands into memory
    * @param dir Custom directory for commands
    */
-  async loadCommands(dir: string = "commands") {
+  async loadCommands(dir: string = "Commands") {
     await this.#loadClasses(dir, "commands");
     return this;
   }
@@ -57,7 +57,7 @@ class PenfoldClient extends Client {
    * Load events into memory
    * @param {string} dir Custom folder for commands
    */
-  async loadEvents(dir: string = "events") {
+  async loadEvents(dir: string = "Events") {
     await this.#loadClasses(dir, "events");
     return this;
   }
@@ -66,7 +66,7 @@ class PenfoldClient extends Client {
    * Load tasks into memory
    * @param {string} dir Custom folder for tasks
    */
-  async loadTasks(dir: string = "tasks") {
+  async loadTasks(dir: string = "Tasks") {
     await this.#loadClasses(dir, "tasks");
     return this;
   }
