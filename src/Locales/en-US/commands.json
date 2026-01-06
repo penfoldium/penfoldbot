@@ -6,6 +6,7 @@
 
   "snooze.error": "Something went wrong while snoozing your reminder: {{err}}",
   "snooze.strings.snoozed": "Successfully snoozed reminder with id `{{id}}` to <t:{{time}}:F>",
+  "snooze.not_your_reminder": "<@{{user}}> You can't snooze another user's reminder!",
 
   "settings.name": "settings",
   "settings.description": "View and modify your user settings",
@@ -227,6 +228,7 @@
   "reminder.strings.past_duration": "You can't create a reminder for the past!",
   "reminder.strings.create_error": "Something went wrong when creating your reminder: {{err}}",
   "reminder.strings.create_success": "Successfully created reminder with the id of `{{id}}`. I will remind you on <t:{{date}}:F>",
+  "reminder.strings.create_success_channel": "Successfully created reminder with the id of `{{id}}`. I will remind you on <t:{{date}}:F>\nI'll also send the reminder message in <#{{channelId}}>!",
   "reminder.strings.list_empty": "You currently don't have any reminders.",
   "reminder.strings.list_none_active": "You currently don't have any active reminders. You can also view your inactive reminders by setting the `inactive` option to true!",
   "reminder.strings.list_all_title": "All reminders for {{user}}",

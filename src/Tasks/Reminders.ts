@@ -65,6 +65,7 @@ export default class extends PenfoldTask {
   async sendReminder(reminder: {
     id: number;
     user_id: bigint;
+    channel_id: bigint | null;
     date: Date;
     message: string;
     triggered: boolean;
@@ -75,15 +76,15 @@ export default class extends PenfoldTask {
     if (!user) return;
 
     const snooze5 = new ButtonBuilder()
-      .setCustomId(`snooze15-${reminder.id}`)
+      .setCustomId(`snooze15-${reminder.id}-test`)
       .setLabel("Snooze 15 minutes")
       .setStyle(ButtonStyle.Primary);
     const snooze10 = new ButtonBuilder()
-      .setCustomId(`snooze60-${reminder.id}`)
+      .setCustomId(`snooze60-${reminder.id}-${user.id}`)
       .setLabel("Snooze 1 hour")
       .setStyle(ButtonStyle.Primary);
     const snooze30 = new ButtonBuilder()
-      .setCustomId(`snooze1440-${reminder.id}`)
+      .setCustomId(`snooze1440-${reminder.id}-${user.id}`)
       .setLabel("Snooze 1 day")
       .setStyle(ButtonStyle.Primary);
 
@@ -91,11 +92,26 @@ export default class extends PenfoldTask {
 
     let dm = await user.dmChannel?.fetch();
     if (!dm) dm = await user.createDM();
+    const content = `You wanted me to remind you about this:\n📝\`${reminder.message}\``;
     await dm.send({
-      content: `You wanted me to remind you about this:
-📝\`${reminder.message}\``,
+      content,
       components: [row]
     });
+
+    if (reminder.channel_id) {
+      const channel = await this.client.channels
+        .fetch(reminder.channel_id.toString())
+        .catch(() => null);
+
+      if (channel?.isTextBased() && channel.isSendable()) {
+        await channel
+          .send({
+            content: `<@${reminder.user_id}> ` + content,
+            components: [row]
+          })
+          .catch(() => null);
+      }
+    }
 
     await this.client.db.reminders.update({
       where: {

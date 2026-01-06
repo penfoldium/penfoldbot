@@ -18,11 +18,12 @@ model UserSettings {
 }
 
 model Reminders {
-  id        Int      @id @unique @default(autoincrement())
-  user_id   BigInt
-  date      DateTime
-  message   String
-  triggered Boolean
+  id         Int      @id @unique @default(autoincrement())
+  user_id    BigInt
+  channel_id BigInt?
+  date       DateTime
+  message    String
+  triggered  Boolean
 }
 
 model Todos {

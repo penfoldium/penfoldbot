@@ -123,6 +123,7 @@ export default class extends PenfoldCommand {
       .create({
         data: {
           user_id: BigInt(interaction.user.id),
+          channel_id: interaction.channel ? BigInt(interaction.channel.id) : null,
           date: dayjs().add(when, "ms").toDate(),
           message: reminder,
           triggered: false
@@ -136,10 +137,17 @@ export default class extends PenfoldCommand {
 
     if (!created) return;
     await interaction.editReply(
-      getLocaleString("reminder.strings.create_success", interaction, {
-        id: created.id,
-        date: dayjs(created.date).unix()
-      })
+      getLocaleString(
+        interaction.channel
+          ? "reminder.strings.create_success_channel"
+          : "reminder.strings.create_success",
+        interaction,
+        {
+          id: created.id,
+          date: dayjs(created.date).unix(),
+          channelId: created.channel_id?.toString() || ""
+        }
+      )
     );
     const task = this.client.tasks.get("Reminders");
     if (task) await task.run();

@@ -1,5 +1,10 @@
 import dayjs from "dayjs";
-import { ChatInputCommandInteraction, Events, type Interaction } from "discord.js";
+import {
+  ButtonInteraction,
+  ChatInputCommandInteraction,
+  Events,
+  type Interaction
+} from "discord.js";
 import i18next from "i18next";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
 import type { PenfoldCommand } from "../Classes/PenfoldCommand.js";
@@ -26,43 +31,10 @@ export default class extends PenfoldEvent {
       }
     }
 
-    // #region Handle snooze buttons for reminders
     if (interaction.isButton()) {
-      if (!interaction.customId.startsWith("snooze")) return;
-      await interaction.deferReply();
-      const snoozeTime = interaction.customId.split("snooze")[1]?.split("-")[0];
-      const id = interaction.customId.split("-")[1];
-
-      const reminder = await this.client.db.reminders.findUnique({
-        where: {
-          id: Number(id)
-        }
-      });
-
-      if (!reminder) return;
-      const updated = await this.client.db.reminders
-        .update({
-          where: {
-            id: reminder.id
-          },
-          data: {
-            date: dayjs(reminder.date).add(Number(snoozeTime), "minutes").toDate()
-          }
-        })
-        .catch(async err => {
-          await interaction.editReply(getLocaleString("snooze.error", interaction, { err }));
-          return;
-        });
-
-      if (!updated) return;
-      await interaction.editReply(
-        getLocaleString("snooze.strings.snoozed", interaction, {
-          id: updated.id,
-          time: dayjs(updated.date).unix()
-        })
-      );
+      if (interaction.customId.startsWith("snooze")) await this.#handleReminders(interaction);
+      return;
     }
-    // #endregion
 
     if (!interaction.isChatInputCommand()) return;
     const command = this.client.commands.get(interaction.commandName);
@@ -94,6 +66,49 @@ export default class extends PenfoldEvent {
     );
 
     if (!cooldown) command.run(interaction);
+  }
+
+  async #handleReminders(interaction: ButtonInteraction) {
+    await interaction.deferReply();
+    const snoozeTime = interaction.customId.split("snooze")[1]?.split("-")[0];
+    const userId = interaction.customId.split("-").pop();
+    const id = interaction.customId.split("-")[1];
+    // Only let the user who created the reminder snooze it
+    if (interaction.user.id !== userId) {
+      await interaction.editReply(
+        getLocaleString("snooze.not_your_reminder", interaction, { user: interaction.user.id })
+      );
+      return;
+    }
+
+    const reminder = await this.client.db.reminders.findUnique({
+      where: {
+        id: Number(id)
+      }
+    });
+
+    if (!reminder) return;
+    const updated = await this.client.db.reminders
+      .update({
+        where: {
+          id: reminder.id
+        },
+        data: {
+          date: dayjs(reminder.date).add(Number(snoozeTime), "minutes").toDate()
+        }
+      })
+      .catch(async err => {
+        await interaction.editReply(getLocaleString("snooze.error", interaction, { err }));
+        return;
+      });
+
+    if (!updated) return;
+    await interaction.editReply(
+      getLocaleString("snooze.strings.snoozed", interaction, {
+        id: updated.id,
+        time: dayjs(updated.date).unix()
+      })
+    );
   }
 
   async #checkCooldown(
