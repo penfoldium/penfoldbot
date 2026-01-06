@@ -126,6 +126,7 @@ export default class extends PenfoldCommand {
           channel_id: interaction.channel ? BigInt(interaction.channel.id) : null,
           date: dayjs().add(when, "ms").toDate(),
           message: reminder,
+          locale: interaction.locale,
           triggered: false
         }
       })

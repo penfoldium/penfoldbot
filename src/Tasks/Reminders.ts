@@ -1,7 +1,15 @@
 import dayjs from "dayjs";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Collection } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ChatInputCommandInteraction,
+  Collection
+} from "discord.js";
+import i18next from "i18next";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
 import { PenfoldTask } from "../Classes/PenfoldTask.js";
+import { getLocaleString } from "../Util/Helpers.js";
 
 export default class extends PenfoldTask {
   toSend: Collection<number, boolean> = new Collection();
@@ -69,30 +77,42 @@ export default class extends PenfoldTask {
     date: Date;
     message: string;
     triggered: boolean;
+    locale: string;
   }) {
     const user = await this.client.users
       .fetch(reminder.user_id.toString())
-      .catch(err => this.client.debug(`Something went wrong when fetching reminder user: ${err}`));
+      .catch(err =>
+        this.client.debug(i18next.t("client:debug.reminder.fetch.user_error", { error: err }))
+      );
     if (!user) return;
+
+    const interaction = {
+      locale: reminder.locale
+    };
 
     const snooze5 = new ButtonBuilder()
       .setCustomId(`snooze15-${reminder.id}-test`)
-      .setLabel("Snooze 15 minutes")
+      .setLabel(getLocaleString("snooze.snooze_15", interaction as ChatInputCommandInteraction))
       .setStyle(ButtonStyle.Primary);
     const snooze10 = new ButtonBuilder()
       .setCustomId(`snooze60-${reminder.id}-${user.id}`)
-      .setLabel("Snooze 1 hour")
+      .setLabel(getLocaleString("snooze.snooze_60", interaction as ChatInputCommandInteraction))
       .setStyle(ButtonStyle.Primary);
     const snooze30 = new ButtonBuilder()
       .setCustomId(`snooze1440-${reminder.id}-${user.id}`)
-      .setLabel("Snooze 1 day")
+      .setLabel(getLocaleString("snooze.snooze_1440", interaction as ChatInputCommandInteraction))
       .setStyle(ButtonStyle.Primary);
 
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(snooze5, snooze10, snooze30);
 
     let dm = await user.dmChannel?.fetch();
     if (!dm) dm = await user.createDM();
-    const content = `You wanted me to remind you about this:\n📝\`${reminder.message}\``;
+    const content = getLocaleString(
+      "reminder.strings.content",
+      interaction as ChatInputCommandInteraction,
+      { message: reminder.message }
+    );
+
     await dm.send({
       content,
       components: [row]

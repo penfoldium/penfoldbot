@@ -7,6 +7,9 @@
   "snooze.error": "Something went wrong while snoozing your reminder: {{err}}",
   "snooze.strings.snoozed": "Successfully snoozed reminder with id `{{id}}` to <t:{{time}}:F>",
   "snooze.not_your_reminder": "<@{{user}}> You can't snooze another user's reminder!",
+  "snooze.snooze_15": "Snooze 15 Minutes",
+  "snooze.snooze_60": "Snooze 1 Hour",
+  "snooze.snooze_1440": "Snooze 1 Day",
 
   "settings.name": "settings",
   "settings.description": "View and modify your user settings",
@@ -243,6 +246,8 @@
   "reminder.strings.snooze_past": "You can't snooze a reminder into the past!",
   "reminder.strings.snooze_error": "Something went wrong while snoozing your reminder: {{err}}",
   "reminder.strings.snooze_success": "Successfully snoozed reminder with id `{{id}}` to <t:{{date}}:F>",
+
+  "reminder.strings.content": "You wanted me to remind you about this:\n📝`{{message}}`",
 
   "todo.name": "todo",
   "todo.description": "Everything todo related",

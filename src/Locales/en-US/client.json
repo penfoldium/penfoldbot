@@ -4,6 +4,7 @@
   "CLIENT_READY": "[Ready] Successfully logged in as {{user}}. Ready to serve {{guilds}} guilds.",
 
   "debug.command_ran": "Command {{command}} ran by user {{user}}",
+  "debug.reminder.fetch.user_error": "Something went wrong when fetching reminder user: {{error}}",
 
   "refreshcommands.started": "[RefreshCommands] Started refreshing {{size}} application (/) commands.",
   "refreshcommands.error": "[RefreshCommands] Something went wrong when refreshing commands: {{error}}",
