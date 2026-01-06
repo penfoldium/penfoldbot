@@ -9,9 +9,10 @@ import i18next from "i18next";
 import type { PenfoldClient } from "../Classes/PenfoldClient.js";
 import type { PenfoldCommand } from "../Classes/PenfoldCommand.js";
 import { PenfoldEvent } from "../Classes/PenfoldEvent.js";
-import { getLocaleString } from "../Util/Helpers.js";
+import { ensureUserSettings, getLocaleString } from "../Util/Helpers.js";
 
 export default class extends PenfoldEvent {
+  ensuredUsers: Set<string> = new Set();
   constructor(client: PenfoldClient) {
     super(client, {
       name: "InteractionCreate",
@@ -20,6 +21,15 @@ export default class extends PenfoldEvent {
   }
 
   public async run(interaction: Interaction) {
+    // Ensure user settings exist every time a user interacts with the bot
+    if (
+      (interaction.isButton() || interaction.isChatInputCommand()) &&
+      !this.ensuredUsers.has(interaction.user.id)
+    ) {
+      await ensureUserSettings(interaction.user.id, this.client);
+      this.ensuredUsers.add(interaction.user.id);
+    }
+
     if (interaction.isAutocomplete()) {
       const command = this.client.commands.get(interaction.commandName);
       if (!command) return;

@@ -35,6 +35,20 @@ export function sleep(ms: number): Promise<void> {
   });
 }
 
+export async function ensureUserSettings(id: string, client: PenfoldClient) {
+  const settings = await client.db.userSettings.upsert({
+    where: {
+      id: BigInt(id)
+    },
+    create: {
+      id: BigInt(id)
+    },
+    update: {}
+  });
+
+  return settings;
+}
+
 export function getAllLocales(cmd: LocaleKey) {
   const languages = i18next.languages;
   const localizations: { [language: string]: string } = {};

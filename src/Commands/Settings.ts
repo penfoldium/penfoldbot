@@ -102,7 +102,6 @@ export default class extends PenfoldCommand {
   }
 
   public async set(interaction: ChatInputCommandInteraction) {
-    await this.ensureUserSettings(interaction.user.id);
     const option = interaction.options.getString("option", true) as "timezone" | "dailydmtime";
     const newValue = interaction.options.getString("value", true);
     let data: { timezone: string } | { dailyDmTime: string };
@@ -142,7 +141,13 @@ export default class extends PenfoldCommand {
   }
 
   public async list(interaction: ChatInputCommandInteraction) {
-    const settings = await this.ensureUserSettings(interaction.user.id);
+    const settings = await this.client.db.userSettings.findUnique({
+      where: {
+        id: BigInt(interaction.user.id)
+      }
+    });
+
+    if (!settings) return;
     interaction.editReply(
       getLocaleString("settings.strings.current_settings", interaction, {
         dailyDmTime: settings.dailyDmTime,
@@ -153,7 +158,6 @@ export default class extends PenfoldCommand {
   }
 
   public async toggledaily(interaction: ChatInputCommandInteraction) {
-    await this.ensureUserSettings(interaction.user.id);
     const newValue = interaction.options.getBoolean("value", true);
 
     const updated = await this.client.db.userSettings
@@ -178,21 +182,5 @@ export default class extends PenfoldCommand {
         ? getLocaleString("settings.strings.toggled_enabled", interaction)
         : getLocaleString("settings.strings.toggled_disabled", interaction)
     );
-  }
-
-  public async ensureUserSettings(id: string) {
-    let settings = await this.client.db.userSettings.findUnique({
-      where: { id: BigInt(id) }
-    });
-
-    if (!settings) {
-      settings = await this.client.db.userSettings.create({
-        data: {
-          id: BigInt(id)
-        }
-      });
-    }
-
-    return settings;
   }
 }
