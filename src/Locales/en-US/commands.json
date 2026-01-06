@@ -310,6 +310,15 @@
   "utilities.strings.appstore.ipad_screenshots": "iPad Screenshots",
   "utilities.strings.appstore.continued": "(continued)",
 
+  "utilities.subcommands.wikipedia.name": "wikipedia",
+  "utilities.subcommands.wikipedia.description": "Search for a term on Wikipedia",
+  "utilities.options.wiki_search.name": "search",
+  "utilities.options.wiki_search.description": "The term you want to search for",
+  "utilities.strings.wikipedia.went_wrong": "Something went wrong while fetching Wikipedia: {{err}}",
+  "utilities.strings.wikipedia.not_found": "I couldn't find anything matching the term `{{search}}` on Wikipedia, chief.",
+  "utilities.strings.wikipedia.title": "Wikipedia Search",
+  "utilities.strings.wikipedia.extract": "**{{title}}**\n\n{{extract}}\n\n[Read more on Wikipedia]({{url}})",
+
   "utilities.subcommands.atbash.name": "atbash",
   "utilities.subcommands.atbash.description": "Encrypt text using the Atbash cipher",
   "utilities.strings.atbash.title": "Atbash Cipher",

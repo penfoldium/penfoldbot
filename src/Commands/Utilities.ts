@@ -20,6 +20,7 @@ export default class extends PenfoldCommand {
     });
 
     this.builder
+      // App Store Search
       .addSubcommand(
         new PenfoldSlashCommandSubcommandBuilder()
           .localizeName("utilities.subcommands.appstore.name")
@@ -36,6 +37,7 @@ export default class extends PenfoldCommand {
               .localizeDescription("utilities.options.country_code.description")
           )
       )
+      // Atbash Cipher
       .addSubcommand(
         new PenfoldSlashCommandSubcommandBuilder()
           .localizeName("utilities.subcommands.atbash.name")
@@ -47,6 +49,7 @@ export default class extends PenfoldCommand {
               .setRequired(true)
           )
       )
+      // ROT13 Cipher
       .addSubcommand(
         new PenfoldSlashCommandSubcommandBuilder()
           .localizeName("utilities.subcommands.rot13.name")
@@ -58,17 +61,31 @@ export default class extends PenfoldCommand {
               .setRequired(true)
           )
       )
+      // Base64 Encode
       .addSubcommand(
         new PenfoldSlashCommandSubcommandBuilder()
           .localizeName("utilities.subcommands.base64_encode.name")
           .localizeDescription("utilities.subcommands.base64_encode.description")
           .addStringOption(this.stringOption)
       )
+      // Base64 Decode
       .addSubcommand(
         new PenfoldSlashCommandSubcommandBuilder()
           .localizeName("utilities.subcommands.base64_decode.name")
           .localizeDescription("utilities.subcommands.base64_decode.description")
           .addStringOption(this.stringOption)
+      )
+      // Wikipedia Search
+      .addSubcommand(
+        new PenfoldSlashCommandSubcommandBuilder()
+          .localizeName("utilities.subcommands.wikipedia.name")
+          .localizeDescription("utilities.subcommands.wikipedia.description")
+          .addStringOption(
+            new PenfoldSlashCommandStringOption()
+              .localizeName("utilities.options.wiki_search.name")
+              .localizeDescription("utilities.options.wiki_search.description")
+              .setRequired(true)
+          )
       );
   }
 
@@ -91,6 +108,9 @@ export default class extends PenfoldCommand {
         break;
       case "base64_decode":
         this.base64_decode(interaction);
+        break;
+      case "wikipedia":
+        this.wikipedia(interaction);
         break;
     }
   }
@@ -439,14 +459,52 @@ export default class extends PenfoldCommand {
 
     return await interaction.editReply({ embeds: [embed] });
   }
+
+  public async wikipedia(interaction: ChatInputCommandInteraction) {
+    const search = interaction.options.getString("search", true);
+
+    const res = await fetch(
+      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(search)}`
+    ).catch(async err => {
+      await interaction.editReply(
+        getLocaleString("utilities.strings.wikipedia.went_wrong", interaction, { err })
+      );
+      return;
+    });
+
+    if (!res) return;
+    const data = (await res.json()) as WikipediaRoot;
+
+    if (!data.content_urls)
+      return interaction.editReply(
+        getLocaleString("utilities.strings.wikipedia.not_found", interaction, { search })
+      );
+
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: getLocaleString("utilities.strings.wikipedia.title", interaction),
+        iconURL: getBotAvatar(this.client)
+      })
+      .setDescription(
+        getLocaleString("utilities.strings.wikipedia.extract", interaction, {
+          title: data.title,
+          extract: data.extract,
+          url:
+            data.content_urls?.desktop?.page ??
+            `https://en.wikipedia.org/wiki/${encodeURIComponent(data.title)}`
+        })
+      );
+
+    return interaction.editReply({ embeds: [embed] });
+  }
 }
 
-export type AppstoreRoot = {
+type AppstoreRoot = {
   resultCount: number;
   results: AppstoreResult[];
 };
 
-export interface AppstoreResult {
+type AppstoreResult = {
   isGameCenterEnabled: boolean;
   ipadScreenshotUrls: string[];
   screenshotUrls: string[];
@@ -491,4 +549,68 @@ export interface AppstoreResult {
   trackName: string;
   genreIds: string[];
   userRatingCount: number;
-}
+};
+
+type WikipediaRoot = {
+  type: string;
+  title: string;
+  displaytitle: string;
+  namespace: Namespace;
+  wikibase_item: string;
+  titles: Titles;
+  pageid: number;
+  thumbnail: Thumbnail;
+  originalimage: Originalimage;
+  lang: string;
+  dir: string;
+  revision: string;
+  tid: string;
+  timestamp: string;
+  description: string;
+  description_source: string;
+  content_urls: ContentUrls;
+  extract: string;
+  extract_html: string;
+};
+
+type Namespace = {
+  id: number;
+  text: string;
+};
+
+type Titles = {
+  canonical: string;
+  normalized: string;
+  display: string;
+};
+
+type Thumbnail = {
+  source: string;
+  width: number;
+  height: number;
+};
+
+type Originalimage = {
+  source: string;
+  width: number;
+  height: number;
+};
+
+type ContentUrls = {
+  desktop: Desktop;
+  mobile: Mobile;
+};
+
+type Desktop = {
+  page: string;
+  revisions: string;
+  edit: string;
+  talk: string;
+};
+
+type Mobile = {
+  page: string;
+  revisions: string;
+  edit: string;
+  talk: string;
+};
