@@ -91,7 +91,7 @@ export default class extends PenfoldTask {
     };
 
     const snooze5 = new ButtonBuilder()
-      .setCustomId(`snooze15-${reminder.id}-test`)
+      .setCustomId(`snooze15-${reminder.id}-${user.id}`)
       .setLabel(getLocaleString("snooze.snooze_15", interaction as ChatInputCommandInteraction))
       .setStyle(ButtonStyle.Primary);
     const snooze10 = new ButtonBuilder()
