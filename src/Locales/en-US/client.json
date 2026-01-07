@@ -1,0 +1,16 @@
+{
+  "CLIENT_LOADED": "[PenfoldClient] Loaded {{size}} classes into {{collection}} in {{time}}",
+  "RUNNING_TASK": "Running task {{name}}",
+  "CLIENT_READY": "[Ready] Successfully logged in as {{user}}. Ready to serve {{guilds}} guilds.",
+
+  "debug.command_ran": "Command {{command}} ran by user {{user}}",
+  "debug.reminder.fetch.user_error": "Something went wrong when fetching reminder user: {{error}}",
+
+  "refreshcommands.started": "[RefreshCommands] Started refreshing {{size}} application (/) commands.",
+  "refreshcommands.error": "[RefreshCommands] Something went wrong when refreshing commands: {{error}}",
+  "refreshcommands.refreshed": "[RefreshCommands] Refreshed {{size}} application (/) commands",
+
+  "refreshcommandsownerserver.started": "[RefreshCommandsOwnerServer] Started refreshing {{size}} application (/) commands in guild id {{id}}",
+  "refreshcommandsownerserver.error": "[RefreshCommandsOwnerServer] Something went wrong when refreshing admin commands: {{error}}",
+  "refreshcommandsownerserver.refreshed": "[RefreshCommandsOwnerServer] Refreshed {{size}} application (/) commands in guild id {{id}}"
+}

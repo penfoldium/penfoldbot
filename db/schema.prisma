@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "./prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model UserSettings {
+  id             BigInt  @id @unique
+  timezone       String  @default("Etc/UTC")
+  dailyDmTime    String  @default("8:00")
+  dailyDmEnabled Boolean @default(true)
+}
+
+model Reminders {
+  id         Int      @id @unique @default(autoincrement())
+  user_id    BigInt
+  channel_id BigInt?
+  locale     String
+  date       DateTime
+  message    String
+  triggered  Boolean
+}
+
+model Todos {
+  id        Int     @id @unique @default(autoincrement())
+  user_id   BigInt
+  todo      String
+  completed Boolean
+}
+
+model Notes {
+  id      Int    @id @unique @default(autoincrement())
+  user_id BigInt
+  note    String
+}

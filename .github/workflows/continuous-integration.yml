@@ -1,0 +1,31 @@
+name: "Continuous Integration"
+
+on: [push]
+
+jobs:
+  build:
+    name: Check linting, formatting and building of the code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "lts/*"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code linting
+        run: npm run lint
+
+      - name: Check code formatting
+        run: npm run format:check
+
+      - name: Generate Prisma client to be able to build code
+        run: DATABASE_URL=file:./db/penfold-ci-github.sqlite npm run prisma:init
+      - name: Check if code builds
+        run: npm run build

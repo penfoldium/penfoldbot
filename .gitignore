@@ -1,3 +1,7 @@
-src/bwd
 node_modules
-src/data/config.json
+*.env
+!example.env
+dist
+db/*
+!db/schema.prisma
+!db/migrations

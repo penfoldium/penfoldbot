@@ -1,0 +1,8 @@
+files:
+  - source: /src/Locales/en-US/*
+    translation: /src/Locales/%two_letters_code%/%original_file_name%
+commit_message: "feat(translations): update %language% (%original_file_name%) from crowdin"
+append_commit_message: false
+project_id_env: CROWDIN_PROJECT_ID
+api_token_env: CROWDIN_PERSONAL_TOKEN
+base_path: .
